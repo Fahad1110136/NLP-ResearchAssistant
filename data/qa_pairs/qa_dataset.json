@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [3],
+    "question": "What are the three main components of the scaled dot-product attention mechanism?",
+    "answer": "The three components are Query (Q), Key (K), and Value (V) matrices. The attention function computes the dot product of the query with all keys, divides by the square root of the dimension, applies a softmax function to obtain attention weights, and uses these weights to compute a weighted sum of the values.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 2,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [1, 2],
+    "question": "Why does the Transformer architecture not use recurrence or convolutions?",
+    "answer": "The Transformer relies entirely on attention mechanisms to draw global dependencies between input and output, eliminating the need for recurrence and convolutions. This allows for more parallelization during training and can better capture long-range dependencies.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  }
+]
