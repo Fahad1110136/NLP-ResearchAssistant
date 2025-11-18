@@ -1,0 +1,503 @@
+
+[
+  {
+    "id": 1,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [3],
+    "question": "What are the three main components of the scaled dot-product attention mechanism?",
+    "answer": "The three components are Query (Q), Key (K), and Value (V) matrices. The attention function computes the dot product of the query with all keys, divides by the square root of the dimension of the keys to prevent extremely small gradients, applies a softmax function to obtain attention weights, and uses these weights to compute a weighted sum of the values.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 2,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [5],
+    "question": "How many attention heads does the Transformer model use in its multi-head attention mechanism?",
+    "answer": "The Transformer model uses 8 parallel attention heads (h=8). Each head operates on a lower-dimensional subspace with dimension d_k = d_v = d_model/h = 64, where d_model = 512. This allows the model to jointly attend to information from different representation subspaces at different positions.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 3,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [7],
+    "question": "What is the model dimension (d_model) and feed-forward network dimension (d_ff) used in the base Transformer model?",
+    "answer": "The base Transformer model uses a model dimension d_model of 512 and a feed-forward network inner-layer dimension d_ff of 2048. The model consists of N=6 identical layers in both the encoder and decoder stacks, with each layer containing multi-head attention and position-wise feed-forward networks.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [5, 6],
+    "question": "Why does the Transformer use positional encoding instead of learning position representations?",
+    "answer": "The Transformer uses sinusoidal positional encodings because they allow the model to easily attend to relative positions, as for any fixed offset k, the positional encoding at position pos+k can be represented as a linear function of the encoding at position pos. Additionally, sinusoidal functions may allow the model to extrapolate to sequence lengths longer than those encountered during training, which learned positional embeddings might not handle as well.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 5,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [4],
+    "question": "What is the purpose of multi-head attention and how does it improve upon single attention?",
+    "answer": "Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions, which would be impossible with a single attention head. By using multiple attention heads in parallel, each with different learned linear projections, the model can capture various types of relationships and dependencies in the data simultaneously. The outputs from all heads are concatenated and linearly transformed to produce the final values.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [1, 2],
+    "question": "How does the computational complexity of self-attention compare to recurrent layers for sequence processing?",
+    "answer": "Self-attention layers have a complexity of O(n²·d) where n is the sequence length and d is the representation dimension, while recurrent layers have O(n·d²) complexity. Self-attention is faster than recurrent layers when the sequence length n is smaller than the representation dimensionality d, which is most often the case for machine translation tasks with state-of-the-art models. Additionally, self-attention provides constant sequential operations O(1) compared to O(n) for recurrent layers, enabling better parallelization.",
+    "question_type": "comparative",
+    "difficulty": "hard"
+  },
+  {
+    "id": 7,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [6],
+    "question": "What is the key difference between encoder self-attention and decoder self-attention in the Transformer architecture?",
+    "answer": "The key difference is that decoder self-attention is masked to prevent positions from attending to subsequent positions, preserving the auto-regressive property where predictions for position i can only depend on known outputs at positions less than i. In contrast, encoder self-attention allows each position to attend to all positions in the input sequence without any masking. This masking in the decoder is implemented by setting illegal connections to negative infinity before the softmax operation.",
+    "question_type": "comparative",
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [7],
+    "question": "What training configuration and hyperparameters were used for training the Transformer models?",
+    "answer": "The Transformer models were trained using the Adam optimizer with β₁=0.9, β₂=0.98, and ε=10⁻⁹. The learning rate was varied according to a schedule that linearly increased for the first warmup_steps=4000 training steps, then decreased proportionally to the inverse square root of the step number. Residual dropout with rate P_drop=0.1 was applied to the output of each sub-layer and to the sums of embeddings and positional encodings. Label smoothing with value ε_ls=0.1 was also employed during training.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [1, 2],
+    "question": "What are the two pre-training tasks used to train BERT?",
+    "answer": "BERT uses two unsupervised pre-training tasks: Masked Language Model (MLM) and Next Sentence Prediction (NSP). In MLM, 15% of input tokens are randomly masked and the model must predict the original tokens based on context. In NSP, the model receives pairs of sentences and must predict whether the second sentence actually follows the first in the original document, which helps the model understand sentence relationships.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 10,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [4],
+    "question": "What datasets were used for pre-training BERT and what was their combined size?",
+    "answer": "BERT was pre-trained on two large text corpora: BooksCorpus containing 800 million words and English Wikipedia containing 2,500 million words. The Wikipedia corpus consisted of text passages only, excluding lists, tables, and headers. Together, these datasets provided approximately 3.3 billion words for pre-training the model.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 11,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [3],
+    "question": "What is the architecture difference between BERT-base and BERT-large models?",
+    "answer": "BERT-base contains 12 transformer layers (L=12), 768 hidden dimensions (H=768), and 12 attention heads (A=12), totaling 110 million parameters. BERT-large is significantly bigger with 24 layers (L=24), 1024 hidden dimensions (H=1024), and 16 attention heads (A=16), totaling 340 million parameters. BERT-base was designed to have the same model size as OpenAI GPT for comparison purposes.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 12,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [4],
+    "question": "What special tokens does BERT use and what are their purposes?",
+    "answer": "BERT uses two special tokens: [CLS] and [SEP]. The [CLS] token is added at the beginning of every input sequence, and its final hidden state is used as the aggregate sequence representation for classification tasks. The [SEP] token is used to separate sentences in sentence pair tasks and to mark the end of a single sentence. These tokens enable BERT to handle both single-sentence and sentence-pair tasks within a unified architecture.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [3, 4],
+    "question": "Why does BERT use masked language modeling instead of traditional left-to-right language modeling?",
+    "answer": "BERT uses masked language modeling because traditional left-to-right or right-to-left language models can only use context from one direction, which limits their ability to learn deep bidirectional representations. By randomly masking tokens and predicting them using both left and right context, BERT can pre-train a deep bidirectional transformer that captures richer contextual information. This is crucial because many downstream tasks like question answering require understanding context from both directions.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 14,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [5],
+    "question": "What is the purpose of the Next Sentence Prediction task and how does it help with downstream tasks?",
+    "answer": "The Next Sentence Prediction (NSP) task trains BERT to understand relationships between sentences, which is not directly captured by language modeling. By predicting whether sentence B actually follows sentence A in the original text, BERT learns to model inter-sentence coherence and relationships. This is particularly important for downstream tasks like Question Answering and Natural Language Inference, where understanding the relationship between two text segments is critical for performance.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 15,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [1, 2, 8],
+    "question": "How does BERT's bidirectional pre-training approach differ from GPT's unidirectional approach, and what impact does this have on performance?",
+    "answer": "BERT uses deep bidirectional pre-training by masking random tokens and predicting them using both left and right context, while GPT uses a left-to-right autoregressive approach where each token can only attend to previous tokens. This fundamental difference allows BERT to capture richer contextual representations. The impact is significant: BERT-base outperforms GPT on the GLUE benchmark despite having similar model size, and BERT's bidirectional nature makes it particularly strong on tasks requiring understanding of full context like question answering and natural language inference.",
+    "question_type": "comparative",
+    "difficulty": "hard"
+  },
+  {
+    "id": 16,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [6, 7],
+    "question": "What fine-tuning procedure and hyperparameters does BERT use for downstream tasks?",
+    "answer": "For fine-tuning, BERT adds a task-specific output layer on top of the pre-trained model and trains all parameters end-to-end. The fine-tuning is relatively inexpensive and typically uses a batch size of 16 or 32, learning rates of 5e-5, 3e-5, or 2e-5, and trains for 2-4 epochs. Most downstream tasks can be fine-tuned in less than one hour on a single Cloud TPU or a few hours on a GPU. The same pre-trained model parameters are used to initialize models for different tasks, with only the final task-specific layer trained from scratch.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  },
+  {
+    "id": 17,
+    "paper_title": "Language Models are Few-Shot Learners",
+    "paper_file": "gpt3.pdf",
+    "page_numbers": [2],
+    "question": "What are the three different sizes of GPT-3 models and how many parameters does the largest one contain?",
+    "answer": "The paper evaluates GPT-3 models in three sizes: GPT-3 Small (125 million parameters), GPT-3 Medium (1.3 billion parameters), GPT-3 Large (13 billion parameters), and GPT-3 XL (175 billion parameters). The largest model, GPT-3 175B, contains 175 billion parameters and uses 96 attention layers with 96 attention heads per layer and a hidden dimension of 12,288. This makes it significantly larger than any previous non-sparse language model.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 18,
+    "paper_title": "Language Models are Few-Shot Learners",
+    "paper_file": "gpt3.pdf",
+    "page_numbers": [3, 4],
+    "question": "What is the difference between zero-shot, one-shot, and few-shot learning as defined in the GPT-3 paper?",
+    "answer": "Zero-shot learning provides only a natural language description of the task without any demonstrations. One-shot learning provides exactly one example demonstration of the task in addition to the task description. Few-shot learning provides a few examples (typically 10 to 100) of the task as conditioning, allowing the model to learn from these demonstrations at inference time. In all three settings, no gradient updates or fine-tuning occurs, and the model performs the task purely through in-context learning.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "paper_title": "Language Models are Few-Shot Learners",
+    "paper_file": "gpt3.pdf",
+    "page_numbers": [1, 2],
+    "question": "What is in-context learning and why is it important for GPT-3?",
+    "answer": "In-context learning is the ability of language models to perform tasks by conditioning on a few examples provided in the prompt, without any gradient updates or parameter changes. This is important for GPT-3 because it allows the model to rapidly adapt to new tasks without requiring task-specific fine-tuning datasets or architectural modifications. The model learns to recognize patterns from the examples in its context window and applies them to new instances, demonstrating that language models can be meta-learners that acquire new skills at inference time.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 20,
+    "paper_title": "Language Models are Few-Shot Learners",
+    "paper_file": "gpt3.pdf",
+    "page_numbers": [5, 6],
+    "question": "What training dataset was used for GPT-3 and what was its composition?",
+    "answer": "GPT-3 was trained on a mixture of five datasets with different weights: Common Crawl (filtered, 410 billion tokens, 60% weight), WebText2 (19 billion tokens, 22% weight), Books1 (12 billion tokens, 8% weight), Books2 (55 billion tokens, 8% weight), and Wikipedia (3 billion tokens, 3% weight). The Common Crawl data was filtered using quality and similarity filters to improve dataset quality. The training data totaled approximately 499 billion tokens, though with the sampling weights, the model saw about 300 billion tokens during training.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "paper_title": "Language Models are Few-Shot Learners",
+    "paper_file": "gpt3.pdf",
+    "page_numbers": [1, 2, 8],
+    "question": "How does GPT-3's few-shot performance compare to fine-tuned models on natural language tasks?",
+    "answer": "GPT-3's few-shot performance is competitive with fine-tuned models on many tasks, though it generally does not match state-of-the-art fine-tuned results. On SuperGLUE benchmark, GPT-3 few-shot achieves 71.8% compared to 89.2% for fine-tuned BERT-large. However, GPT-3 shows particularly strong performance on tasks requiring world knowledge, reasoning, and on-the-fly adaptation. The key advantage is that GPT-3 requires no gradient updates and can adapt to new tasks immediately, while fine-tuned models require task-specific datasets and training time.",
+    "question_type": "comparative",
+    "difficulty": "hard"
+  },
+  {
+    "id": 22,
+    "paper_title": "Language Models are Few-Shot Learners",
+    "paper_file": "gpt3.pdf",
+    "page_numbers": [3, 4],
+    "question": "What relationship does the paper observe between model size and few-shot learning performance?",
+    "answer": "The paper demonstrates a strong positive relationship between model size and few-shot learning performance across most tasks. Larger models show substantially better in-context learning capabilities, with the performance gap between zero-shot, one-shot, and few-shot settings widening as model size increases. For the largest 175B parameter model, few-shot learning often shows dramatic improvements over zero-shot, while smaller models show much less benefit from additional examples. This suggests that in-context learning ability emerges and strengthens with scale.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 23,
+    "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+    "paper_file": "roberta.pdf",
+    "page_numbers": [1, 2],
+    "question": "What are the main modifications RoBERTa makes to BERT's training procedure?",
+    "answer": "RoBERTa makes several key modifications to BERT: it trains with dynamic masking instead of static masking, removes the Next Sentence Prediction (NSP) objective, trains with larger mini-batches and learning rates, and trains on significantly more data (160GB vs 16GB). Additionally, RoBERTa uses byte-level BPE encoding instead of character-level BPE and trains for longer with more steps. These changes collectively lead to substantial improvements over BERT on downstream tasks.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 24,
+    "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+    "paper_file": "roberta.pdf",
+    "page_numbers": [3],
+    "question": "What is dynamic masking and how does it differ from BERT's static masking approach?",
+    "answer": "Dynamic masking generates the masking pattern every time a sequence is fed to the model during training, meaning the model sees different masked versions of the same sequence across epochs. In contrast, BERT's static masking applies the masking pattern once during data preprocessing, so the model sees the exact same masked version throughout all training epochs. Dynamic masking prevents the model from memorizing specific masked positions and provides more training diversity, though the performance improvement is modest.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 25,
+    "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+    "paper_file": "roberta.pdf",
+    "page_numbers": [4],
+    "question": "Why does RoBERTa remove the Next Sentence Prediction task from BERT's training?",
+    "answer": "RoBERTa removes NSP because experiments showed it hurts performance on downstream tasks. The paper found that training with full sentences from a single document or even across document boundaries (without the NSP loss) consistently outperformed BERT's segment-pair format with NSP. The authors hypothesize that NSP conflates two objectives: topic prediction and coherence prediction, and that removing it allows the model to focus solely on masked language modeling, which is more beneficial for most downstream tasks.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 26,
+    "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+    "paper_file": "roberta.pdf",
+    "page_numbers": [5],
+    "question": "What training data does RoBERTa use and how does it compare to BERT's training data in size?",
+    "answer": "RoBERTa is trained on 160GB of uncompressed text data, which is 10 times larger than BERT's 16GB. The training data consists of five datasets: BookCorpus and English Wikipedia (same as BERT), CC-News (63 million English news articles, 76GB), OpenWebText (38GB, an open-source recreation of WebText), and Stories (31GB from CommonCrawl). This massive increase in training data is one of the key factors contributing to RoBERTa's improved performance.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 27,
+    "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+    "paper_file": "roberta.pdf",
+    "page_numbers": [1, 7, 8],
+    "question": "How does RoBERTa's performance compare to BERT and XLNet on the GLUE benchmark?",
+    "answer": "RoBERTa achieves state-of-the-art results on GLUE, scoring 88.5 on the test set, which surpasses both BERT-large (80.5) and matches or exceeds XLNet-large (88.4). On individual GLUE tasks, RoBERTa establishes new state-of-the-art results on four out of nine tasks. The improvements come from the combination of longer training, more data, removal of NSP, dynamic masking, and larger batches, demonstrating that BERT was significantly undertrained in its original configuration.",
+    "question_type": "comparative",
+    "difficulty": "medium"
+  },
+  {
+    "id": 28,
+    "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+    "paper_file": "roberta.pdf",
+    "page_numbers": [6],
+    "question": "What batch size and training duration does RoBERTa use compared to BERT?",
+    "answer": "RoBERTa trains with much larger batch sizes and for longer than BERT. While BERT-large trains with batch size 256 for 1 million steps, RoBERTa experiments with batch sizes up to 8,000 and trains for 500,000 steps. The paper found that training with very large batches (2,000-8,000) improves both perplexity and downstream task performance. RoBERTa's training corresponds to processing roughly 2,000 times more data than BERT, achieved through the combination of larger batches, more steps, and more training data.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  },
+  {
+    "id": 29,
+    "paper_title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+    "paper_file": "t5.pdf",
+    "page_numbers": [1, 2],
+    "question": "What is the text-to-text framework introduced by T5 and why is it beneficial?",
+    "answer": "The text-to-text framework treats every NLP task as converting input text into output text, providing a unified approach for all tasks. For example, translation becomes 'translate English to German: [input]' → '[output]', and classification becomes '[input text]' → '[class label]'. This is beneficial because it allows the same model, objective, training procedure, and decoding process to be applied to every task, eliminating the need for task-specific architectures. It also enables easier multitask learning and transfer between tasks.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 30,
+    "paper_title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+    "paper_file": "t5.pdf",
+    "page_numbers": [3, 4],
+    "question": "What is the Colossal Clean Crawled Corpus (C4) and how was it created?",
+    "answer": "C4 is a cleaned version of Common Crawl data created specifically for T5. The cleaning process involved filtering out non-English pages using langdetect, removing duplicate text using three-sentence spans, discarding pages with offensive words, removing code and placeholder text, and only keeping pages ending in proper punctuation. The resulting dataset contains approximately 750GB of clean English text from web pages. C4 provides high-quality, diverse pre-training data that is larger and cleaner than many existing datasets.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 31,
+    "paper_title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+    "paper_file": "t5.pdf",
+    "page_numbers": [2],
+    "question": "What is the architecture of T5 and how does it relate to the original Transformer?",
+    "answer": "T5 uses an encoder-decoder architecture that closely follows the original Transformer proposed in 'Attention Is All You Need'. The encoder processes the input sequence and produces a sequence of continuous representations, while the decoder generates the output sequence autoregressively. T5 uses relative position embeddings instead of fixed positional encodings and applies layer normalization before rather than after each sub-layer. The base T5 model has similar size to BERT-base with 220 million parameters.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 32,
+    "paper_title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+    "paper_file": "t5.pdf",
+    "page_numbers": [5, 6],
+    "question": "What pre-training objectives did T5 explore and which performed best?",
+    "answer": "T5 systematically compared multiple pre-training objectives including BERT-style masked language modeling, deshuffling corrupted spans, and various autoregressive approaches. The best performing approach was a denoising objective that corrupts spans of tokens by replacing them with sentinel tokens and trains the model to reconstruct the corrupted spans. This objective, which masks approximately 15% of tokens in contiguous spans, outperformed both standard masked language modeling and full autoregressive language modeling on downstream tasks.",
+    "question_type": "methodological",
+    "difficulty": "hard"
+  },
+  {
+    "id": 33,
+    "paper_title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+    "paper_file": "t5.pdf",
+    "page_numbers": [8, 9],
+    "question": "What is the relationship between model size and performance in T5, and what sizes were explored?",
+    "answer": "T5 demonstrates that scaling model size consistently improves performance across tasks. The paper explored models ranging from 60 million parameters (Small) to 11 billion parameters (XXL), with intermediate sizes at 220M (Base), 770M (Large), and 3B (XL). The 11 billion parameter T5-XXL achieved state-of-the-art results on many benchmarks. However, the gains from scaling show diminishing returns, and larger models require substantially more compute and memory resources during both training and inference.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 34,
+    "paper_title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+    "paper_file": "t5.pdf",
+    "page_numbers": [1, 10, 11],
+    "question": "How does T5's performance on SuperGLUE compare to BERT and other contemporary models?",
+    "answer": "T5-11B achieves state-of-the-art performance on SuperGLUE with a score of 89.3, significantly outperforming BERT-large (69.0) and RoBERTa-large (84.6). Even the smaller T5-Base model (220M parameters) achieves 75.1, which is competitive with much larger models. The text-to-text framework combined with the C4 dataset and span corruption pre-training objective enables T5 to excel across diverse language understanding tasks. T5's approach demonstrates that a unified framework can match or exceed task-specific architectures.",
+    "question_type": "comparative",
+    "difficulty": "medium"
+  },
+  {
+    "id": 35,
+    "paper_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+    "paper_file": "lora.pdf",
+    "page_numbers": [1, 2],
+    "question": "What is the main idea behind LoRA and how does it reduce trainable parameters?",
+    "answer": "LoRA freezes the pre-trained model weights and injects trainable low-rank decomposition matrices into each layer of the Transformer architecture. Instead of fine-tuning all parameters, LoRA represents weight updates as the product of two smaller matrices (A and B) with rank r, where r is much smaller than the original weight dimensions. For a weight matrix W of dimension d×k, LoRA adds trainable matrices BA where B is d×r and A is r×k. This reduces trainable parameters by orders of magnitude while maintaining comparable or better performance.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 36,
+    "paper_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+    "paper_file": "lora.pdf",
+    "page_numbers": [3],
+    "question": "Which weight matrices in the Transformer architecture does LoRA typically modify?",
+    "answer": "LoRA typically adapts the attention weights in the self-attention mechanism, specifically the query and value projection matrices (Wq and Wv). The paper found that adapting these attention weights achieves the best performance-parameter tradeoff. While LoRA can be applied to all weight matrices including the key projections, output projections, and feed-forward layers, adapting only Wq and Wv provides most of the benefit while minimizing the number of trainable parameters.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 37,
+    "paper_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+    "paper_file": "lora.pdf",
+    "page_numbers": [4],
+    "question": "What rank values does LoRA use and how does rank choice affect performance?",
+    "answer": "LoRA experiments with rank values ranging from 1 to 64, with r=4 or r=8 being common choices that provide good performance. The paper finds that even very small ranks (r=1 or r=2) can capture sufficient information for adaptation, with only marginal improvements from larger ranks. A rank of 4 typically provides a good balance between parameter efficiency and task performance. The insensitivity to rank choice suggests that the adaptation happens in a very low-dimensional subspace.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 38,
+    "paper_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+    "paper_file": "lora.pdf",
+    "page_numbers": [2, 3],
+    "question": "How does LoRA handle inference compared to full fine-tuning?",
+    "answer": "During inference, LoRA adds no extra latency because the low-rank matrices BA can be merged directly into the frozen weights W, computing W' = W + BA. This means the final model has the same architecture and computational cost as the base model. In contrast, other adapter methods like adding bottleneck layers introduce additional inference latency. LoRA also allows quick task switching by simply swapping the low-rank matrices while keeping the base model frozen, enabling efficient multi-task deployment.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 39,
+    "paper_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+    "paper_file": "lora.pdf",
+    "page_numbers": [6, 7],
+    "question": "How does LoRA's performance compare to full fine-tuning on GPT-3 175B?",
+    "answer": "LoRA matches or exceeds the performance of full fine-tuning on GPT-3 175B while training only 0.01% of the parameters. On the WikiSQL benchmark, LoRA achieves slightly better performance than fine-tuning all parameters. On MultiNLI, LoRA achieves comparable accuracy to full fine-tuning. The key advantage is that LoRA reduces trainable parameters by 10,000× and GPU memory requirements by 3×, making it practical to adapt very large models on consumer hardware while maintaining or improving task performance.",
+    "question_type": "comparative",
+    "difficulty": "medium"
+  },
+  {
+    "id": 40,
+    "paper_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+    "paper_file": "lora.pdf",
+    "page_numbers": [5],
+    "question": "What initialization strategy does LoRA use for its low-rank matrices?",
+    "answer": "LoRA initializes matrix A using a random Gaussian initialization and initializes matrix B to zero. This ensures that at the beginning of training, the product BA equals zero, so the model starts with the exact same behavior as the pre-trained model. During training, the learning is scaled by α/r where α is a constant and r is the rank. This initialization strategy is crucial for stable training and allows LoRA to start from the pre-trained weights without any initial degradation in performance.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  },
+  {
+    "id": 41,
+    "paper_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "paper_file": "chain_of_thought.pdf",
+    "page_numbers": [1, 2],
+    "question": "What is chain-of-thought prompting and how does it differ from standard prompting?",
+    "answer": "Chain-of-thought prompting is a technique where the model is provided with examples that include intermediate reasoning steps before arriving at the final answer, rather than just input-output pairs. For example, instead of just showing 'Q: [math problem] A: [answer]', chain-of-thought prompting shows 'Q: [problem] A: [step 1], [step 2], [step 3], therefore [answer]'. This encourages the model to generate similar step-by-step reasoning for new problems, significantly improving performance on complex reasoning tasks that require multiple steps of logical inference.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 42,
+    "paper_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "paper_file": "chain_of_thought.pdf",
+    "page_numbers": [3, 4],
+    "question": "On which types of tasks does chain-of-thought prompting show the most significant improvements?",
+    "answer": "Chain-of-thought prompting shows the most dramatic improvements on tasks requiring multi-step reasoning, particularly arithmetic word problems, commonsense reasoning, and symbolic manipulation. On the GSM8K math word problem benchmark, chain-of-thought prompting with PaLM 540B achieves 58% solve rate compared to only 18% with standard prompting. The technique is particularly effective for problems where the reasoning process can be decomposed into clear intermediate steps, while showing minimal or no benefit on simple tasks that don't require complex reasoning.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 43,
+    "paper_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "paper_file": "chain_of_thought.pdf",
+    "page_numbers": [5],
+    "question": "How does model scale affect the effectiveness of chain-of-thought prompting?",
+    "answer": "Chain-of-thought prompting is an emergent ability that only becomes effective with sufficiently large language models, typically those with around 100 billion parameters or more. Smaller models show little to no benefit from chain-of-thought prompting and sometimes perform worse with it compared to standard prompting. However, once models reach a critical scale threshold, chain-of-thought prompting produces substantial improvements. This suggests that the capacity for complex multi-step reasoning emerges with model scale and can be unlocked through appropriate prompting strategies.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 44,
+    "paper_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "paper_file": "chain_of_thought.pdf",
+    "page_numbers": [2, 6],
+    "question": "How does chain-of-thought prompting compare to fine-tuning on reasoning tasks?",
+    "answer": "Chain-of-thought prompting with large models can match or exceed the performance of task-specific fine-tuned models on reasoning benchmarks, despite using only a few examples in the prompt. For instance, chain-of-thought prompting with PaLM 540B surpasses the previous state-of-the-art fine-tuned model on GSM8K (58% vs 55%). The key advantage is that chain-of-thought prompting requires no training data or gradient updates, making it immediately applicable to new tasks. However, it requires very large models to be effective, while fine-tuning can work with smaller models.",
+    "question_type": "comparative",
+    "difficulty": "hard"
+  },
+  {
+    "id": 45,
+    "paper_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "paper_file": "chain_of_thought.pdf",
+    "page_numbers": [7],
+    "question": "What is self-consistency decoding and how does it improve chain-of-thought reasoning?",
+    "answer": "Self-consistency decoding is a technique that samples multiple reasoning paths from the model using chain-of-thought prompting, then selects the most consistent answer through majority voting. Instead of greedily decoding a single reasoning chain, the method generates diverse reasoning paths and aggregates them. This approach significantly improves performance, boosting accuracy on GSM8K from 58% to 74% for PaLM 540B. Self-consistency leverages the intuition that complex reasoning problems can be solved through multiple valid approaches, and the correct answer is more likely to appear consistently across different reasoning chains.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  },
+  {
+    "id": 46,
+    "paper_title": "Constitutional AI: Harmlessness from AI Feedback",
+    "paper_file": "constitutional_ai.pdf",
+    "page_numbers": [1, 2],
+    "question": "What is Constitutional AI and what problem does it aim to solve?",
+    "answer": "Constitutional AI (CAI) is a method for training AI systems to be harmless and helpful using AI-generated feedback rather than human feedback. It aims to solve the problem that training models to be harmless using human feedback (RLHF) can be expensive, time-consuming, and may not scale well. CAI uses a constitution—a set of principles expressed in natural language—to guide the model's behavior. The approach allows for more transparent, controllable, and scalable alignment of AI systems without extensive human labeling of harmful outputs.",
+    "question_type": "conceptual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 47,
+    "paper_title": "Constitutional AI: Harmlessness from AI Feedback",
+    "paper_file": "constitutional_ai.pdf",
+    "page_numbers": [2, 3],
+    "question": "What are the two main stages of the Constitutional AI training process?",
+    "answer": "Constitutional AI training consists of two main stages: supervised learning and reinforcement learning. In the supervised stage, the model generates responses to harmful prompts, critiques its own responses using constitutional principles, and revises them to be more harmless, creating a supervised fine-tuning dataset. In the reinforcement learning stage (RLAIF), the model evaluates pairs of responses using the constitution to determine which is better, and these AI-generated preference labels are used to train a preference model. This preference model then guides reinforcement learning to produce a constitutionally-aligned final model.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 48,
+    "paper_title": "Constitutional AI: Harmlessness from AI Feedback",
+    "paper_file": "constitutional_ai.pdf",
+    "page_numbers": [3, 4],
+    "question": "What is RLAIF and how does it differ from RLHF?",
+    "answer": "RLAIF (Reinforcement Learning from AI Feedback) uses AI-generated preference labels to train models, whereas RLHF (Reinforcement Learning from Human Feedback) uses human preference labels. In RLAIF, an AI model evaluates response pairs according to constitutional principles and generates preference comparisons, which are then used to train a preference model for reinforcement learning. RLAIF can be more scalable and less expensive than RLHF since it doesn't require extensive human annotation. The paper demonstrates that RLAIF can achieve comparable or better harmlessness than RLHF while being more transparent about the values encoded in the system.",
+    "question_type": "comparative",
+    "difficulty": "hard"
+  },
+  {
+    "id": 49,
+    "paper_title": "Constitutional AI: Harmlessness from AI Feedback",
+    "paper_file": "constitutional_ai.pdf",
+    "page_numbers": [5, 6],
+    "question": "How does Constitutional AI affect the helpfulness-harmlessness tradeoff compared to standard RLHF?",
+    "answer": "Constitutional AI largely eliminates the helpfulness-harmlessness tradeoff that typically exists in RLHF-trained models. Standard RLHF models trained for harmlessness often become evasive and less helpful, refusing to engage with many queries. In contrast, CAI models achieve significantly improved harmlessness while maintaining or even slightly improving helpfulness. The self-critique and revision process allows the model to learn to handle sensitive topics thoughtfully rather than simply avoiding them, resulting in models that are both safer and more useful.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 50,
+    "paper_title": "Constitutional AI: Harmlessness from AI Feedback",
+    "paper_file": "constitutional_ai.pdf",
+    "page_numbers": [7],
+    "question": "What evaluation methods and metrics does the paper use to assess Constitutional AI models?",
+    "answer": "The paper evaluates Constitutional AI models using both automated and human evaluations across multiple dimensions. For harmlessness, they use human preference comparisons where crowdworkers choose between model responses to potentially harmful prompts. For helpfulness, they evaluate on standard assistant tasks and measure response quality. They also conduct red-teaming exercises where humans attempt to elicit harmful responses from the models. Additionally, the paper analyzes the models' behavior on specific categories of potential harms and measures the rate of harmful responses. The evaluation demonstrates that CAI models achieve better harmlessness scores than RLHF baselines while maintaining comparable helpfulness.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  }
+]
