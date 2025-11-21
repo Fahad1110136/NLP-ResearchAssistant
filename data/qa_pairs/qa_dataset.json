@@ -537,7 +537,7 @@
     "question": "What does the acronym BLOOM stand for?",
     "answer": "BLOOM stands for BigScience Large Open-science Open-access Multilingual Language Model.",
     "question_type": "factual",
-    "difficulty": "low"
+    "difficulty": "easy"
   },
   {
     "id": 55,
