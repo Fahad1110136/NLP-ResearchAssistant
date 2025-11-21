@@ -34,10 +34,10 @@
     "paper_title": "BLOOM",
     "paper_file": "bloom.pdf",
     "page_numbers": [3],
-    "question": "How many languages were included in BLOOM's training corpus?",
-    "answer": "BLOOM was trained on 46 natural languages and 13 programming languages, covering a total of 59 languages.",
+    "question": "What does the acronym BLOOM stand for?",
+    "answer": "BLOOM stands for BigScience Large Open-science Open-access Multilingual Language Model.",
     "question_type": "factual",
-    "difficulty": "easy"
+    "difficulty": "low"
   },
   {
     "id": 55,
