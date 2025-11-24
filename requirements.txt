@@ -11,6 +11,7 @@ sentence-transformers>=2.3.0
 transformers>=4.36.0
 torch>=2.1.0
 accelerate==0.25.0
+huggingface_hub[hf_xet]==0.26.0
 
 # Vector database
 faiss-cpu>=1.7.4

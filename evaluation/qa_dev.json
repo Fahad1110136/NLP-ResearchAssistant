@@ -1,0 +1,128 @@
+[
+  {
+    "id": 43,
+    "paper_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "paper_file": "chain_of_thought.pdf",
+    "page_numbers": [
+      5
+    ],
+    "question": "How does model scale affect the effectiveness of chain-of-thought prompting?",
+    "answer": "Chain-of-thought prompting is an emergent ability that only becomes effective with sufficiently large language models, typically those with around 100 billion parameters or more. Smaller models show little to no benefit from chain-of-thought prompting and sometimes perform worse with it compared to standard prompting. However, once models reach a critical scale threshold, chain-of-thought prompting produces substantial improvements. This suggests that the capacity for complex multi-step reasoning emerges with model scale and can be unlocked through appropriate prompting strategies.",
+    "question_type": "conceptual",
+    "difficulty": "hard"
+  },
+  {
+    "id": 42,
+    "paper_title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "paper_file": "chain_of_thought.pdf",
+    "page_numbers": [
+      3,
+      4
+    ],
+    "question": "On which types of tasks does chain-of-thought prompting show the most significant improvements?",
+    "answer": "Chain-of-thought prompting shows the most dramatic improvements on tasks requiring multi-step reasoning, particularly arithmetic word problems, commonsense reasoning, and symbolic manipulation. On the GSM8K math word problem benchmark, chain-of-thought prompting with PaLM 540B achieves 58% solve rate compared to only 18% with standard prompting. The technique is particularly effective for problems where the reasoning process can be decomposed into clear intermediate steps, while showing minimal or no benefit on simple tasks that don't require complex reasoning.",
+    "question_type": "factual",
+    "difficulty": "medium"
+  },
+  {
+    "id": 92,
+    "paper_title": "Scaling Laws for Neural Language Models",
+    "paper_file": "scaling_laws.pdf",
+    "page_numbers": [
+      7,
+      8
+    ],
+    "question": "How does model performance scale differently with dataset size compared to parameter count?",
+    "answer": "Both dataset size and parameter count follow power-law improvements, but model size yields diminishing returns more slowly. Dataset scaling requires proportionally less growth to prevent overfitting, whereas increasing parameters drives stronger improvements when data is sufficient.",
+    "question_type": "comparative",
+    "difficulty": "medium"
+  },
+  {
+    "id": 10,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [
+      4
+    ],
+    "question": "What datasets were used for pre-training BERT and what was their combined size?",
+    "answer": "BERT was pre-trained on two large text corpora: BooksCorpus containing 800 million words and English Wikipedia containing 2,500 million words. The Wikipedia corpus consisted of text passages only, excluding lists, tables, and headers. Together, these datasets provided approximately 3.3 billion words for pre-training the model.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 66,
+    "paper_title": "Training language models to follow instructions with human feedback",
+    "paper_file": "instructgpt.pdf",
+    "page_numbers": [
+      1,
+      2,
+      11
+    ],
+    "question": "How did the 1.3B parameter InstructGPT model compare to the 175B parameter GPT-3 in human evaluations?",
+    "answer": "Despite having over 100x fewer parameters, outputs from the 1.3B parameter InstructGPT model were preferred to outputs from the 175B GPT-3 model in human evaluations on the test set. The 175B InstructGPT model outputs were preferred to 175B GPT-3 outputs 85±3% of the time, and preferred 71±4% of the time compared to few-shot 175B GPT-3.",
+    "question_type": "comparative",
+    "difficulty": "hard"
+  },
+  {
+    "id": 51,
+    "paper_title": "BLOOM",
+    "paper_file": "bloom.pdf",
+    "page_numbers": [
+      3
+    ],
+    "question": "What is the total number of parameters in the BLOOM model?",
+    "answer": "BLOOM is a 176-billion parameter Transformer-based language model.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "paper_title": "Attention Is All You Need",
+    "paper_file": "attention_is_all_you_need.pdf",
+    "page_numbers": [
+      5
+    ],
+    "question": "How many attention heads does the Transformer model use in its multi-head attention mechanism?",
+    "answer": "The Transformer model uses 8 parallel attention heads (h=8). Each head operates on a lower-dimensional subspace with dimension d_k = d_v = d_model/h = 64, where d_model = 512. This allows the model to jointly attend to information from different representation subspaces at different positions.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 71,
+    "paper_title": "LLaMA: Open and Efficient Foundation Language Models",
+    "paper_file": "llama.pdf",
+    "page_numbers": [
+      1
+    ],
+    "question": "What are the parameter sizes of the LLaMA model family introduced in this paper?",
+    "answer": "The LLaMA model family consists of four models ranging from 7B (7 billion), 13B (13 billion), 33B (33 billion), to 65B (65 billion) parameters. All models were trained on publicly available datasets exclusively.",
+    "question_type": "factual",
+    "difficulty": "easy"
+  },
+  {
+    "id": 16,
+    "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+    "paper_file": "bert.pdf",
+    "page_numbers": [
+      6,
+      7
+    ],
+    "question": "What fine-tuning procedure and hyperparameters does BERT use for downstream tasks?",
+    "answer": "For fine-tuning, BERT adds a task-specific output layer on top of the pre-trained model and trains all parameters end-to-end. The fine-tuning is relatively inexpensive and typically uses a batch size of 16 or 32, learning rates of 5e-5, 3e-5, or 2e-5, and trains for 2-4 epochs. Most downstream tasks can be fine-tuned in less than one hour on a single Cloud TPU or a few hours on a GPU. The same pre-trained model parameters are used to initialize models for different tasks, with only the final task-specific layer trained from scratch.",
+    "question_type": "methodological",
+    "difficulty": "medium"
+  },
+  {
+    "id": 79,
+    "paper_title": "Retrieval-Augmented Generation (RAG)",
+    "paper_file": "rag.pdf",
+    "page_numbers": [
+      1,
+      4
+    ],
+    "question": "How does RAG compare to extractive QA systems in handling answers that do not appear verbatim in documents?",
+    "answer": "Extractive QA systems can only return text spans that appear explicitly in retrieved documents, whereas RAG can generate answers combining information from multiple passages, enabling correct responses even when answers are implicitly supported rather than explicitly stated.",
+    "question_type": "comparative",
+    "difficulty": "hard"
+  }
+]
