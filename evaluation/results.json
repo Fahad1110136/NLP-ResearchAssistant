@@ -1,0 +1,228 @@
+[
+  {
+    "question_id": 43,
+    "question": "How does model scale affect the effectiveness of chain-of-thought prompting?",
+    "ground_truth": "Chain-of-thought prompting is an emergent ability that only becomes effective with sufficiently large language models, typically those with around 100 billion parameters or more. Smaller models show little to no benefit from chain-of-thought prompting and sometimes perform worse with it compared to standard prompting. However, once models reach a critical scale threshold, chain-of-thought prompting produces substantial improvements. This suggests that the capacity for complex multi-step reasoning emerges with model scale and can be unlocked through appropriate prompting strategies.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "chain_of_thought.pdf",
+    "expected_pages": [
+      5
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.051267772912979126,
+      "length_ratio": 0.0641025641025641,
+      "keyword_overlap": 0.01639344262295082
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 42,
+    "question": "On which types of tasks does chain-of-thought prompting show the most significant improvements?",
+    "ground_truth": "Chain-of-thought prompting shows the most dramatic improvements on tasks requiring multi-step reasoning, particularly arithmetic word problems, commonsense reasoning, and symbolic manipulation. On the GSM8K math word problem benchmark, chain-of-thought prompting with PaLM 540B achieves 58% solve rate compared to only 18% with standard prompting. The technique is particularly effective for problems where the reasoning process can be decomposed into clear intermediate steps, while showing minimal or no benefit on simple tasks that don't require complex reasoning.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "chain_of_thought.pdf",
+    "expected_pages": [
+      3,
+      4
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.11303136497735977,
+      "length_ratio": 0.06578947368421052,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 92,
+    "question": "How does model performance scale differently with dataset size compared to parameter count?",
+    "ground_truth": "Both dataset size and parameter count follow power-law improvements, but model size yields diminishing returns more slowly. Dataset scaling requires proportionally less growth to prevent overfitting, whereas increasing parameters drives stronger improvements when data is sufficient.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "scaling_laws.pdf",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": -0.023449301719665527,
+      "length_ratio": 0.1388888888888889,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 10,
+    "question": "What datasets were used for pre-training BERT and what was their combined size?",
+    "ground_truth": "BERT was pre-trained on two large text corpora: BooksCorpus containing 800 million words and English Wikipedia containing 2,500 million words. The Wikipedia corpus consisted of text passages only, excluding lists, tables, and headers. Together, these datasets provided approximately 3.3 billion words for pre-training the model.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "bert.pdf",
+    "expected_pages": [
+      4
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": -0.00782695785164833,
+      "length_ratio": 0.1111111111111111,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 66,
+    "question": "How did the 1.3B parameter InstructGPT model compare to the 175B parameter GPT-3 in human evaluations?",
+    "ground_truth": "Despite having over 100x fewer parameters, outputs from the 1.3B parameter InstructGPT model were preferred to outputs from the 175B GPT-3 model in human evaluations on the test set. The 175B InstructGPT model outputs were preferred to 175B GPT-3 outputs 85\u00c2\u00b13% of the time, and preferred 71\u00c2\u00b14% of the time compared to few-shot 175B GPT-3.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "instructgpt.pdf",
+    "expected_pages": [
+      1,
+      2,
+      11
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.03520766645669937,
+      "length_ratio": 0.09090909090909091,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 51,
+    "question": "What is the total number of parameters in the BLOOM model?",
+    "ground_truth": "BLOOM is a 176-billion parameter Transformer-based language model.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "bloom.pdf",
+    "expected_pages": [
+      3
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.06637927889823914,
+      "length_ratio": 0.625,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 2,
+    "question": "How many attention heads does the Transformer model use in its multi-head attention mechanism?",
+    "ground_truth": "The Transformer model uses 8 parallel attention heads (h=8). Each head operates on a lower-dimensional subspace with dimension d_k = d_v = d_model/h = 64, where d_model = 512. This allows the model to jointly attend to information from different representation subspaces at different positions.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "attention_is_all_you_need.pdf",
+    "expected_pages": [
+      5
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.007487952709197998,
+      "length_ratio": 0.1111111111111111,
+      "keyword_overlap": 0.029411764705882353
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 71,
+    "question": "What are the parameter sizes of the LLaMA model family introduced in this paper?",
+    "ground_truth": "The LLaMA model family consists of four models ranging from 7B (7 billion), 13B (13 billion), 33B (33 billion), to 65B (65 billion) parameters. All models were trained on publicly available datasets exclusively.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "llama.pdf",
+    "expected_pages": [
+      1
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.02334367297589779,
+      "length_ratio": 0.15151515151515152,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 16,
+    "question": "What fine-tuning procedure and hyperparameters does BERT use for downstream tasks?",
+    "ground_truth": "For fine-tuning, BERT adds a task-specific output layer on top of the pre-trained model and trains all parameters end-to-end. The fine-tuning is relatively inexpensive and typically uses a batch size of 16 or 32, learning rates of 5e-5, 3e-5, or 2e-5, and trains for 2-4 epochs. Most downstream tasks can be fine-tuned in less than one hour on a single Cloud TPU or a few hours on a GPU. The same pre-trained model parameters are used to initialize models for different tasks, with only the final task-specific layer trained from scratch.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "bert.pdf",
+    "expected_pages": [
+      6,
+      7
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.04768536984920502,
+      "length_ratio": 0.054945054945054944,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  },
+  {
+    "question_id": 79,
+    "question": "How does RAG compare to extractive QA systems in handling answers that do not appear verbatim in documents?",
+    "ground_truth": "Extractive QA systems can only return text spans that appear explicitly in retrieved documents, whereas RAG can generate answers combining information from multiple passages, enabling correct responses even when answers are implicitly supported rather than explicitly stated.",
+    "model_answer": "This is a placeholder answer.",
+    "expected_paper": "rag.pdf",
+    "expected_pages": [
+      1,
+      4
+    ],
+    "is_rag": true,
+    "automated_metrics": {
+      "semantic_similarity": 0.12208409607410431,
+      "length_ratio": 0.13513513513513514,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": null,
+      "completeness": null,
+      "faithfulness": null,
+      "safety": null
+    }
+  }
+]
