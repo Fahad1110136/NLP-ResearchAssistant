@@ -142,7 +142,7 @@ if __name__ == "__main__":
     
     # Create chunks
     print("\nCreating chunks...")
-    chunks = create_chunks_from_papers(papers, chunk_size=300, overlap=50)
+    chunks = create_chunks_from_papers(papers, chunk_size=500, overlap=100)
     
     # Save chunks
     save_chunks(chunks)
