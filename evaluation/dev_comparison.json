@@ -1,0 +1,9 @@
+{
+  "rag_avg_similarity": 0.8123296856880188,
+  "baseline_avg_similarity": 0.7117815732955932,
+  "improvement": 0.10054811239242556,
+  "rag_with_sources": 10,
+  "rag_avg_time": 3.261884880065918,
+  "baseline_avg_time": 3.319849729537964,
+  "num_questions": 10
+}
