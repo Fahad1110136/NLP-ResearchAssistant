@@ -1,5 +1,12 @@
 {
-  "completed": 20,
+  "summary": {
+    "total_questions": 20,
+    "rag_avg_similarity": 0.7504063725471497,
+    "baseline_avg_similarity": 0.7629540383815765,
+    "improvement_percent": -1.6446162158134252,
+    "rag_wins": 10,
+    "rag_win_rate": 50.0
+  },
   "results": [
     {
       "question_id": 1,
