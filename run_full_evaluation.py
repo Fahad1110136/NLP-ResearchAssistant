@@ -80,6 +80,47 @@ ANSWER (be direct and confident):"""
     
     def answer_question(self, question: str, max_tokens=200) -> Dict:
         start_time = time.time()
+
+        # Reformulate query
+        queries = [question]
+        # Simplified
+        simplified = question.lower()
+        for word in ['what', 'how', 'why', 'when', 'where', 'which', 'who', 'are', 'is', 'does', 'do']:
+            simplified = simplified.replace(word, '')
+        simplified = ' '.join(simplified.split())
+        if simplified and simplified != question:
+            queries.append(simplified)
+        
+        # Keywords
+        import re
+        words = re.findall(r'\b[a-z]{4,}\b', question.lower())  # min 4 letters
+        stopwords = {'what', 'how', 'why', 'when', 'where', 'which', 'who', 'are', 'the', 'is', 'does', 'do', 'this', 'that'}
+        keywords = ' '.join([w for w in words if w not in stopwords])
+        if keywords and keywords not in queries:
+            queries.append(keywords)
+        
+        # Retrieve from all queries
+        all_chunks = []
+        seen_chunk_ids = set()
+        
+        # Deduplication
+        for q in queries:
+            retrieved = self.retriever.retrieve(q, top_k=10)  # get top 10 per query
+            for chunk in retrieved:
+                cid = chunk.get('chunk_id')
+                if cid is not None and cid not in seen_chunk_ids:
+                    all_chunks.append(chunk)
+                    seen_chunk_ids.add(cid)
+                elif cid is None:
+                    # Fallback: use paper+page as ID if chunk_id missing
+                    key = (chunk['paper_file'], chunk['page'])
+                    if key not in seen_chunk_ids:
+                        all_chunks.append(chunk)
+                        seen_chunk_ids.add(key)
+
+        
+        all_chunks.sort(key=lambda x: x.get('hybrid_score', 0), reverse=True)
+        chunks = all_chunks[:15]
         
         chunks = self.retriever.retrieve(question, top_k=15)
         

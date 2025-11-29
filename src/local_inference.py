@@ -48,7 +48,7 @@ class LocalInference:
         
         print(f"✓ Llama loaded on {self.device}")
     
-    def generate(self, prompt, max_tokens=200, temperature=0.7):
+    def generate(self, prompt, max_tokens=200, temperature=0.3):
         """
         Generate text from prompt.
         
