@@ -49,57 +49,62 @@ class LocalInference:
         print(f"✓ Llama loaded on {self.device}")
     
     def generate(self, prompt, max_tokens=200, temperature=0.3):
-        """
-        Generate text from prompt.
-        
-        Args:
-            prompt: Input prompt
-            max_tokens: Maximum tokens to generate
-            temperature: Sampling temperature
+        """Generate text from prompt."""
+        try:
+            messages = [{"role": "user", "content": prompt}]
             
-        Returns:
-            Generated text
-        """
-        # Format for Llama chat
-        messages = [{"role": "user", "content": prompt}]
-        
-        formatted_prompt = self.tokenizer.apply_chat_template(
-            messages, 
-            tokenize=False, 
-            add_generation_prompt=True
-        )
-        
-        # Tokenize
-        inputs = self.tokenizer(
-            formatted_prompt, 
-            return_tensors="pt", 
-            truncation=True, 
-            max_length=2048
-        )
-        inputs = {k: v.to(self.device) for k, v in inputs.items()}
-        
-        # Generate
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=max_tokens,
-                temperature=temperature,
-                do_sample=True,
-                top_p=0.9,
-                pad_token_id=self.tokenizer.pad_token_id,
-                eos_token_id=self.tokenizer.eos_token_id
+            formatted_prompt = self.tokenizer.apply_chat_template(
+                messages, 
+                tokenize=False, 
+                add_generation_prompt=True
             )
+            
+            # Check prompt length
+            input_tokens = len(self.tokenizer.encode(formatted_prompt))
+            if input_tokens > 4096:
+                print(f"Warning: Prompt too long ({input_tokens} tokens), truncating...")
+            
+            inputs = self.tokenizer(
+                formatted_prompt, 
+                return_tensors="pt", 
+                truncation=True, 
+                max_length=4096
+            )
+            inputs = {k: v.to(self.device) for k, v in inputs.items()}
+            
+            # Generate with error handling
+            with torch.no_grad():
+                outputs = self.model.generate(
+                    **inputs,
+                    max_new_tokens=max_tokens,
+                    temperature=temperature,
+                    do_sample=True,
+                    top_p=0.9,
+                    pad_token_id=self.tokenizer.pad_token_id,
+                    eos_token_id=self.tokenizer.eos_token_id
+                )
+
+            print(f"  Generated {len(outputs[0])} total tokens, input was {inputs['input_ids'].shape[1]} tokens")
+            
+            # Decode only new tokens
+            generated_ids = outputs[0][inputs['input_ids'].shape[1]:]
+            generated_text = self.tokenizer.decode(generated_ids, skip_special_tokens=True)
+
+            print(f"  Extracted text: {len(generated_text)} chars")
+            
+            return generated_text.strip()
         
-        # Decode
-        generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        except RuntimeError as e:
+            if "out of memory" in str(e):
+                print("GPU OOM! Try reducing max_length or batch size")
+                # Clear cache and retry with shorter context
+                torch.cuda.empty_cache()
+                return self.generate(prompt[:1000], max_tokens=max_tokens//2, temperature=temperature)
+            raise
         
-        # Extract assistant response
-        if "assistant" in generated_text.lower():
-            parts = generated_text.split("assistant")
-            if len(parts) > 1:
-                generated_text = parts[-1].strip()
-        
-        return generated_text
+        except Exception as e:
+            print(f"Generation error: {e}")
+            return ""
 
 
 if __name__ == "__main__":

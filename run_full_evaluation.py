@@ -76,25 +76,28 @@ QUESTION: {question}
 
 ANSWER (be direct and confident):"""
         
+        print(f"  Prompt length: {len(prompt)} chars, ~{len(prompt)//4} tokens")
+        
         return prompt
     
-    def answer_question(self, question: str, max_tokens=200) -> Dict:
+    def answer_question(self, question: str, max_tokens=300) -> Dict:
         start_time = time.time()
 
         # Reformulate query
         queries = [question]
+        
         # Simplified
         simplified = question.lower()
         for word in ['what', 'how', 'why', 'when', 'where', 'which', 'who', 'are', 'is', 'does', 'do']:
             simplified = simplified.replace(word, '')
         simplified = ' '.join(simplified.split())
-        if simplified and simplified != question:
+        if simplified and simplified != question.lower():
             queries.append(simplified)
         
         # Keywords
         import re
-        words = re.findall(r'\b[a-z]{4,}\b', question.lower())  # min 4 letters
-        stopwords = {'what', 'how', 'why', 'when', 'where', 'which', 'who', 'are', 'the', 'is', 'does', 'do', 'this', 'that'}
+        words = re.findall(r'\b[a-z]{4,}\b', question.lower())
+        stopwords = {'what', 'how', 'why', 'when', 'where', 'which', 'who', 'are', 'the', 'is', 'does', 'do', 'this', 'that', 'with', 'from'}
         keywords = ' '.join([w for w in words if w not in stopwords])
         if keywords and keywords not in queries:
             queries.append(keywords)
@@ -103,26 +106,24 @@ ANSWER (be direct and confident):"""
         all_chunks = []
         seen_chunk_ids = set()
         
-        # Deduplication
         for q in queries:
-            retrieved = self.retriever.retrieve(q, top_k=10)  # get top 10 per query
+            retrieved = self.retriever.retrieve(q, top_k=10)
             for chunk in retrieved:
                 cid = chunk.get('chunk_id')
-                if cid is not None and cid not in seen_chunk_ids:
-                    all_chunks.append(chunk)
-                    seen_chunk_ids.add(cid)
-                elif cid is None:
-                    # Fallback: use paper+page as ID if chunk_id missing
+                if cid is not None:
+                    if cid not in seen_chunk_ids:
+                        all_chunks.append(chunk)
+                        seen_chunk_ids.add(cid)
+                else:
+                    # Fallback: use paper+page as ID
                     key = (chunk['paper_file'], chunk['page'])
                     if key not in seen_chunk_ids:
                         all_chunks.append(chunk)
                         seen_chunk_ids.add(key)
-
         
-        all_chunks.sort(key=lambda x: x.get('hybrid_score', 0), reverse=True)
-        chunks = all_chunks[:15]
-        
-        chunks = self.retriever.retrieve(question, top_k=15)
+        # Sort by score and take top 15
+        all_chunks.sort(key=lambda x: x.get('hybrid_score', x.get('relevance_score', 0)), reverse=True)
+        chunks = all_chunks[:15]  # REMOVED the duplicate line!
         
         if not chunks:
             return {
@@ -133,7 +134,7 @@ ANSWER (be direct and confident):"""
             }
         
         prompt = self.build_prompt(question, chunks)
-        answer = self.llm.generate(prompt, max_tokens=max_tokens)
+        answer = self.llm.generate(prompt, max_tokens=max_tokens, temperature=0.3)  # Added temperature
         
         sources = []
         for chunk in chunks[:15]:
