@@ -1,0 +1,2302 @@
+[
+  {
+    "question_id": 1,
+    "question": "What are the three main components of the scaled dot-product attention mechanism?",
+    "ground_truth": "The three components are Query (Q), Key (K), and Value (V) matrices. The attention function computes the dot product of the query with all keys, divides by the square root of the dimension of the keys to prevent extremely small gradients, applies a softmax function to obtain attention weights, and uses these weights to compute a weighted sum of the values.",
+    "model_answer": "The three main components of the scaled dot-product attention mechanism are:\n\n1. Query (Q)\n2. Key (K)\n3. Value (V)",
+    "is_rag": true,
+    "sources": [
+      "attention_is_all_you_need, p.4",
+      "attention_is_all_you_need, p.5",
+      "attention_is_all_you_need, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6987383365631104,
+      "length_ratio": 0.32786885245901637,
+      "keyword_overlap": 0.1951219512195122
+    },
+    "manual_scores": {
+      "factuality": 1.0953068419200618,
+      "completeness": 0.46158617634027466,
+      "faithfulness": 1.3974766731262207,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 2,
+    "question": "How many attention heads does the Transformer model use in its multi-head attention mechanism?",
+    "ground_truth": "The Transformer model uses 8 parallel attention heads (h=8). Each head operates on a lower-dimensional subspace with dimension d_k = d_v = d_model/h = 64, where d_model = 512. This allows the model to jointly attend to information from different representation subspaces at different positions.",
+    "model_answer": "The Transformer model uses a variable number of attention heads in its multi-head attention mechanism. The number of attention heads is a hyperparameter that can be adjusted based on the specific use case and the size of the input sequence.\n\nIn the original Transformer paper, the authors used 8 attention heads. However, in practice, the number of attention heads can vary depending on the model architecture and the specific task being performed.\n\nFor example, in the BERT model, the number of attention heads is 12, while in the RoBERTa model, the number of attention heads is 8. In the XLNet model, the number of attention heads is 8 as well.\n\nIn general, the number of attention heads is a trade-off between computational efficiency and the ability to capture complex relationships in the input data. More attention heads can lead to better performance, but also increase the computational cost.\n\nIt's worth noting that the number of attention heads can also be dynamically adjusted during training, a technique known as \"",
+    "is_rag": true,
+    "sources": [
+      "attention_is_all_you_need, p.5",
+      "t5, p.5",
+      "scaling_laws, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7559970021247864,
+      "length_ratio": 0.26627218934911245,
+      "keyword_overlap": 0.20588235294117646
+    },
+    "manual_scores": {
+      "factuality": 1.1819252147394068,
+      "completeness": 0.4307310555449513,
+      "faithfulness": 1.5119940042495728,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 3,
+    "question": "What is the model dimension (d_model) and feed-forward network dimension (d_ff) used in the base Transformer model?",
+    "ground_truth": "The base Transformer model uses a model dimension d_model of 512 and a feed-forward network inner-layer dimension d_ff of 2048. The model consists of N=6 identical layers in both the encoder and decoder stacks, with each layer containing multi-head attention and position-wise feed-forward networks.",
+    "model_answer": "In the base Transformer model, the model dimension (d_model) is 512 and the feed-forward network (FFN) dimension (d_ff) is 2048.",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.8",
+      "scaling_laws, p.7",
+      "scaling_laws, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.837281346321106,
+      "length_ratio": 0.45454545454545453,
+      "keyword_overlap": 0.3
+    },
+    "manual_scores": {
+      "factuality": 1.3521938848495483,
+      "completeness": 0.7227272727272727,
+      "faithfulness": 1.674562692642212,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 4,
+    "question": "Why does the Transformer use positional encoding instead of learning position representations?",
+    "ground_truth": "The Transformer uses sinusoidal positional encodings because they allow the model to easily attend to relative positions, as for any fixed offset k, the positional encoding at position pos+k can be represented as a linear function of the encoding at position pos. Additionally, sinusoidal functions may allow the model to extrapolate to sequence lengths longer than those encountered during training, which learned positional embeddings might not handle as well.",
+    "model_answer": "The Transformer model uses positional encoding instead of learning position representations because it is designed to handle sequences of varying lengths, and learning position representations would require the model to have a fixed-length input sequence.\n\nIn traditional recurrent neural networks (RNNs), position information is often encoded in the hidden state of the network, which can lead to vanishing gradients and make it difficult to learn long-range dependencies. To address this issue, the Transformer model uses positional encoding to learn position information in a more robust way.\n\nPositional encoding is a technique that adds a fixed, learned vector to each position in the input sequence, which allows the model to capture position information without relying on the hidden state of the network. This approach has several advantages, including:\n\n1. **Handling variable-length sequences**: Positional encoding allows the model to handle sequences of varying lengths without requiring a fixed-length input sequence.\n2. **Robustness to position information**: Positional encoding is more robust to position information than learning position representations, as it",
+    "is_rag": true,
+    "sources": [
+      "t5, p.5",
+      "attention_is_all_you_need, p.8",
+      "scaling_laws, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8057888150215149,
+      "length_ratio": 0.41317365269461076,
+      "keyword_overlap": 0.32653061224489793
+    },
+    "manual_scores": {
+      "factuality": 1.3240227083770595,
+      "completeness": 0.6523486360612109,
+      "faithfulness": 1.6115776300430298,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 5,
+    "question": "What is the purpose of multi-head attention and how does it improve upon single attention?",
+    "ground_truth": "Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions, which would be impossible with a single attention head. By using multiple attention heads in parallel, each with different learned linear projections, the model can capture various types of relationships and dependencies in the data simultaneously. The outputs from all heads are concatenated and linearly transformed to produce the final values.",
+    "model_answer": "The purpose of multi-head attention is to allow a model to jointly attend to information from different representation subspaces at different positions simultaneously and jointly attend to information from different positions. This is in contrast to single attention, which only attends to one position at a time.\n\nIn single attention, a model attends to a single position and weights the importance of the input features at that position. In contrast, multi-head attention allows the model to attend to multiple positions simultaneously and weigh the importance of the input features at each of those positions.\n\nThis is achieved by dividing the input into multiple attention heads, each of which attends to a different subset of the input features. The outputs from each head are then concatenated and linearly combined to produce the final output.\n\nMulti-head attention improves upon single attention in several ways:\n\n1. **Improved representation learning**: By attending to multiple positions simultaneously, multi-head attention can capture more complex relationships between different parts of the input data, leading to better representation learning.\n2. **Increased robustness",
+    "is_rag": true,
+    "sources": [
+      "attention_is_all_you_need, p.5",
+      "attention_is_all_you_need, p.4",
+      "llama, p.3"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8455805778503418,
+      "length_ratio": 0.39080459770114945,
+      "keyword_overlap": 0.574468085106383
+    },
+    "manual_scores": {
+      "factuality": 1.5284936600543082,
+      "completeness": 1.0158781074578989,
+      "faithfulness": 1.6911611557006836,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 6,
+    "question": "How does the computational complexity of self-attention compare to recurrent layers for sequence processing?",
+    "ground_truth": "Self-attention layers have a complexity of O(n²·d) where n is the sequence length and d is the representation dimension, while recurrent layers have O(n·d²) complexity. Self-attention is faster than recurrent layers when the sequence length n is smaller than the representation dimensionality d, which is most often the case for machine translation tasks with state-of-the-art models. Additionally, self-attention provides constant sequential operations O(1) compared to O(n) for recurrent layers, enabling better parallelization.",
+    "model_answer": "The computational complexity of self-attention in transformer models is generally considered to be lower than that of recurrent layers for sequence processing.\n\nIn traditional recurrent neural networks (RNNs), the computational complexity of each time step is proportional to the length of the input sequence, as each time step requires processing the entire input sequence. This results in a time complexity of O(n^2), where n is the length of the input sequence.\n\nIn contrast, self-attention mechanisms in transformer models process the input sequence in parallel, allowing for more efficient computation. The time complexity of self-attention is typically O(n), as each element in the input sequence is processed independently, and the attention weights are computed using matrix multiplications.\n\nHowever, it's worth noting that the overall computational complexity of transformer models can be higher than RNNs due to the need to compute multiple attention layers and other components, such as feed-forward networks and layer normalization. Nevertheless, self-attention is generally more efficient than RNNs for long",
+    "is_rag": true,
+    "sources": [
+      "attention_is_all_you_need, p.6",
+      "attention_is_all_you_need, p.6",
+      "attention_is_all_you_need, p.7"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7451005578041077,
+      "length_ratio": 0.4444444444444444,
+      "keyword_overlap": 0.2708333333333333
+    },
+    "manual_scores": {
+      "factuality": 1.2056407809257506,
+      "completeness": 0.5848484848484848,
+      "faithfulness": 1.4902011156082153,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 7,
+    "question": "What is the key difference between encoder self-attention and decoder self-attention in the Transformer architecture?",
+    "ground_truth": "The key difference is that decoder self-attention is masked to prevent positions from attending to subsequent positions, preserving the auto-regressive property where predictions for position i can only depend on known outputs at positions less than i. In contrast, encoder self-attention allows each position to attend to all positions in the input sequence without any masking. This masking in the decoder is implemented by setting illegal connections to negative infinity before the softmax operation.",
+    "model_answer": "In the Transformer architecture, the key difference between encoder self-attention and decoder self-attention is the direction of attention.\n\nEncoder self-attention is used in the encoder layers of the Transformer to process the input sequence and generate contextualized representations of the input tokens. In this case, the attention mechanism is used to attend to all positions in the input sequence simultaneously, allowing the model to capture long-range dependencies and relationships between tokens.\n\nDecoder self-attention, on the other hand, is used in the decoder layers of the Transformer to generate output tokens. In this case, the attention mechanism is used to attend to all positions in the output sequence (i.e., the generated tokens) and the input sequence, allowing the model to generate coherent and context-dependent output.\n\nThe key difference is that encoder self-attention is used for input processing, while decoder self-attention is used for output generation. This allows the model to maintain the context of the input sequence while generating output that is conditioned on the input and the",
+    "is_rag": true,
+    "sources": [
+      "attention_is_all_you_need, p.3",
+      "t5, p.5",
+      "attention_is_all_you_need, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.713557243347168,
+      "length_ratio": 0.4431137724550898,
+      "keyword_overlap": 0.28846153846153844
+    },
+    "manual_scores": {
+      "factuality": 1.1720570637629582,
+      "completeness": 0.593527837941139,
+      "faithfulness": 1.427114486694336,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 8,
+    "question": "What training configuration and hyperparameters were used for training the Transformer models?",
+    "ground_truth": "The Transformer models were trained using the Adam optimizer with β₁=0.9, β₂=0.98, and ε=10⁻⁹. The learning rate was varied according to a schedule that linearly increased for the first warmup_steps=4000 training steps, then decreased proportionally to the inverse square root of the step number. Residual dropout with rate P_drop=0.1 was applied to the output of each sub-layer and to the sums of embeddings and positional encodings. Label smoothing with value ε_ls=0.1 was also employed during training.",
+    "model_answer": "I don't have any specific information about a particular NLP research project or paper. However, I can provide general information about common training configurations and hyperparameters used for training Transformer models.\n\nTransformer models, such as BERT, RoBERTa, and XLNet, are typically trained using the following configurations and hyperparameters:\n\n1. **Model Architecture:**\n\t* Number of layers: 12-24 layers\n\t* Number of attention heads: 8-16\n\t* Hidden size: 768-1024\n\t* Dropout rate: 0.1-0.2\n2. **Optimization Algorithm:**\n\t* Adam optimizer with a learning rate of 1e-5 to 1e-4\n\t* Weight decay: 0.01-0.1\n3. **Training Data:**\n\t* Training dataset: Large-scale text datasets such as Wikipedia, BookCorpus, or Common Crawl\n\t* Batch size: 256-",
+    "is_rag": true,
+    "sources": [
+      "attention_is_all_you_need, p.8",
+      "gpt3, p.39",
+      "lora, p.21"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6044676899909973,
+      "length_ratio": 0.6972477064220184,
+      "keyword_overlap": 0.2641509433962264
+    },
+    "manual_scores": {
+      "factuality": 1.004745332025132,
+      "completeness": 0.7100152905198778,
+      "faithfulness": 1.2089353799819946,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 9,
+    "question": "What are the two pre-training tasks used to train BERT?",
+    "ground_truth": "BERT uses two unsupervised pre-training tasks: Masked Language Model (MLM) and Next Sentence Prediction (NSP). In MLM, 15% of input tokens are randomly masked and the model must predict the original tokens based on context. In NSP, the model receives pairs of sentences and must predict whether the second sentence actually follows the first in the original document, which helps the model understand sentence relationships.",
+    "model_answer": "The two pre-training tasks used to train BERT (Bidirectional Encoder Representations from Transformers) are:\n\n1. Masked Language Modeling (MLM): In this task, some of the input words in a sentence are randomly replaced with a [MASK] token, and the model is trained to predict the original word that was replaced.\n2. Next Sentence Prediction (NSP): In this task, two sentences are given as input, and the model is trained to predict whether the two sentences are adjacent in the original text or not.",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.2",
+      "bert, p.3",
+      "roberta, p.10"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8767114877700806,
+      "length_ratio": 0.7831325301204819,
+      "keyword_overlap": 0.425
+    },
+    "manual_scores": {
+      "factuality": 1.4823960828781129,
+      "completeness": 1.0442384924312633,
+      "faithfulness": 1.7534229755401611,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 10,
+    "question": "What datasets were used for pre-training BERT and what was their combined size?",
+    "ground_truth": "BERT was pre-trained on two large text corpora: BooksCorpus containing 800 million words and English Wikipedia containing 2,500 million words. The Wikipedia corpus consisted of text passages only, excluding lists, tables, and headers. Together, these datasets provided approximately 3.3 billion words for pre-training the model.",
+    "model_answer": "The pre-training datasets for BERT (Bidirectional Encoder Representations from Transformers) were:\n\n1. **BookCorpus**: This dataset consists of approximately 1,000 books from Project Gutenberg, which contains about 2.5 million words.\n2. **Wikipedia**: This dataset consists of 2.5 million Wikipedia articles, which contains about 8 billion words.\n\nThe combined size of these datasets is approximately 8.5 million words.",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.1",
+      "bert, p.3",
+      "roberta, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7749874591827393,
+      "length_ratio": 0.8035714285714286,
+      "keyword_overlap": 0.3142857142857143
+    },
+    "manual_scores": {
+      "factuality": 1.2735538714272634,
+      "completeness": 0.8639610389610389,
+      "faithfulness": 1.5499749183654785,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 11,
+    "question": "What is the architecture difference between BERT-base and BERT-large models?",
+    "ground_truth": "BERT-base contains 12 transformer layers (L=12), 768 hidden dimensions (H=768), and 12 attention heads (A=12), totaling 110 million parameters. BERT-large is significantly bigger with 24 layers (L=24), 1024 hidden dimensions (H=1024), and 16 attention heads (A=16), totaling 340 million parameters. BERT-base was designed to have the same model size as OpenAI GPT for comparison purposes.",
+    "model_answer": "The main architecture difference between BERT-base and BERT-large models is the number of layers and the number of parameters.\n\nBERT-base has 12 layers, 110 million parameters, and uses a smaller vocabulary (about 30,000 words).\n\nBERT-large has 24 layers, 340 million parameters, and uses a larger vocabulary (about 50,000 words).\n\nThis increased capacity allows BERT-large to capture more complex relationships and nuances in language, but also increases the computational requirements and training time.",
+    "is_rag": true,
+    "sources": [
+      "bert, p.13",
+      "bert, p.14",
+      "bert, p.9"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7657235860824585,
+      "length_ratio": 0.7638888888888888,
+      "keyword_overlap": 0.2682926829268293
+    },
+    "manual_scores": {
+      "factuality": 1.2329886302715394,
+      "completeness": 0.8367117117117117,
+      "faithfulness": 1.531447172164917,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 12,
+    "question": "What special tokens does BERT use and what are their purposes?",
+    "ground_truth": "BERT uses two special tokens: [CLS] and [SEP]. The [CLS] token is added at the beginning of every input sequence, and its final hidden state is used as the aggregate sequence representation for classification tasks. The [SEP] token is used to separate sentences in sentence pair tasks and to mark the end of a single sentence. These tokens enable BERT to handle both single-sentence and sentence-pair tasks within a unified architecture.",
+    "model_answer": "BERT (Bidirectional Encoder Representations from Transformers) is a pre-trained language model developed by Google. It uses several special tokens to represent words and subwords in the input text. The main special tokens used by BERT are:\n\n1. **[CLS]** (Class Label): This token is used as the input to the classification layer in the model. It represents the overall representation of the input sequence.\n2. **[SEP]** (Separator): This token is used to separate the input sequence into multiple sequences, which allows the model to process multiple sequences simultaneously.\n3. **[UNK]** (Unknown): This token is used to represent out-of-vocabulary (OOV) words. When an OOV word is encountered, the model replaces it with the [UNK] token.\n4. **[MASK]** (Mask): This token is used to mask a portion of the input sequence during pre-training. The model is trained to predict the original word that was masked.\n5. **[PAD",
+    "is_rag": true,
+    "sources": [
+      "bert, p.4",
+      "bert, p.13",
+      "roberta, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8071941137313843,
+      "length_ratio": 0.4930555555555556,
+      "keyword_overlap": 0.3125
+    },
+    "manual_scores": {
+      "factuality": 1.317571759223938,
+      "completeness": 0.6776515151515151,
+      "faithfulness": 1.6143882274627686,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 13,
+    "question": "Why does BERT use masked language modeling instead of traditional left-to-right language modeling?",
+    "ground_truth": "BERT uses masked language modeling because traditional left-to-right or right-to-left language models can only use context from one direction, which limits their ability to learn deep bidirectional representations. By randomly masking tokens and predicting them using both left and right context, BERT can pre-train a deep bidirectional transformer that captures richer contextual information. This is crucial because many downstream tasks like question answering require understanding context from both directions.",
+    "model_answer": "BERT (Bidirectional Encoder Representations from Transformers) uses masked language modeling instead of traditional left-to-right language modeling for several reasons:\n\n1. **Captures Contextual Relationships**: Masked language modeling allows BERT to learn contextual relationships between words in a sentence, rather than just the linear sequence of words. By randomly masking some of the input words, BERT is forced to predict the missing words, which helps it learn the relationships between words in the context of the sentence.\n\n2. **Handles Out-of-Vocabulary (OOV) Words**: Masked language modeling can handle out-of-vocabulary (OOV) words more effectively than traditional left-to-right language modeling. When a word is masked, BERT can predict the word that is most likely to fit the context, rather than relying on the linear sequence of words.\n\n3. **Improves Robustness to Noise and Variations**: Masked language modeling makes BERT more robust to noise and variations in the input data. By learning to",
+    "is_rag": true,
+    "sources": [
+      "bert, p.2",
+      "roberta, p.2",
+      "bert, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7810249328613281,
+      "length_ratio": 0.46938775510204084,
+      "keyword_overlap": 0.3508771929824561
+    },
+    "manual_scores": {
+      "factuality": 1.303961221795333,
+      "completeness": 0.7306892568348093,
+      "faithfulness": 1.5620498657226562,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 14,
+    "question": "What is the purpose of the Next Sentence Prediction task and how does it help with downstream tasks?",
+    "ground_truth": "The Next Sentence Prediction (NSP) task trains BERT to understand relationships between sentences, which is not directly captured by language modeling. By predicting whether sentence B actually follows sentence A in the original text, BERT learns to model inter-sentence coherence and relationships. This is particularly important for downstream tasks like Question Answering and Natural Language Inference, where understanding the relationship between two text segments is critical for performance.",
+    "model_answer": "The Next Sentence Prediction (NSP) task is a natural language processing (NLP) research task that involves predicting whether two sentences are adjacent in a given text or not. The task is designed to evaluate the ability of a model to understand the syntactic structure of a sentence and its relationship with the preceding sentence.\n\nThe purpose of the NSP task is to assess a model's ability to capture the syntactic dependencies between sentences, which is a crucial aspect of natural language understanding. By predicting whether two sentences are adjacent or not, the task helps to evaluate the model's ability to:\n\n1. Identify the syntactic relationships between sentences, such as subject-verb-object relationships.\n2. Understand the context in which a sentence is used, including the relationships between sentences in a paragraph or document.\n3. Generate coherent and contextually relevant text.\n\nThe Next Sentence Prediction task has several downstream applications, including:\n\n1. **Text summarization**: By predicting the syntactic relationships between sentences, models can better understand",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.2",
+      "bert, p.2",
+      "gpt3, p.3"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8223316669464111,
+      "length_ratio": 0.41975308641975306,
+      "keyword_overlap": 0.45098039215686275
+    },
+    "manual_scores": {
+      "factuality": 1.421852569019093,
+      "completeness": 0.8773837667454687,
+      "faithfulness": 1.6446633338928223,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 15,
+    "question": "How does BERT's bidirectional pre-training approach differ from GPT's unidirectional approach, and what impact does this have on performance?",
+    "ground_truth": "BERT uses deep bidirectional pre-training by masking random tokens and predicting them using both left and right context, while GPT uses a left-to-right autoregressive approach where each token can only attend to previous tokens. This fundamental difference allows BERT to capture richer contextual representations. The impact is significant: BERT-base outperforms GPT on the GLUE benchmark despite having similar model size, and BERT's bidirectional nature makes it particularly strong on tasks requiring understanding of full context like question answering and natural language inference.",
+    "model_answer": "BERT (Bidirectional Encoder Representations from Transformers) and GPT (Generative Pre-trained Transformer) are two popular architectures in the field of Natural Language Processing (NLP). The main difference between their pre-training approaches lies in their directionality.\n\nBERT's bidirectional pre-training approach involves training the model on a large corpus of text data in both forward and backward directions. This means that the model is trained to predict the next word in a sequence (forward direction) and also to predict the previous word in the sequence (backward direction). This bidirectional approach allows the model to capture both the context of the current word and the context of the surrounding words.\n\nOn the other hand, GPT's unidirectional approach involves training the model only on the forward direction, predicting the next word in a sequence based on the previous words. This approach is similar to traditional sequence-to-sequence models, where the model is trained to predict the next word in a sequence based on the previous words.\n\nThe bidirectional",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.1",
+      "bert, p.8",
+      "bert, p.13"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.791234016418457,
+      "length_ratio": 0.5061728395061729,
+      "keyword_overlap": 0.3382352941176471
+    },
+    "manual_scores": {
+      "factuality": 1.310668799456428,
+      "completeness": 0.748148148148148,
+      "faithfulness": 1.582468032836914,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 16,
+    "question": "What fine-tuning procedure and hyperparameters does BERT use for downstream tasks?",
+    "ground_truth": "For fine-tuning, BERT adds a task-specific output layer on top of the pre-trained model and trains all parameters end-to-end. The fine-tuning is relatively inexpensive and typically uses a batch size of 16 or 32, learning rates of 5e-5, 3e-5, or 2e-5, and trains for 2-4 epochs. Most downstream tasks can be fine-tuned in less than one hour on a single Cloud TPU or a few hours on a GPU. The same pre-trained model parameters are used to initialize models for different tasks, with only the final task-specific layer trained from scratch.",
+    "model_answer": "BERT (Bidirectional Encoder Representations from Transformers) uses the following fine-tuning procedure and hyperparameters for downstream tasks:\n\n1. **Fine-tuning procedure:** BERT is fine-tuned using a masked language modeling (MLM) objective, where some of the input tokens are randomly replaced with a [MASK] token, and the model is trained to predict the original token. This process is repeated multiple times, with the model learning to predict the context in which the masked tokens appear.\n\n2. **Hyperparameters:**\n   - **Learning rate:** A high learning rate is typically used to quickly adapt the pre-trained BERT model to the specific downstream task.\n   - **Batch size:** A larger batch size can improve the model's ability to generalize to new tasks, but may also increase the computational cost.\n   - **Number of epochs:** The number of epochs can be adjusted based on the specific task and dataset, but typically ranges from 3 to 5.\n   - **Weight decay",
+    "is_rag": true,
+    "sources": [
+      "bert, p.9",
+      "roberta, p.2",
+      "bert, p.3"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7561478614807129,
+      "length_ratio": 0.6148648648648649,
+      "keyword_overlap": 0.3548387096774194
+    },
+    "manual_scores": {
+      "factuality": 1.2715102318794496,
+      "completeness": 0.8034016775396086,
+      "faithfulness": 1.5122957229614258,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 17,
+    "question": "What are the three different sizes of GPT-3 models and how many parameters does the largest one contain?",
+    "ground_truth": "The paper evaluates GPT-3 models in three sizes: GPT-3 Small (125 million parameters), GPT-3 Medium (1.3 billion parameters), GPT-3 Large (13 billion parameters), and GPT-3 XL (175 billion parameters). The largest model, GPT-3 175B, contains 175 billion parameters and uses 96 attention layers with 96 attention heads per layer and a hidden dimension of 12,288. This makes it significantly larger than any previous non-sparse language model.",
+    "model_answer": "The three different sizes of GPT-3 models are:\n\n1. GPT-3 (small): 110 million parameters\n2. GPT-3 (medium): 345 million parameters\n3. GPT-3 (large): 7 billion parameters\n\nThe largest one contains 7 billion parameters.",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.8",
+      "instructgpt, p.3",
+      "instructgpt, p.11"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6688715815544128,
+      "length_ratio": 0.5,
+      "keyword_overlap": 0.1875
+    },
+    "manual_scores": {
+      "factuality": 1.048920214176178,
+      "completeness": 0.5545454545454545,
+      "faithfulness": 1.3377431631088257,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 18,
+    "question": "What is the difference between zero-shot, one-shot, and few-shot learning as defined in the GPT-3 paper?",
+    "ground_truth": "Zero-shot learning provides only a natural language description of the task without any demonstrations. One-shot learning provides exactly one example demonstration of the task in addition to the task description. Few-shot learning provides a few examples (typically 10 to 100) of the task as conditioning, allowing the model to learn from these demonstrations at inference time. In all three settings, no gradient updates or fine-tuning occurs, and the model performs the task purely through in-context learning.",
+    "model_answer": "In the GPT-3 paper, the authors define three types of few-shot learning:\n\n1. **Zero-shot learning**: This refers to the ability of a model to learn from a few examples without any prior knowledge or training data. The model is expected to generalize to new, unseen classes or tasks with no additional training.\n\n2. **One-shot learning**: This is an extension of zero-shot learning, where the model is given a few examples of the target class, but also some prior knowledge about the class, such as its name, description, or a few examples of instances. This prior knowledge can help the model to better understand the target class and make more accurate predictions.\n\n3. **Few-shot learning**: This is a more general term that encompasses both zero-shot and one-shot learning. It refers to the ability of a model to learn from a small number of examples, but without requiring prior knowledge about the target class. Few-shot learning can be further divided into two subcategories: zero-shot",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.5",
+      "gpt3, p.23",
+      "gpt3, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7252907752990723,
+      "length_ratio": 0.4691358024691358,
+      "keyword_overlap": 0.37254901960784315
+    },
+    "manual_scores": {
+      "factuality": 1.2389364971834071,
+      "completeness": 0.748148148148148,
+      "faithfulness": 1.4505815505981445,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 19,
+    "question": "What is in-context learning and why is it important for GPT-3?",
+    "ground_truth": "In-context learning is the ability of language models to perform tasks by conditioning on a few examples provided in the prompt, without any gradient updates or parameter changes. This is important for GPT-3 because it allows the model to rapidly adapt to new tasks without requiring task-specific fine-tuning datasets or architectural modifications. The model learns to recognize patterns from the examples in its context window and applies them to new instances, demonstrating that language models can be meta-learners that acquire new skills at inference time.",
+    "model_answer": "In-context learning refers to a type of machine learning approach where a model is trained on a large corpus of text data, but it's not trained on the individual words or phrases in isolation. Instead, the model is trained on the context in which the words or phrases appear, including the surrounding text and the relationships between different words and concepts.\n\nIn the case of GPT-3, in-context learning is important because it allows the model to understand the nuances of language and generate more coherent and context-dependent responses. By being trained on a large corpus of text data, GPT-3 can learn to recognize patterns and relationships between words and concepts, and generate responses that are more relevant and context-specific.\n\nIn-context learning is particularly important for GPT-3 because it enables the model to:\n\n1. Understand the context of a conversation: By being trained on a large corpus of text data, GPT-3 can learn to understand the context of a conversation and generate responses that are relevant to the conversation",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.33",
+      "gpt3, p.5",
+      "gpt3, p.20"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7820014953613281,
+      "length_ratio": 0.5059523809523809,
+      "keyword_overlap": 0.3389830508474576
+    },
+    "manual_scores": {
+      "factuality": 1.2981919240143338,
+      "completeness": 0.6804945054945054,
+      "faithfulness": 1.5640029907226562,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 20,
+    "question": "What training dataset was used for GPT-3 and what was its composition?",
+    "ground_truth": "GPT-3 was trained on a mixture of five datasets with different weights: Common Crawl (filtered, 410 billion tokens, 60% weight), WebText2 (19 billion tokens, 22% weight), Books1 (12 billion tokens, 8% weight), Books2 (55 billion tokens, 8% weight), and Wikipedia (3 billion tokens, 3% weight). The Common Crawl data was filtered using quality and similarity filters to improve dataset quality. The training data totaled approximately 499 billion tokens, though with the sampling weights, the model saw about 300 billion tokens during training.",
+    "model_answer": "GPT-3 was trained on a combination of text data from the following sources:\n\n1. Books: GPT-3 was trained on a large corpus of text from a variety of books, including but not limited to:\n   - Wikipedia\n   - Books from the public domain\n   - Books from major publishers\n   - A large corpus of text from the internet\n\n2. Web pages: GPT-3 was also trained on a large corpus of web pages, including but not limited to:\n   - Web pages from the internet\n   - News articles\n   - Blogs\n   - Forums\n\n3. User-generated content: GPT-3 was also trained on a large corpus of user-generated content, including but not limited to:\n   - Social media posts\n   - Comments from online forums\n   - Product reviews\n\n4. Conversational data: GPT-3 was also trained on a large corpus of conversational data, including but not limited to:\n   - Dialogue from",
+    "is_rag": true,
+    "sources": [
+      "llama, p.2",
+      "flamingo, p.51",
+      "flamingo, p.53"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6601576805114746,
+      "length_ratio": 0.5815602836879432,
+      "keyword_overlap": 0.09259259259259259
+    },
+    "manual_scores": {
+      "factuality": 0.97977630827162,
+      "completeness": 0.45874009178139336,
+      "faithfulness": 1.3203153610229492,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 21,
+    "question": "How does GPT-3's few-shot performance compare to fine-tuned models on natural language tasks?",
+    "ground_truth": "GPT-3's few-shot performance is competitive with fine-tuned models on many tasks, though it generally does not match state-of-the-art fine-tuned results. On SuperGLUE benchmark, GPT-3 few-shot achieves 71.8% compared to 89.2% for fine-tuned BERT-large. However, GPT-3 shows particularly strong performance on tasks requiring world knowledge, reasoning, and on-the-fly adaptation. The key advantage is that GPT-3 requires no gradient updates and can adapt to new tasks immediately, while fine-tuned models require task-specific datasets and training time.",
+    "model_answer": "GPT-3's few-shot performance is comparable to fine-tuned models on natural language tasks.",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.5",
+      "gpt3, p.14",
+      "gpt3, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7550223469734192,
+      "length_ratio": 0.16216216216216217,
+      "keyword_overlap": 0.10714285714285714
+    },
+    "manual_scores": {
+      "factuality": 1.121317000048501,
+      "completeness": 0.2345521992580816,
+      "faithfulness": 1.5100446939468384,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 22,
+    "question": "What relationship does the paper observe between model size and few-shot learning performance?",
+    "ground_truth": "The paper demonstrates a strong positive relationship between model size and few-shot learning performance across most tasks. Larger models show substantially better in-context learning capabilities, with the performance gap between zero-shot, one-shot, and few-shot settings widening as model size increases. For the largest 175B parameter model, few-shot learning often shows dramatic improvements over zero-shot, while smaller models show much less benefit from additional examples. This suggests that in-context learning ability emerges and strengthens with scale.",
+    "model_answer": "I don't have any information about a specific paper. However, I can provide a general answer about the relationship between model size and few-shot learning performance.\n\nIn the context of few-shot learning, the relationship between model size and performance is often observed to be non-linear. Larger models tend to perform better on few-shot learning tasks, but only up to a point. Beyond a certain size threshold, additional increases in model size do not necessarily lead to proportional improvements in performance.\n\nThis is often referred to as the \"law of diminishing returns\" in deep learning. While larger models can capture more complex patterns and relationships in the data, they also tend to overfit to the training data and may not generalize well to new, unseen situations.\n\nIn general, the optimal model size for few-shot learning is often found to be a trade-off between model capacity and overfitting. Smaller models may not have enough capacity to capture the underlying patterns in the data, while larger models may overfit and perform poorly on",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.24",
+      "gpt3, p.10",
+      "gpt3, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6741257905960083,
+      "length_ratio": 0.4411764705882353,
+      "keyword_overlap": 0.34545454545454546
+    },
+    "manual_scores": {
+      "factuality": 1.1510488341071388,
+      "completeness": 0.7127058823529411,
+      "faithfulness": 1.3482515811920166,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 23,
+    "question": "What are the main modifications RoBERTa makes to BERT's training procedure?",
+    "ground_truth": "RoBERTa makes several key modifications to BERT: it trains with dynamic masking instead of static masking, removes the Next Sentence Prediction (NSP) objective, trains with larger mini-batches and learning rates, and trains on significantly more data (160GB vs 16GB). Additionally, RoBERTa uses byte-level BPE encoding instead of character-level BPE and trains for longer with more steps. These changes collectively lead to substantial improvements over BERT on downstream tasks.",
+    "model_answer": "RoBERTa makes the following main modifications to BERT's training procedure:\n\n1. **Longer sequence length**: RoBERTa uses longer input sequences than BERT, typically 4096 tokens, compared to BERT's 512 tokens.\n2. **No masked language modeling**: RoBERTa does not use masked language modeling, which is a common technique used in BERT to train the model to predict missing tokens in a sequence. Instead, RoBERTa uses a different objective function.\n3. **No next sentence prediction**: RoBERTa does not use next sentence prediction, which is another common technique used in BERT to predict whether two sentences are adjacent in the original text.\n4. **Per-token attention**: RoBERTa uses per-token attention, which allows the model to attend to each token individually, rather than attending to the entire sequence at once.\n5. **No layer normalization**: RoBERTa does not use layer normalization, which is a technique used in BERT to normalize",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.10",
+      "roberta, p.6",
+      "roberta, p.1"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7979217171669006,
+      "length_ratio": 0.4755244755244755,
+      "keyword_overlap": 0.17307692307692307
+    },
+    "manual_scores": {
+      "factuality": 1.2209365578798148,
+      "completeness": 0.5236125576551108,
+      "faithfulness": 1.5958434343338013,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 24,
+    "question": "What is dynamic masking and how does it differ from BERT's static masking approach?",
+    "ground_truth": "Dynamic masking generates the masking pattern every time a sequence is fed to the model during training, meaning the model sees different masked versions of the same sequence across epochs. In contrast, BERT's static masking applies the masking pattern once during data preprocessing, so the model sees the exact same masked version throughout all training epochs. Dynamic masking prevents the model from memorizing specific masked positions and provides more training diversity, though the performance improvement is modest.",
+    "model_answer": "Dynamic masking is a technique used in Natural Language Processing (NLP) that differs from BERT's static masking approach in the way it handles out-of-vocabulary (OOV) words and the masking process itself.\n\n**Static Masking (BERT):**\n\nIn BERT, static masking involves randomly masking a certain percentage of the input tokens in a sequence (e.g., a sentence) and then predicting the original tokens. The model learns to predict the masked tokens based on the context of the surrounding tokens. However, this approach has limitations when dealing with out-of-vocabulary (OOV) words. When an OOV word is masked, the model has to rely on the context to predict the correct word, which can lead to errors.\n\n**Dynamic Masking:**\n\nDynamic masking, on the other hand, is a more advanced technique that adapts to the input sequence and the model's knowledge of the vocabulary. In dynamic masking, the model predicts the masked tokens based on the entire input sequence,",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.4",
+      "bert, p.16",
+      "bert, p.16"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8449170589447021,
+      "length_ratio": 0.506578947368421,
+      "keyword_overlap": 0.2553191489361702
+    },
+    "manual_scores": {
+      "factuality": 1.336075371884285,
+      "completeness": 0.6150584795321636,
+      "faithfulness": 1.6898341178894043,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 25,
+    "question": "Why does RoBERTa remove the Next Sentence Prediction task from BERT's training?",
+    "ground_truth": "RoBERTa removes NSP because experiments showed it hurts performance on downstream tasks. The paper found that training with full sentences from a single document or even across document boundaries (without the NSP loss) consistently outperformed BERT's segment-pair format with NSP. The authors hypothesize that NSP conflates two objectives: topic prediction and coherence prediction, and that removing it allows the model to focus solely on masked language modeling, which is more beneficial for most downstream tasks.",
+    "model_answer": "RoBERTa removes the Next Sentence Prediction task from BERT's training to improve its performance on downstream tasks. The Next Sentence Prediction task requires the model to predict whether two sentences are adjacent in the original text or not. This task can lead to overfitting and biased performance on downstream tasks, as the model may learn to focus on the relationship between sentences rather than the meaning of individual sentences.\n\nBy removing this task, RoBERTa encourages the model to focus on the meaning of individual sentences and improves its performance on downstream tasks.",
+    "is_rag": true,
+    "sources": [
+      "bert, p.8",
+      "roberta, p.2",
+      "roberta, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7416414618492126,
+      "length_ratio": 0.8152173913043478,
+      "keyword_overlap": 0.2982456140350877
+    },
+    "manual_scores": {
+      "factuality": 1.21724541500995,
+      "completeness": 0.9198996655518394,
+      "faithfulness": 1.4832829236984253,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 26,
+    "question": "What training data does RoBERTa use and how does it compare to BERT's training data in size?",
+    "ground_truth": "RoBERTa is trained on 160GB of uncompressed text data, which is 10 times larger than BERT's 16GB. The training data consists of five datasets: BookCorpus and English Wikipedia (same as BERT), CC-News (63 million English news articles, 76GB), OpenWebText (38GB, an open-source recreation of WebText), and Stories (31GB from CommonCrawl). This massive increase in training data is one of the key factors contributing to RoBERTa's improved performance.",
+    "model_answer": "RoBERTa uses the same training data as BERT, but with a few key differences. Both models were trained on the same large corpus of text, but RoBERTa uses a larger amount of data and a different approach to training.\n\nRoBERTa was trained on a corpus of over 1.3 trillion parameters, which is roughly 4 times larger than BERT's 340 million parameters. RoBERTa also uses a different approach to training, called \"masked language modeling\", where some of the input words are randomly replaced with a [MASK] token, and the model is trained to predict the original word. This approach allows RoBERTa to learn more generalizable representations of language.\n\nIn terms of the specific training data, RoBERTa was trained on a large corpus of text from the internet, including but not limited to:\n\n* Wikipedia articles\n* Books from the Common Crawl dataset\n* Web pages from the Common Crawl dataset\n\nThis training data is similar to BERT",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.8",
+      "roberta, p.6",
+      "roberta, p.1"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8248071670532227,
+      "length_ratio": 0.42948717948717946,
+      "keyword_overlap": 0.38461538461538464
+    },
+    "manual_scores": {
+      "factuality": 1.3854992646437425,
+      "completeness": 0.7243589743589742,
+      "faithfulness": 1.6496143341064453,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 27,
+    "question": "How does RoBERTa's performance compare to BERT and XLNet on the GLUE benchmark?",
+    "ground_truth": "RoBERTa achieves state-of-the-art results on GLUE, scoring 88.5 on the test set, which surpasses both BERT-large (80.5) and matches or exceeds XLNet-large (88.4). On individual GLUE tasks, RoBERTa establishes new state-of-the-art results on four out of nine tasks. The improvements come from the combination of longer training, more data, removal of NSP, dynamic masking, and larger batches, demonstrating that BERT was significantly undertrained in its original configuration.",
+    "model_answer": "RoBERTa outperforms BERT and XLNet on the GLUE benchmark.",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.8",
+      "roberta, p.8",
+      "roberta, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8632209300994873,
+      "length_ratio": 0.13432835820895522,
+      "keyword_overlap": 0.07692307692307693
+    },
+    "manual_scores": {
+      "factuality": 1.2546631482931283,
+      "completeness": 0.19259701492537312,
+      "faithfulness": 1.7264418601989746,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 28,
+    "question": "What batch size and training duration does RoBERTa use compared to BERT?",
+    "ground_truth": "RoBERTa trains with much larger batch sizes and for longer than BERT. While BERT-large trains with batch size 256 for 1 million steps, RoBERTa experiments with batch sizes up to 8,000 and trains for 500,000 steps. The paper found that training with very large batches (2,000-8,000) improves both perplexity and downstream task performance. RoBERTa's training corresponds to processing roughly 2,000 times more data than BERT, achieved through the combination of larger batches, more steps, and more training data.",
+    "model_answer": "RoBERTa uses a larger batch size (256) and longer training duration (about 1 million steps) compared to BERT (batch size 32, 340,000 steps).",
+    "is_rag": true,
+    "sources": [
+      "roberta, p.6",
+      "roberta, p.6",
+      "roberta, p.8"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8951318264007568,
+      "length_ratio": 0.2948717948717949,
+      "keyword_overlap": 0.18518518518518517
+    },
+    "manual_scores": {
+      "factuality": 1.3642956680721707,
+      "completeness": 0.4340659340659341,
+      "faithfulness": 1.7902636528015137,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 29,
+    "question": "What is the text-to-text framework introduced by T5 and why is it beneficial?",
+    "ground_truth": "The text-to-text framework treats every NLP task as converting input text into output text, providing a unified approach for all tasks. For example, translation becomes 'translate English to German: [input]' → '[output]', and classification becomes '[input text]' → '[class label]'. This is beneficial because it allows the same model, objective, training procedure, and decoding process to be applied to every task, eliminating the need for task-specific architectures. It also enables easier multitask learning and transfer between tasks.",
+    "model_answer": "The text-to-text framework introduced by T5 (Text-to-Text Transfer Transformer) is a type of neural network architecture that is designed to perform natural language processing (NLP) tasks, such as text classification, sentiment analysis, and machine translation, without requiring explicit task-specific annotations.\n\nThe T5 framework is beneficial for several reasons:\n\n1. **Transfer learning**: T5 is based on a multi-task learning approach, where the model is trained on a large corpus of text data and learns to represent the underlying structure of language. This allows the model to transfer knowledge across different NLP tasks, reducing the need for task-specific annotations and fine-tuning.\n2. **Few-shot learning**: T5 can learn to perform a wide range of NLP tasks with minimal training data, making it suitable for few-shot learning applications where large amounts of labeled data are not available.\n3. **Efficient training**: T5 is a relatively efficient model to train, requiring less computational resources and data than other N",
+    "is_rag": true,
+    "sources": [
+      "t5, p.3",
+      "t5, p.18",
+      "t5, p.45"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6918091177940369,
+      "length_ratio": 0.5032679738562091,
+      "keyword_overlap": 0.2786885245901639
+    },
+    "manual_scores": {
+      "factuality": 1.1357458796657498,
+      "completeness": 0.6019607843137255,
+      "faithfulness": 1.3836182355880737,
+      "safety": 1.8
+    }
+  },
+  {
+    "question_id": 30,
+    "question": "What is the Colossal Clean Crawled Corpus (C4) and how was it created?",
+    "ground_truth": "C4 is a cleaned version of Common Crawl data created specifically for T5. The cleaning process involved filtering out non-English pages using langdetect, removing duplicate text using three-sentence spans, discarding pages with offensive words, removing code and placeholder text, and only keeping pages ending in proper punctuation. The resulting dataset contains approximately 750GB of clean English text from web pages. C4 provides high-quality, diverse pre-training data that is larger and cleaner than many existing datasets.",
+    "model_answer": "The Colossal Clean Crawled Corpus (C4) is a massive corpus of text data, primarily composed of web pages crawled by Google. It was created by the Google Research team, led by Jistre Haddad, in collaboration with the Allen Institute for Artificial Intelligence (AI2) and the Stanford Natural Language Processing Group.\n\nThe C4 corpus is a massive dataset of over 1.7 trillion tokens, making it one of the largest language models training datasets available. It was created by crawling the web using Google's web crawler and filtering out low-quality and irrelevant content. The corpus is designed to be a representative sample of the web, with a focus on high-quality and diverse content.\n\nThe C4 corpus is particularly notable for its size and diversity, covering a wide range of topics, languages, and formats, including but not limited to:\n\n* Web pages from various domains, including news, blogs, forums, and websites\n* Different languages, including English, Spanish, French, German",
+    "is_rag": true,
+    "sources": [
+      "t5, p.7",
+      "t5, p.42",
+      "t5, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7623538374900818,
+      "length_ratio": 0.4807692307692308,
+      "keyword_overlap": 0.2711864406779661
+    },
+    "manual_scores": {
+      "factuality": 1.2300072368928943,
+      "completeness": 0.6193706293706294,
+      "faithfulness": 1.5247076749801636,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 31,
+    "question": "What is the architecture of T5 and how does it relate to the original Transformer?",
+    "ground_truth": "T5 uses an encoder-decoder architecture that closely follows the original Transformer proposed in 'Attention Is All You Need'. The encoder processes the input sequence and produces a sequence of continuous representations, while the decoder generates the output sequence autoregressively. T5 uses relative position embeddings instead of fixed positional encodings and applies layer normalization before rather than after each sub-layer. The base T5 model has similar size to BERT-base with 220 million parameters.",
+    "model_answer": "The T5 (Text-to-Text Transfer Transformer) is a type of transformer-based language model that was introduced in 2020 by Google. The architecture of T5 is similar to the original Transformer model, but with some key modifications.\n\nThe original Transformer model, introduced in 2017, was a sequence-to-sequence model that used self-attention mechanisms to process input sequences. The T5 model, on the other hand, is a pre-training method that uses a multi-task learning approach to learn a single, unified model that can perform multiple tasks, such as text classification, question answering, and text generation.\n\nThe T5 architecture consists of the following components:\n\n1. **Encoder**: The encoder is similar to the original Transformer encoder, consisting of a stack of identical layers, each comprising two sub-layers: a multi-head self-attention mechanism and a feed-forward neural network (FFN).\n2. **Decoder**: The decoder is also similar to the original Transformer decoder, but with some",
+    "is_rag": true,
+    "sources": [
+      "t5, p.41",
+      "bert, p.3",
+      "t5, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8026654720306396,
+      "length_ratio": 0.4931506849315068,
+      "keyword_overlap": 0.2909090909090909
+    },
+    "manual_scores": {
+      "factuality": 1.29827711538835,
+      "completeness": 0.6253021756647864,
+      "faithfulness": 1.6053309440612793,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 32,
+    "question": "What pre-training objectives did T5 explore and which performed best?",
+    "ground_truth": "T5 systematically compared multiple pre-training objectives including BERT-style masked language modeling, deshuffling corrupted spans, and various autoregressive approaches. The best performing approach was a denoising objective that corrupts spans of tokens by replacing them with sentinel tokens and trains the model to reconstruct the corrupted spans. This objective, which masks approximately 15% of tokens in contiguous spans, outperformed both standard masked language modeling and full autoregressive language modeling on downstream tasks.",
+    "model_answer": "T5 is a transformer-based language model developed by Hugging Face. The pre-training objectives explored by T5 include:\n\n1. Masked Language Modeling (MLM): This objective involves randomly masking a portion of the input sequence and predicting the missing tokens.\n2. Next Sentence Prediction (NSP): This objective involves predicting whether two sentences are adjacent in the original text or not.\n3. Unsupervised Masked Language Modeling (UMLM): This objective is similar to MLM but uses a different masking strategy.\n\nThe performance of these objectives varied, but Masked Language Modeling (MLM) performed best.",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.15",
+      "gpt3, p.34",
+      "t5, p.22"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6701865196228027,
+      "length_ratio": 0.797752808988764,
+      "keyword_overlap": 0.25
+    },
+    "manual_scores": {
+      "factuality": 1.0882611274719238,
+      "completeness": 0.7525647288715192,
+      "faithfulness": 1.3403730392456055,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 33,
+    "question": "What is the relationship between model size and performance in T5, and what sizes were explored?",
+    "ground_truth": "T5 demonstrates that scaling model size consistently improves performance across tasks. The paper explored models ranging from 60 million parameters (Small) to 11 billion parameters (XXL), with intermediate sizes at 220M (Base), 770M (Large), and 3B (XL). The 11 billion parameter T5-XXL achieved state-of-the-art results on many benchmarks. However, the gains from scaling show diminishing returns, and larger models require substantially more compute and memory resources during both training and inference.",
+    "model_answer": "In the T5 model, the relationship between model size and performance is not as straightforward as in other models like BERT or RoBERTa. This is because T5 is a text-to-text transformer model that uses a unique architecture and training procedure.\n\nIn the original T5 paper, the authors explored a range of model sizes, from 110M to 1.5B parameters, and found that larger models did not necessarily lead to better performance on the GLUE benchmark. In fact, the 110M model outperformed the 1.5B model on some tasks.\n\nThe authors attributed this to the fact that the T5 model is optimized for a specific task (text-to-text) and has a different architecture than other models, which are often optimized for a specific task (e.g. question-answering or sentiment analysis). The T5 model's performance is more closely tied to the quality of the training data and the optimization procedure, rather than the model size.\n\nIn",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.8",
+      "scaling_laws, p.3",
+      "bert, p.8"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7038332223892212,
+      "length_ratio": 0.47333333333333333,
+      "keyword_overlap": 0.24561403508771928
+    },
+    "manual_scores": {
+      "factuality": 1.132734932397541,
+      "completeness": 0.595111111111111,
+      "faithfulness": 1.4076664447784424,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 34,
+    "question": "How does T5's performance on SuperGLUE compare to BERT and other contemporary models?",
+    "ground_truth": "T5-11B achieves state-of-the-art performance on SuperGLUE with a score of 89.3, significantly outperforming BERT-large (69.0) and RoBERTa-large (84.6). Even the smaller T5-Base model (220M parameters) achieves 75.1, which is competitive with much larger models. The text-to-text framework combined with the C4 dataset and span corruption pre-training objective enables T5 to excel across diverse language understanding tasks. T5's approach demonstrates that a unified framework can match or exceed task-specific architectures.",
+    "model_answer": "T5 (Text-to-Text Transfer Transformer) is a model that has shown impressive performance on various natural language processing (NLP) tasks, including those included in the SuperGLUE benchmark. SuperGLUE is a set of 9 NLP tasks that evaluate the performance of language models on various aspects of language understanding, such as question-answering, sentiment analysis, and more.\n\nComparing T5's performance to BERT (Bidirectional Encoder Representations from Transformers) and other contemporary models is a bit complex, as it depends on the specific task and evaluation metric. However, here are some general observations:\n\n1. **T5's performance on SuperGLUE tasks:** T5 has achieved state-of-the-art results on several SuperGLUE tasks, including GLUE (General Language Understanding Evaluation) and SuperGLUE. It outperforms BERT and other models on tasks like STS-B (Semantic Textual Similarity) and MR (Multiple Choice Reading Comprehension).",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.19",
+      "t5, p.37",
+      "gpt3, p.20"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7885145545005798,
+      "length_ratio": 0.5307692307692308,
+      "keyword_overlap": 0.21052631578947367
+    },
+    "manual_scores": {
+      "factuality": 1.2302361657744958,
+      "completeness": 0.5561973875181422,
+      "faithfulness": 1.5770291090011597,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 35,
+    "question": "What is the main idea behind LoRA and how does it reduce trainable parameters?",
+    "ground_truth": "LoRA freezes the pre-trained model weights and injects trainable low-rank decomposition matrices into each layer of the Transformer architecture. Instead of fine-tuning all parameters, LoRA represents weight updates as the product of two smaller matrices (A and B) with rank r, where r is much smaller than the original weight dimensions. For a weight matrix W of dimension d×k, LoRA adds trainable matrices BA where B is d×r and A is r×k. This reduces trainable parameters by orders of magnitude while maintaining comparable or better performance.",
+    "model_answer": "The main idea behind Low-Rank Approximation (LoRA) is to reduce the number of learnable parameters in a neural network by approximating the full matrix multiplication of the network's weights with a lower-rank approximation.\n\nIn traditional matrix multiplication, the number of parameters in a neural network grows quadratically with the number of input features. However, this can lead to large numbers of parameters, making the model computationally expensive and difficult to train.\n\nLoRA addresses this issue by approximating the full matrix multiplication using a lower-rank approximation, typically achieved through the use of a low-rank matrix factorization technique, such as Singular Value Decomposition (SVD). The idea is to factorize the weight matrix into three matrices: U, Σ, and V, where U and V are low-rank matrices, and Σ is a diagonal matrix containing the singular values.\n\nThe LoRA method works by selecting a subset of the columns of U and V, and using them to approximate the full matrix",
+    "is_rag": true,
+    "sources": [
+      "lora, p.4",
+      "lora, p.1",
+      "lora, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6910171508789062,
+      "length_ratio": 0.5477707006369427,
+      "keyword_overlap": 0.2786885245901639
+    },
+    "manual_scores": {
+      "factuality": 1.1346371259845671,
+      "completeness": 0.634116965836711,
+      "faithfulness": 1.3820343017578125,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 36,
+    "question": "Which weight matrices in the Transformer architecture does LoRA typically modify?",
+    "ground_truth": "LoRA typically adapts the attention weights in the self-attention mechanism, specifically the query and value projection matrices (Wq and Wv). The paper found that adapting these attention weights achieves the best performance-parameter tradeoff. While LoRA can be applied to all weight matrices including the key projections, output projections, and feed-forward layers, adapting only Wq and Wv provides most of the benefit while minimizing the number of trainable parameters.",
+    "model_answer": "In the Transformer architecture, LoRA (Low-Rank Approximation of Transformer Layers) typically modifies the weight matrices of the self-attention layers.",
+    "is_rag": true,
+    "sources": [
+      "lora, p.5",
+      "lora, p.10",
+      "lora, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7094250917434692,
+      "length_ratio": 0.27941176470588236,
+      "keyword_overlap": 0.125
+    },
+    "manual_scores": {
+      "factuality": 1.0681951284408568,
+      "completeness": 0.32320261437908493,
+      "faithfulness": 1.4188501834869385,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 37,
+    "question": "What rank values does LoRA use and how does rank choice affect performance?",
+    "ground_truth": "LoRA experiments with rank values ranging from 1 to 64, with r=4 or r=8 being common choices that provide good performance. The paper finds that even very small ranks (r=1 or r=2) can capture sufficient information for adaptation, with only marginal improvements from larger ranks. A rank of 4 typically provides a good balance between parameter efficiency and task performance. The insensitivity to rank choice suggests that the adaptation happens in a very low-dimensional subspace.",
+    "model_answer": "LoRA (Low-Rank Approximation) is a technique used in Natural Language Processing (NLP) to reduce the dimensionality of large language models, such as BERT and RoBERTa, while maintaining their performance. LoRA uses a low-rank approximation of the model's weights, where the rank of the approximation is a hyperparameter that controls the trade-off between model capacity and computational efficiency.\n\nThe rank value of LoRA can be chosen from a range of values, typically between 1 and the number of input features (e.g., 768 for BERT). The choice of rank affects the performance of the model in several ways:\n\n1. **Model capacity**: A higher rank value allows the model to capture more complex patterns in the data, but at the cost of increased computational complexity and memory usage. A lower rank value reduces the model's capacity, but may lead to overfitting.\n2. **Computational efficiency**: A lower rank value reduces the computational cost of the model",
+    "is_rag": true,
+    "sources": [
+      "lora, p.10",
+      "lora, p.10",
+      "lora, p.9"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6422867178916931,
+      "length_ratio": 0.4934210526315789,
+      "keyword_overlap": 0.26785714285714285
+    },
+    "manual_scores": {
+      "factuality": 1.0599156907626561,
+      "completeness": 0.5980134158926729,
+      "faithfulness": 1.2845734357833862,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 38,
+    "question": "How does LoRA handle inference compared to full fine-tuning?",
+    "ground_truth": "During inference, LoRA adds no extra latency because the low-rank matrices BA can be merged directly into the frozen weights W, computing W' = W + BA. This means the final model has the same architecture and computational cost as the base model. In contrast, other adapter methods like adding bottleneck layers introduce additional inference latency. LoRA also allows quick task switching by simply swapping the low-rank matrices while keeping the base model frozen, enabling efficient multi-task deployment.",
+    "model_answer": "LoRA (Low-Rank Approximation of Transformer Layers) is a method used to reduce the computational cost of transformer-based models by approximating the full Transformer layers with a lower-rank approximation. When it comes to inference, LoRA handles it differently compared to full fine-tuning.\n\nIn full fine-tuning, the entire model is trained on the target task, which can be computationally expensive and time-consuming. In contrast, LoRA performs inference by using a pre-trained, low-rank approximation of the Transformer layers, which is obtained by selecting a subset of the original weights and freezing the rest. This approach reduces the computational cost of inference, making it faster and more efficient.\n\nDuring inference, LoRA uses the pre-trained weights to make predictions, without retraining the model on the target task. This approach is particularly useful for large-scale applications where speed and efficiency are crucial, such as in real-time applications, edge devices, or distributed inference.\n\nIn summary, LoRA handles inference by using",
+    "is_rag": true,
+    "sources": [
+      "lora, p.4",
+      "lora, p.2",
+      "lora, p.12"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6808238625526428,
+      "length_ratio": 0.5098039215686274,
+      "keyword_overlap": 0.26153846153846155
+    },
+    "manual_scores": {
+      "factuality": 1.1100764844967768,
+      "completeness": 0.6220113851992409,
+      "faithfulness": 1.3616477251052856,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 39,
+    "question": "How does LoRA's performance compare to full fine-tuning on GPT-3 175B?",
+    "ground_truth": "LoRA matches or exceeds the performance of full fine-tuning on GPT-3 175B while training only 0.01% of the parameters. On the WikiSQL benchmark, LoRA achieves slightly better performance than fine-tuning all parameters. On MultiNLI, LoRA achieves comparable accuracy to full fine-tuning. The key advantage is that LoRA reduces trainable parameters by 10,000× and GPU memory requirements by 3×, making it practical to adapt very large models on consumer hardware while maintaining or improving task performance.",
+    "model_answer": "I can provide a general overview of the comparison between LoRA (Layer-wise Adaptive Pruning of Transformers) and full fine-tuning on GPT-3 175B.\n\nLoRA is a method that adapts the weights of a pre-trained transformer model, such as GPT-3 175B, by pruning and re-weighting the layers. This approach can significantly reduce the computational cost and memory requirements of the model while maintaining its performance.\n\nComparing LoRA to full fine-tuning on GPT-3 175B is a bit complex, as it depends on the specific task, dataset, and evaluation metrics used. However, here are some general observations:\n\n1. **Computational cost**: LoRA typically requires less computational resources and memory compared to full fine-tuning, as it only adapts the weights of the pre-trained model, rather than re-training the entire model from scratch.\n2. **Performance**: LoRA can achieve similar or even better performance than full fine-tuning",
+    "is_rag": true,
+    "sources": [
+      "lora, p.5",
+      "lora, p.1",
+      "lora, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.776013970375061,
+      "length_ratio": 0.539568345323741,
+      "keyword_overlap": 0.39622641509433965
+    },
+    "manual_scores": {
+      "factuality": 1.324155407581689,
+      "completeness": 0.7904076738609112,
+      "faithfulness": 1.552027940750122,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 40,
+    "question": "What initialization strategy does LoRA use for its low-rank matrices?",
+    "ground_truth": "LoRA initializes matrix A using a random Gaussian initialization and initializes matrix B to zero. This ensures that at the beginning of training, the product BA equals zero, so the model starts with the exact same behavior as the pre-trained model. During training, the learning is scaled by α/r where α is a constant and r is the rank. This initialization strategy is crucial for stable training and allows LoRA to start from the pre-trained weights without any initial degradation in performance.",
+    "model_answer": "I'm not aware of the specific details of LoRA's initialization strategy for its low-rank matrices. Can you provide more context or information about LoRA? I'll do my best to help.",
+    "is_rag": true,
+    "sources": [
+      "lora, p.2",
+      "lora, p.10",
+      "lora, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7884813547134399,
+      "length_ratio": 0.36585365853658536,
+      "keyword_overlap": 0.09090909090909091
+    },
+    "manual_scores": {
+      "factuality": 1.1584193511442702,
+      "completeness": 0.2790866632070576,
+      "faithfulness": 1.5769627094268799,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 41,
+    "question": "What is chain-of-thought prompting and how does it differ from standard prompting?",
+    "ground_truth": "Chain-of-thought prompting is a technique where the model is provided with examples that include intermediate reasoning steps before arriving at the final answer, rather than just input-output pairs. For example, instead of just showing 'Q: [math problem] A: [answer]', chain-of-thought prompting shows 'Q: [problem] A: [step 1], [step 2], [step 3], therefore [answer]'. This encourages the model to generate similar step-by-step reasoning for new problems, significantly improving performance on complex reasoning tasks that require multiple steps of logical inference.",
+    "model_answer": "Chain-of-thought prompting is a type of natural language processing (NLP) technique that involves providing a sequence of questions or prompts to a language model, allowing it to generate a step-by-step explanation or reasoning process. This approach differs from standard prompting, which typically involves providing a single question or prompt and expecting the model to provide a direct answer.\n\nIn standard prompting, the model is often asked to respond to a single query, such as \"What is the capital of France?\" The model would then provide a direct answer, \"Paris.\" In contrast, chain-of-thought prompting requires the model to engage in a more iterative process, where it is asked a series of questions, such as:\n\n1. What is the definition of a capital?\n2. What is the purpose of a capital?\n3. What is the geographical location of a capital?\n4. What is the name of the capital of France?\n\nThe model would then provide a step-by-step explanation, using the answers to each question to",
+    "is_rag": true,
+    "sources": [
+      "chain_of_thought, p.22",
+      "chain_of_thought, p.3",
+      "chain_of_thought, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7096781134605408,
+      "length_ratio": 0.48466257668711654,
+      "keyword_overlap": 0.22807017543859648
+    },
+    "manual_scores": {
+      "factuality": 1.130391464107915,
+      "completeness": 0.5378563695416817,
+      "faithfulness": 1.4193562269210815,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 42,
+    "question": "On which types of tasks does chain-of-thought prompting show the most significant improvements?",
+    "ground_truth": "Chain-of-thought prompting shows the most dramatic improvements on tasks requiring multi-step reasoning, particularly arithmetic word problems, commonsense reasoning, and symbolic manipulation. On the GSM8K math word problem benchmark, chain-of-thought prompting with PaLM 540B achieves 58% solve rate compared to only 18% with standard prompting. The technique is particularly effective for problems where the reasoning process can be decomposed into clear intermediate steps, while showing minimal or no benefit on simple tasks that don't require complex reasoning.",
+    "model_answer": "Chain-of-thought prompting has shown significant improvements on tasks that require generating coherent and detailed text, such as:\n\n1. **Long-form text generation**: Chain-of-thought prompting has been shown to improve the coherence and fluency of generated text, particularly in longer pieces of writing, such as essays, articles, and stories.\n2. **Creative writing**: Chain-of-thought prompting has been used to generate creative writing, such as poetry, short stories, and dialogue.\n3. **Conversational AI**: Chain-of-thought prompting has been used to improve the conversational AI models' ability to engage in more natural and coherent conversations.\n4. **Question-answering**: Chain-of-thought prompting has been used to improve the ability of language models to answer complex questions that require a sequence of reasoning steps.\n5. **Text summarization**: Chain-of-thought prompting has been used to improve the ability of language models to summarize long pieces of text into shorter, more coherent summaries.\n\nThese",
+    "is_rag": true,
+    "sources": [
+      "chain_of_thought, p.16",
+      "chain_of_thought, p.3",
+      "chain_of_thought, p.1"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6168196201324463,
+      "length_ratio": 0.5390070921985816,
+      "keyword_overlap": 0.19672131147540983
+    },
+    "manual_scores": {
+      "factuality": 0.9815802550706706,
+      "completeness": 0.5690182904068681,
+      "faithfulness": 1.2336392402648926,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 43,
+    "question": "How does model scale affect the effectiveness of chain-of-thought prompting?",
+    "ground_truth": "Chain-of-thought prompting is an emergent ability that only becomes effective with sufficiently large language models, typically those with around 100 billion parameters or more. Smaller models show little to no benefit from chain-of-thought prompting and sometimes perform worse with it compared to standard prompting. However, once models reach a critical scale threshold, chain-of-thought prompting produces substantial improvements. This suggests that the capacity for complex multi-step reasoning emerges with model scale and can be unlocked through appropriate prompting strategies.",
+    "model_answer": "Model scale can significantly impact the effectiveness of chain-of-thought prompting in Natural Language Processing (NLP). Here's a breakdown of how model scale can affect chain-of-thought prompting:\n\n**What is chain-of-thought prompting?**\nChain-of-thought prompting is a type of task that requires a model to generate a sequence of responses that reflect a thought process, such as a series of steps to solve a problem or a narrative to tell a story. This type of prompting is designed to test a model's ability to generate coherent and logical responses.\n\n**How model scale affects chain-of-thought prompting:**\n\n1. **Computational resources:** Larger models require more computational resources to process and generate responses. This can lead to slower response times and increased memory usage, which may not be suitable for real-time applications or applications with strict latency requirements.\n2. **Training data and complexity:** Larger models are typically trained on more data, which can lead to better performance on tasks that require complex reasoning and understanding",
+    "is_rag": true,
+    "sources": [
+      "chain_of_thought, p.16",
+      "chain_of_thought, p.9",
+      "chain_of_thought, p.22"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6854205131530762,
+      "length_ratio": 0.4936708860759494,
+      "keyword_overlap": 0.3114754098360656
+    },
+    "manual_scores": {
+      "factuality": 1.146473964315946,
+      "completeness": 0.652566168009206,
+      "faithfulness": 1.3708410263061523,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 44,
+    "question": "How does chain-of-thought prompting compare to fine-tuning on reasoning tasks?",
+    "ground_truth": "Chain-of-thought prompting with large models can match or exceed the performance of task-specific fine-tuned models on reasoning benchmarks, despite using only a few examples in the prompt. For instance, chain-of-thought prompting with PaLM 540B surpasses the previous state-of-the-art fine-tuned model on GSM8K (58% vs 55%). The key advantage is that chain-of-thought prompting requires no training data or gradient updates, making it immediately applicable to new tasks. However, it requires very large models to be effective, while fine-tuning can work with smaller models.",
+    "model_answer": "Chain-of-thought prompting (COT) and fine-tuning on reasoning tasks are two different approaches to improving language models' ability to understand and generate human-like text. Here's a comparison between the two:\n\n**Chain-of-thought prompting:**\n\nChain-of-thought prompting involves providing a sequence of questions or prompts that guide the language model to generate a coherent and logical response. The goal is to elicit a step-by-step thought process from the model, mimicking how humans think and reason. This approach focuses on understanding the model's internal workings and identifying areas where it struggles with complex reasoning tasks.\n\n**Fine-tuning on reasoning tasks:**\n\nFine-tuning on reasoning tasks involves training a language model on a specific set of tasks that require reasoning, such as syllogisms, logical puzzles, or argumentation. This approach focuses on improving the model's ability to perform specific reasoning tasks, often using a combination of labeled data and reinforcement learning.\n\n**Comparison:**\n\n1. **Focus:**",
+    "is_rag": true,
+    "sources": [
+      "chain_of_thought, p.1",
+      "chain_of_thought, p.9",
+      "chain_of_thought, p.24"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7168792486190796,
+      "length_ratio": 0.5655172413793104,
+      "keyword_overlap": 0.25862068965517243
+    },
+    "manual_scores": {
+      "factuality": 1.1588033618598148,
+      "completeness": 0.6085411140583554,
+      "faithfulness": 1.4337584972381592,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 45,
+    "question": "What is self-consistency decoding and how does it improve chain-of-thought reasoning?",
+    "ground_truth": "Self-consistency decoding is a technique that samples multiple reasoning paths from the model using chain-of-thought prompting, then selects the most consistent answer through majority voting. Instead of greedily decoding a single reasoning chain, the method generates diverse reasoning paths and aggregates them. This approach significantly improves performance, boosting accuracy on GSM8K from 58% to 74% for PaLM 540B. Self-consistency leverages the intuition that complex reasoning problems can be solved through multiple valid approaches, and the correct answer is more likely to appear consistently across different reasoning chains.",
+    "model_answer": "Self-consistency decoding (SCD) is a computational approach used in natural language processing (NLP) and cognitive science to improve chain-of-thought reasoning. It is a method for decoding the internal mental representations of human thought processes, particularly in the context of language comprehension and generation.\n\nIn traditional NLP, chain-of-thought reasoning refers to the process of generating a coherent narrative or explanation by linking together a series of related ideas, concepts, or events. However, this process can be challenging, especially when dealing with complex or abstract topics.\n\nSelf-consistency decoding is a technique that aims to improve chain-of-thought reasoning by identifying and resolving potential inconsistencies within the generated narrative. The approach involves analyzing the relationships between different elements of the thought process, such as concepts, entities, and events, and identifying potential contradictions or inconsistencies.\n\nThe SCD algorithm works by:\n\n1. Representing the thought process as a graph, where nodes represent concepts and edges represent relationships between them.\n2. Identifying potential",
+    "is_rag": true,
+    "sources": [
+      "llama, p.16",
+      "chain_of_thought, p.16",
+      "chain_of_thought, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6097564101219177,
+      "length_ratio": 0.5576923076923077,
+      "keyword_overlap": 0.2857142857142857
+    },
+    "manual_scores": {
+      "factuality": 1.0250875455992563,
+      "completeness": 0.6484084880636605,
+      "faithfulness": 1.2195128202438354,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 46,
+    "question": "What is Constitutional AI and what problem does it aim to solve?",
+    "ground_truth": "Constitutional AI (CAI) is a method for training AI systems to be harmless and helpful using AI-generated feedback rather than human feedback. It aims to solve the problem that training models to be harmless using human feedback (RLHF) can be expensive, time-consuming, and may not scale well. CAI uses a constitution—a set of principles expressed in natural language—to guide the model's behavior. The approach allows for more transparent, controllable, and scalable alignment of AI systems without extensive human labeling of harmful outputs.",
+    "model_answer": "Constitutional AI refers to a subfield of Artificial Intelligence (AI) that focuses on developing AI systems that are transparent, explainable, and accountable. The primary goal of Constitutional AI is to ensure that AI systems are fair, unbiased, and respectful of human rights and societal values.\n\nConstitutional AI aims to address several problems, including:\n\n1. **Explainability**: Providing insights into how AI systems make decisions, so that users can understand the reasoning behind the output.\n2. **Transparency**: Ensuring that AI systems are transparent about their data sources, algorithms, and decision-making processes.\n3. **Accountability**: Holding AI systems accountable for their actions and decisions, and ensuring that they are fair and unbiased.\n4. **Fairness**: Developing AI systems that are free from bias and discrimination, and that treat all individuals equally.\n\nBy addressing these challenges, Constitutional AI seeks to build trust in AI systems and ensure that they are aligned with human values and societal norms. This involves developing",
+    "is_rag": true,
+    "sources": [
+      "constitutional_ai, p.2",
+      "chain_of_thought, p.6",
+      "chain_of_thought, p.29"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7261173725128174,
+      "length_ratio": 0.5324675324675324,
+      "keyword_overlap": 0.21052631578947367
+    },
+    "manual_scores": {
+      "factuality": 1.1428801109916285,
+      "completeness": 0.5348651348651348,
+      "faithfulness": 1.4522347450256348,
+      "safety": 1.8
+    }
+  },
+  {
+    "question_id": 47,
+    "question": "What are the two main stages of the Constitutional AI training process?",
+    "ground_truth": "Constitutional AI training consists of two main stages: supervised learning and reinforcement learning. In the supervised stage, the model generates responses to harmful prompts, critiques its own responses using constitutional principles, and revises them to be more harmless, creating a supervised fine-tuning dataset. In the reinforcement learning stage (RLAIF), the model evaluates pairs of responses using the constitution to determine which is better, and these AI-generated preference labels are used to train a preference model. This preference model then guides reinforcement learning to produce a constitutionally-aligned final model.",
+    "model_answer": "The two main stages of the Constitutional AI training process are:\n\n1. **Data Collection**: In this stage, a large corpus of text data is gathered from various sources, such as books, articles, and online content. This data is then preprocessed to remove noise, punctuation, and other irrelevant information.\n\n2. **Model Training**: In this stage, the preprocessed data is used to train a machine learning model, typically a neural network, to learn the patterns and relationships within the data. The model is trained on the data using an optimization algorithm, such as stochastic gradient descent, to minimize the difference between the predicted output and the actual output.",
+    "is_rag": true,
+    "sources": [
+      "constitutional_ai, p.5",
+      "constitutional_ai, p.2",
+      "constitutional_ai, p.16"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7422870397567749,
+      "length_ratio": 0.8301886792452831,
+      "keyword_overlap": 0.2962962962962963
+    },
+    "manual_scores": {
+      "factuality": 1.2169796334372627,
+      "completeness": 0.854975952645209,
+      "faithfulness": 1.4845740795135498,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 48,
+    "question": "What is RLAIF and how does it differ from RLHF?",
+    "ground_truth": "RLAIF (Reinforcement Learning from AI Feedback) uses AI-generated preference labels to train models, whereas RLHF (Reinforcement Learning from Human Feedback) uses human preference labels. In RLAIF, an AI model evaluates response pairs according to constitutional principles and generates preference comparisons, which are then used to train a preference model for reinforcement learning. RLAIF can be more scalable and less expensive than RLHF since it doesn't require extensive human annotation. The paper demonstrates that RLAIF can achieve comparable or better harmlessness than RLHF while being more transparent about the values encoded in the system.",
+    "model_answer": "RLAF stands for \"Reinforcement Learning from Human Feedback\" and RLHF stands for \"Reinforcement Learning from Human Feedback\" is not correct. The correct term is \"Reinforcement Learning from Human Feedback\" is not correct, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term, the correct term is \"Reinforcement Learning from Human Feedback\" is not the correct term,",
+    "is_rag": true,
+    "sources": [
+      "constitutional_ai, p.14",
+      "instructgpt, p.42",
+      "constitutional_ai, p.11"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.4760845899581909,
+      "length_ratio": 0.6458333333333334,
+      "keyword_overlap": 0.0967741935483871
+    },
+    "manual_scores": {
+      "factuality": 0.7245829420704996,
+      "completeness": 0.5081896551724138,
+      "faithfulness": 0.9521691799163818,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 49,
+    "question": "How does Constitutional AI affect the helpfulness-harmlessness tradeoff compared to standard RLHF?",
+    "ground_truth": "Constitutional AI largely eliminates the helpfulness-harmlessness tradeoff that typically exists in RLHF-trained models. Standard RLHF models trained for harmlessness often become evasive and less helpful, refusing to engage with many queries. In contrast, CAI models achieve significantly improved harmlessness while maintaining or even slightly improving helpfulness. The self-critique and revision process allows the model to learn to handle sensitive topics thoughtfully rather than simply avoiding them, resulting in models that are both safer and more useful.",
+    "model_answer": "Constitutional AI, which stands for Constitution-based AI, is a relatively new approach to large language models (LLMs) that aims to balance the helpfulness and harmlessness of AI outputs. Compared to standard Reinforcement Learning from Human Feedback (RLHF), Constitutional AI takes a more explicit and transparent approach to ensuring that AI models are aligned with human values and ethics.\n\nIn standard RLHF, human evaluators provide feedback to the model through a reinforcement learning process, where the model is rewarded or penalized for producing outputs that are deemed helpful or harmful. However, this approach can be subjective and biased, as human evaluators may have different opinions on what constitutes helpful or harmful content.\n\nConstitutional AI, on the other hand, uses a constitution or a set of principles to guide the AI model's behavior. This constitution is typically developed by a diverse group of stakeholders, including experts in ethics, law, and AI, and is designed to ensure that the model produces outputs that are respectful, informative",
+    "is_rag": true,
+    "sources": [
+      "constitutional_ai, p.3",
+      "constitutional_ai, p.4",
+      "constitutional_ai, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6839012503623962,
+      "length_ratio": 0.4662576687116564,
+      "keyword_overlap": 0.22950819672131148
+    },
+    "manual_scores": {
+      "factuality": 1.0951666685401416,
+      "completeness": 0.5253686363147131,
+      "faithfulness": 1.3678025007247925,
+      "safety": 1.6
+    }
+  },
+  {
+    "question_id": 50,
+    "question": "What evaluation methods and metrics does the paper use to assess Constitutional AI models?",
+    "ground_truth": "The paper evaluates Constitutional AI models using both automated and human evaluations across multiple dimensions. For harmlessness, they use human preference comparisons where crowdworkers choose between model responses to potentially harmful prompts. For helpfulness, they evaluate on standard assistant tasks and measure response quality. They also conduct red-teaming exercises where humans attempt to elicit harmful responses from the models. Additionally, the paper analyzes the models' behavior on specific categories of potential harms and measures the rate of harmful responses. The evaluation demonstrates that CAI models achieve better harmlessness scores than RLHF baselines while maintaining comparable helpfulness.",
+    "model_answer": "I don't have information about a specific paper on Constitutional AI models. However, I can provide some general evaluation methods and metrics commonly used to assess NLP models, including Constitutional AI models.\n\nEvaluation methods and metrics for NLP models, including Constitutional AI models, often include:\n\n1. **Perplexity**: Measures the model's ability to predict the next word in a sequence.\n2. **Accuracy**: Measures the proportion of correctly classified instances.\n3. **F1-score**: Measures the harmonic mean of precision and recall.\n4. **ROUGE (Recall-Oriented Understudy for Gisting Evaluation)**: Measures the overlap between predicted and actual summaries.\n5. **BLEU (Bilingual Evaluation Understudy)**: Measures the similarity between predicted and actual translations.\n6. **BLEU score**: Measures the similarity between predicted and actual translations.\n7. **Constitutional AI model-specific metrics**: Such as the \"Constitutional AI model's ability to detect and classify constitutional violations,",
+    "is_rag": true,
+    "sources": [
+      "constitutional_ai, p.5",
+      "constitutional_ai, p.14",
+      "constitutional_ai, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.505914568901062,
+      "length_ratio": 0.7111111111111111,
+      "keyword_overlap": 0.16216216216216217
+    },
+    "manual_scores": {
+      "factuality": 0.8055776937587841,
+      "completeness": 0.6066666666666667,
+      "faithfulness": 1.011829137802124,
+      "safety": 1.8
+    }
+  },
+  {
+    "question_id": 51,
+    "question": "What is the total number of parameters in the BLOOM model?",
+    "ground_truth": "BLOOM is a 176-billion parameter Transformer-based language model.",
+    "model_answer": "I'm not able to provide information on the BLOOM model without more context. There are several models with this name, and without knowing which specific model you are referring to, it's difficult to provide an accurate answer.\n\nHowever, I can tell you that the BERT (Bidirectional Encoder Representations from Transformers) model, which is a popular NLP model, has a large number of parameters. The BERT base model has approximately 110 million parameters, while the BERT large model has around 340 million parameters.\n\nIf you could provide more context or specify which BLOOM model you are referring to, I'll do my best to provide the correct information.",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.29",
+      "bloom, p.23",
+      "bloom, p.21"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7903855443000793,
+      "length_ratio": 0.07547169811320754,
+      "keyword_overlap": 0.16666666666666666
+    },
+    "manual_scores": {
+      "factuality": 1.206539762020111,
+      "completeness": 0.27861635220125786,
+      "faithfulness": 1.5807710886001587,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 52,
+    "question": "What ethical evaluation and bias assessment methods were applied to BLOOM?",
+    "ground_truth": "The BLOOM team conducted quantitative and qualitative bias assessments across gender, ethnicity, and language to reduce representational biases.",
+    "model_answer": "I couldn't find any information about a specific NLP research project or tool called \"BLOOM\" that has been widely discussed or published. However, I can provide some general information on ethical evaluation and bias assessment methods that are commonly applied to NLP research.\n\nIn NLP research, several methods are used to evaluate and assess bias in language models, including:\n\n1. **Fairness metrics**: These metrics, such as demographic parity, equalized odds, and equal opportunity, are used to measure the disparity in performance between different groups of people.\n2. **Bias detection tools**: Tools like Fairlearn, LIME, and SHAP are used to detect bias in language models by analyzing their predictions and identifying patterns that may indicate bias.\n3. **Human evaluation**: Human evaluators are used to assess the performance of language models on tasks like sentiment analysis, named entity recognition, and question answering, and to identify any biases or errors in the model's output.\n4. **Data auditing**: Aud",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.7",
+      "bloom, p.44",
+      "bloom, p.42"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5525357723236084,
+      "length_ratio": 0.11612903225806452,
+      "keyword_overlap": 0.25
+    },
+    "manual_scores": {
+      "factuality": 0.9235500812530517,
+      "completeness": 0.34967741935483865,
+      "faithfulness": 1.1050715446472168,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 53,
+    "question": "How many languages were included in BLOOM's training corpus?",
+    "ground_truth": "BLOOM was trained on 46 natural languages and 13 programming languages, covering 59 total languages.",
+    "model_answer": "I'm not aware of any information about a specific NLP research project called \"BLOOM\" that includes the number of languages in its training corpus. Could you provide more context or details about BLOOM?",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.41",
+      "bloom, p.32",
+      "bloom, p.40"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7078865766525269,
+      "length_ratio": 0.45454545454545453,
+      "keyword_overlap": 0.07692307692307693
+    },
+    "manual_scores": {
+      "factuality": 1.0371950534673837,
+      "completeness": 0.3804195804195804,
+      "faithfulness": 1.4157731533050537,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 54,
+    "question": "What does the acronym BLOOM stand for?",
+    "ground_truth": "BLOOM stands for BigScience Large Open-science Open-access Multilingual Language Model.",
+    "model_answer": "I don't have information on what BLOOM specifically stands for in the context of NLP research. Can you provide more context or details about BLOOM? I'll do my best to help.",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.39",
+      "bloom, p.31",
+      "bloom, p.34"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6695711612701416,
+      "length_ratio": 0.3225806451612903,
+      "keyword_overlap": 0.3
+    },
+    "manual_scores": {
+      "factuality": 1.1173996257781982,
+      "completeness": 0.5046594982078852,
+      "faithfulness": 1.3391423225402832,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 55,
+    "question": "What hardware setup was used for training BLOOM?",
+    "ground_truth": "BLOOM was trained on the Jean Zay supercomputer using 384 NVIDIA A100 GPUs with DeepSpeed's ZeRO stage-3 optimization.",
+    "model_answer": "I cannot verify the hardware setup used for training BLOOM.",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.21",
+      "bloom, p.23",
+      "bloom, p.15"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6271910667419434,
+      "length_ratio": 0.5555555555555556,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": 0.8780674934387206,
+      "completeness": 0.3333333333333333,
+      "faithfulness": 1.2543821334838867,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 56,
+    "question": "What is the name of the dataset BLOOM was trained on?",
+    "ground_truth": "BLOOM was trained on the ROOTS corpus, a 1.61 TB multilingual dataset built from 498 Hugging Face datasets.",
+    "model_answer": "I'm not aware of a specific NLP model called \"BLOOM\" that is widely known. However, I do know of a language model called \"BLOOM\" that was developed by Google, but I couldn't find any information on the specific dataset it was trained on.",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.34",
+      "bloom, p.28",
+      "bloom, p.9"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5621527433395386,
+      "length_ratio": 0.4186046511627907,
+      "keyword_overlap": 0.14285714285714285
+    },
+    "manual_scores": {
+      "factuality": 0.8727281263896397,
+      "completeness": 0.4511627906976744,
+      "faithfulness": 1.1243054866790771,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 57,
+    "question": "How does BLOOM differ from proprietary LLMs like GPT-3?",
+    "ground_truth": "Unlike GPT-3, BLOOM is an open-access, multilingual model developed collaboratively by an international research community focused on transparency and inclusivity.",
+    "model_answer": "BLOOM is an open-source language model developed by Google, whereas proprietary LLMs like GPT-3 are developed and owned by private companies like OpenAI. The main difference between BLOOM and proprietary LLMs like GPT-3 is that BLOOM is open-sourced, which means its code and architecture are publicly available for anyone to use, modify, and distribute. This openness allows researchers and developers to build upon and contribute to the model, potentially leading to faster progress in the field of NLP.\n\nIn contrast, proprietary LLMs like GPT-3 are owned by their respective companies and are not open-sourced. This means that the companies have control over the model's development, updates, and distribution, which can limit the ability of others to modify or use the model for their own purposes.\n\nAdditionally, BLOOM is designed to be more efficient and scalable than proprietary LLMs, making it a more viable option for large-scale NLP applications.",
+    "is_rag": true,
+    "sources": [
+      "bloom, p.40",
+      "bloom, p.34",
+      "llama, p.1"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6871394515037537,
+      "length_ratio": 0.13513513513513514,
+      "keyword_overlap": 0.3125
+    },
+    "manual_scores": {
+      "factuality": 1.149495232105255,
+      "completeness": 0.4544144144144144,
+      "faithfulness": 1.3742789030075073,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 58,
+    "question": "What is Flamingo, and what primary capability does it target?",
+    "ground_truth": "Flamingo is a Visual Language Model designed for few-shot multimodal learning. It combines a frozen large language model with visual encoders to process interleaved image-text data for visual reasoning tasks.",
+    "model_answer": "I don't have information on a specific NLP (Natural Language Processing) technology or tool called \"Flamingo\". However, I can provide information on a few possibilities:\n\n1. Flamingo is a library for sequence-to-sequence tasks, particularly for machine translation and text summarization. It's a popular open-source library developed by Hugging Face. If this is the Flamingo you're referring to, its primary capability is to handle sequence-to-sequence tasks, such as translating text from one language to another or summarizing long pieces of text into shorter summaries.\n\n2. Flamingo is also a conversational AI platform that uses NLP to power chatbots and other conversational interfaces. If this is the Flamingo you're referring to, its primary capability is to enable human-like conversations with users through NLP-powered chatbots.\n\nPlease provide more context or information about the Flamingo you're referring to, and I'll do my best to provide a more specific answer",
+    "is_rag": true,
+    "sources": [
+      "flamingo, p.3",
+      "flamingo, p.45",
+      "flamingo, p.44"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5791676044464111,
+      "length_ratio": 0.20689655172413793,
+      "keyword_overlap": 0.22727272727272727
+    },
+    "manual_scores": {
+      "factuality": 0.9471982825886119,
+      "completeness": 0.2796934865900383,
+      "faithfulness": 1.1583352088928223,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 59,
+    "question": "What are the two frozen pretrained components Flamingo bridges, and what is added between them?",
+    "ground_truth": "Flamingo connects a frozen vision encoder and a frozen large language model via trainable modules—Perceiver Resampler and gated cross-attention layers—that enable multimodal fusion without retraining the base models.",
+    "model_answer": "I'm not aware of any information about \"Flamingo bridges\" in NLP research. It's possible that it's a new or obscure topic, or it may be a mistake or misremembering of a different concept.\n\nHowever, I can suggest some popular pre-trained components in NLP research:\n\n1. BERT (Bidirectional Encoder Representations from Transformers)\n2. RoBERTa (Robustly Optimized BERT Pretraining Approach)\n\nIf you could provide more context or clarify what you mean by \"Flamingo bridges\", I'll do my best to help.",
+    "is_rag": true,
+    "sources": [
+      "flamingo, p.4",
+      "flamingo, p.35",
+      "flamingo, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.41312915086746216,
+      "length_ratio": 0.358974358974359,
+      "keyword_overlap": 0.043478260869565216
+    },
+    "manual_scores": {
+      "factuality": 0.604467767736186,
+      "completeness": 0.2762541806020067,
+      "faithfulness": 0.8262583017349243,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 60,
+    "question": "How does Flamingo handle sequences with multiple images or videos interleaved with text?",
+    "ground_truth": "Flamingo uses per-image/video attention masking, letting each text token attend only to the latest visual input while using language context to maintain prior dependencies.",
+    "model_answer": "I'm not familiar with a specific NLP model or library called \"Flamingo\". However, I can provide a general answer based on common NLP techniques used for handling sequences with multiple images or videos interleaved with text.\n\nIn NLP, when dealing with sequences that contain multiple images or videos interleaved with text, several approaches can be employed:\n\n1. **Temporal Convolutional Networks (TCNs)**: These networks are designed to process sequential data, including images and videos, and can learn to model the temporal relationships between them.\n2. **Recurrent Neural Networks (RNNs)**: RNNs, such as LSTMs (Long Short-Term Memory) or GRUs (Gated Recurrent Units), can also be used to model sequential data, including images and videos.\n3. **Video-Text Fusion**: This approach involves fusing the features of images and videos into a single representation, which can then be processed by a text model or a sequence model.",
+    "is_rag": true,
+    "sources": [
+      "flamingo, p.4",
+      "flamingo, p.6",
+      "flamingo, p.37"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5811971426010132,
+      "length_ratio": 0.16901408450704225,
+      "keyword_overlap": 0.09090909090909091
+    },
+    "manual_scores": {
+      "factuality": 0.868221454186873,
+      "completeness": 0.16807511737089198,
+      "faithfulness": 1.1623942852020264,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 61,
+    "question": "How does Flamingo differ from earlier multimodal models such as CLIP in its ability to handle interleaved image - text inputs?",
+    "ground_truth": "Unlike CLIP, which processes image–text pairs independently and is not designed for sequential interleaving, Flamingo introduces cross-attention layers inserted into a frozen language model that allow it to condition text generation on multiple images or videos placed anywhere within the input sequence. This enables Flamingo to handle complex interleaved multimodal prompts that CLIP cannot process.",
+    "model_answer": "Flamingo is a more recent multimodal model that differs from earlier models like CLIP in its ability to handle interleaved image-text inputs. \n\nWhile CLIP (Contrastive Language-Image Pre-training) was one of the first models to effectively leverage contrastive learning to jointly train on both images and text, it was primarily designed to process sequential inputs, where the image and text are presented one after the other.\n\nFlamingo, on the other hand, is designed to handle interleaved inputs, where the image and text are presented simultaneously. This allows Flamingo to better capture the relationships between the image and text, and to learn more nuanced representations of the input data.",
+    "is_rag": true,
+    "sources": [
+      "flamingo, p.6",
+      "flamingo, p.4",
+      "flamingo, p.10"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7997524738311768,
+      "length_ratio": 0.514018691588785,
+      "keyword_overlap": 0.3333333333333333
+    },
+    "manual_scores": {
+      "factuality": 1.3196534633636474,
+      "completeness": 0.6991088893718757,
+      "faithfulness": 1.5995049476623535,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 62,
+    "question": "Why is the Perceiver Resampler considered essential for Flamingo's multimodal reasoning capability?",
+    "ground_truth": "The Perceiver Resampler converts large, variable-sized visual feature maps into a fixed-size set of learned latent tokens. This compact representation allows the language model to efficiently attend to visual information without incurring the high computational cost of attending to raw vision features, enabling scalable multimodal reasoning.",
+    "model_answer": "I'm not familiar with the Perceiver Resampler or its relation to Flamingo's multimodal reasoning capability. Can you provide more context or information about Flamingo and the Perceiver Resampler? I'd be happy to try and help you find the answer.",
+    "is_rag": true,
+    "sources": [
+      "flamingo, p.4",
+      "flamingo, p.25",
+      "flamingo, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5004853010177612,
+      "length_ratio": 0.8478260869565217,
+      "keyword_overlap": 0.13157894736842105
+    },
+    "manual_scores": {
+      "factuality": 0.7796267898459184,
+      "completeness": 0.6686956521739129,
+      "faithfulness": 1.0009706020355225,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 63,
+    "question": "How do Flamingo's gated cross-attention layers help maintain the stability of the frozen language model during training?",
+    "ground_truth": "Flamingo's gated cross-attention layers begin with gate values initialized near zero, ensuring that the frozen language model behaves almost identically to its pretrained state at the start of training. As training progresses, the gates gradually open, allowing the model to incorporate visual information in a controlled manner, improving stability and preventing catastrophic interference.",
+    "model_answer": "Flamingo's gated cross-attention layers help maintain the stability of the frozen language model during training by allowing the model to adapt to changes in the input sequence while keeping the weights of the frozen layers frozen.\n\nIn a typical transformer-based language model, the weights of the encoder and decoder are typically frozen during training, which can lead to instability and slow convergence. Flamingo's gated cross-attention mechanism introduces a gating mechanism that allows the model to selectively update the weights of the frozen layers based on the input sequence.\n\nThe gated cross-attention mechanism works by computing a set of attention weights that are used to selectively update the weights of the frozen layers. These attention weights are computed based on the input sequence and the frozen layers, and are used to update the weights of the frozen layers in a way that is consistent with the input sequence.\n\nBy using this mechanism, Flamingo's gated cross-attention layers can help maintain the stability of the frozen language model during training by:\n\n1. Allowing",
+    "is_rag": true,
+    "sources": [
+      "flamingo, p.29",
+      "flamingo, p.4",
+      "flamingo, p.9"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8430707454681396,
+      "length_ratio": 0.31176470588235294,
+      "keyword_overlap": 0.3409090909090909
+    },
+    "manual_scores": {
+      "factuality": 1.38484449820085,
+      "completeness": 0.5819306184012066,
+      "faithfulness": 1.6861414909362793,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 64,
+    "question": "What is the fundamental misalignment problem that InstructGPT aims to address?",
+    "ground_truth": "The fundamental misalignment problem is that the language modeling objective used for training large language models (predicting the next token on a webpage from the internet) is different from the objective of 'follow the user's instructions helpfully and safely.' This causes models to express unintended behaviors such as making up facts, generating biased or toxic text, or simply not following user instructions.",
+    "model_answer": "I'm not sure what the fundamental misalignment problem that InstructGPT aims to address is. Can you provide more context or information about InstructGPT?",
+    "is_rag": true,
+    "sources": [
+      "instructgpt, p.5",
+      "bloom, p.35",
+      "instructgpt, p.16"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.4836563766002655,
+      "length_ratio": 0.3709677419354839,
+      "keyword_overlap": 0.14893617021276595
+    },
+    "manual_scores": {
+      "factuality": 0.7664806293680313,
+      "completeness": 0.3933123524783635,
+      "faithfulness": 0.767312753200531,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 65,
+    "question": "What is the difference between alignment criteria of 'helpful,' 'honest,' and 'harmless' as defined in the InstructGPT paper, and discuss why measuring these qualities presents challenges?",
+    "ground_truth": "The three alignment criteria are defined as follows: 'Helpful' means the model should follow instructions and infer user intention, even from few-shot prompts or ambiguous patterns. 'Honest' means the model shouldn't fabricate information or mislead the user - though the paper focuses on 'truthfulness' (whether statements about the world are true) since measuring a model's actual 'beliefs' in a black-box system is impossible. 'Harmless' means the model should not cause physical, psychological, or social harm. The challenges in measuring these include: (1) Honesty is difficult to assess directly because we cannot access the model's internal 'beliefs' to compare with its outputs; (2) Harmfulness depends heavily on context and real-world deployment rather than the output itself - for example, toxic outputs could be harmful in a chatbot but helpful for training toxicity detectors; (3) These criteria can conflict, such as when users explicitly request potentially harmful information, requiring difficult tradeoffs. The researchers used proxy metrics like hallucination rates, TruthfulQA scores for truthfulness, and toxicity/bias benchmarks for harmlessness, acknowledging these only capture partial aspects of the full concepts.",
+    "model_answer": "In the InstructGPT paper, the alignment criteria for 'helpful,' 'harmless,' and 'harmful' are defined as follows:\n\n1. **Helpful**: An action or behavior is considered helpful if it is likely to improve the user's well-being, satisfaction, or performance in a task. This includes actions that provide useful information, correct errors, or offer suggestions that lead to positive outcomes.\n\n2. **Harmless**: An action or behavior is considered harmless if it does not cause any negative impact on the user's well-being, satisfaction, or performance in a task. This includes actions that do not cause harm, discomfort, or distress.\n\n3. **Harmful**: An action or behavior is considered harmful if it is likely to cause negative impact on the user's well-being, satisfaction, or performance in a task. This includes actions that cause harm, discomfort, or distress.\n\nMeasuring these qualities presents challenges for several reasons:\n\n1. **Subjectivity",
+    "is_rag": true,
+    "sources": [
+      "instructgpt, p.20",
+      "constitutional_ai, p.23",
+      "constitutional_ai, p.13"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.667706310749054,
+      "length_ratio": 0.8011363636363636,
+      "keyword_overlap": 0.1328125
+    },
+    "manual_scores": {
+      "factuality": 1.0144763350486754,
+      "completeness": 0.6400314116777531,
+      "faithfulness": 1.335412621498108,
+      "safety": 1.8
+    }
+  },
+  {
+    "question_id": 66,
+    "question": "How did the 1.3B parameter InstructGPT model compare to the 175B parameter GPT-3 in human evaluations?",
+    "ground_truth": "Despite having over 100x fewer parameters, outputs from the 1.3B parameter InstructGPT model were preferred to outputs from the 175B GPT-3 model in human evaluations on the test set. The 175B InstructGPT model outputs were preferred to 175B GPT-3 outputs 85±3% of the time, and preferred 71±4% of the time compared to few-shot 175B GPT-3.",
+    "model_answer": "I'm not aware of any specific information about a 1.3B parameter InstructGPT model. However, I can provide some general information about the comparison between GPT-3 and other models.\n\nGPT-3 is a 175B parameter model developed by OpenAI, and it is one of the largest language models available. InstructGPT is a smaller model developed by Meta AI, with a 1.3B parameter size.\n\nIn human evaluations, GPT-3 has been shown to outperform InstructGPT in various tasks, such as conversational dialogue, text generation, and question-answering. However, the performance difference between the two models can vary depending on the specific task and evaluation metrics used.\n\nSome studies have reported that GPT-3 outperforms InstructGPT in tasks such as:\n\n* Conversational dialogue: GPT-3 has been shown to perform better in tasks that require longer and more complex conversations.\n* Text generation",
+    "is_rag": true,
+    "sources": [
+      "instructgpt, p.2",
+      "instructgpt, p.10",
+      "instructgpt, p.11"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7192617654800415,
+      "length_ratio": 0.4074074074074074,
+      "keyword_overlap": 0.3448275862068966
+    },
+    "manual_scores": {
+      "factuality": 1.213863023396196,
+      "completeness": 0.6592592592592592,
+      "faithfulness": 1.438523530960083,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 67,
+    "question": "What is the TruthfulQA benchmark and how did InstructGPT perform compared to GPT-3 on this measure?",
+    "ground_truth": "TruthfulQA is a benchmark that measures whether models generate truthful and informative answers, designed to test if models mimic human falsehoods. InstructGPT generates truthful and informative answers about twice as often as GPT-3 on this benchmark. The improvements held even on the subset of questions that were not adversarially selected against GPT-3.",
+    "model_answer": "I'm not able to provide information on the TruthfulQA benchmark or the performance of InstructGPT compared to GPT-3 on this measure.",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.7",
+      "instructgpt, p.3",
+      "instructgpt, p.11"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5620514750480652,
+      "length_ratio": 0.40384615384615385,
+      "keyword_overlap": 0.20512820512820512
+    },
+    "manual_scores": {
+      "factuality": 0.9099489881442143,
+      "completeness": 0.44819004524886874,
+      "faithfulness": 1.1241029500961304,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 68,
+    "question": "What is the reward model loss function used in InstructGPT, and why does this approach differ from standard pairwise comparison training?",
+    "ground_truth": "The loss function is: loss(θ) = -1/(K choose 2) * E[(log(o(r_θ(x,y_w) - r_θ(x,y_l))))] where r_θ is the reward model output, y_w is the preferred completion, and y_l is the less preferred completion. The key difference is that instead of training on individual pairwise comparisons separately (which would cause overfitting since comparisons from the same prompt are highly correlated), they train on all (K choose 2) comparisons from K ranked outputs as a single batch element. This is computationally efficient, requiring only K forward passes instead of (K choose 2), and prevents overfitting.",
+    "model_answer": "The reward model loss function used in InstructGPT is the Perplexity. This approach differs from standard pairwise comparison training in that it focuses on the overall perplexity of the generated text, rather than comparing the generated text to a fixed set of reference texts.\n\nIn standard pairwise comparison training, the model is trained to minimize the difference between the generated text and a reference text. This approach can be computationally expensive and may not capture the overall coherence and fluency of the generated text.\n\nIn contrast, the perplexity loss function measures the model's ability to generate coherent and fluent text by minimizing the overall perplexity of the generated text. Perplexity is a measure of how well the model can predict the next word in a sequence, given the context of the previous words. By minimizing perplexity, the model is encouraged to generate text that is coherent, fluent, and easy to understand.\n\nThe perplexity loss function is particularly useful for tasks such as text generation, where the goal is to generate",
+    "is_rag": true,
+    "sources": [
+      "instructgpt, p.8",
+      "instructgpt, p.9",
+      "instructgpt, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5100237727165222,
+      "length_ratio": 0.5411764705882353,
+      "keyword_overlap": 0.23076923076923078
+    },
+    "manual_scores": {
+      "factuality": 0.8524948202646696,
+      "completeness": 0.5771648987463838,
+      "faithfulness": 1.0200475454330444,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 69,
+    "question": "What is the 'alignment tax' and how did the researchers mitigate it in the PPO-ptx model?",
+    "ground_truth": "The alignment tax refers to performance regressions on public NLP datasets that occur during RLHF fine-tuning, where alignment procedures come at the cost of lower performance on certain tasks. The researchers mitigated this by creating the PPO-ptx model, which mixes pretraining gradients into the PPO updates. Specifically, they added pretraining examples (8x more than RL episodes) and combined PPO gradients with pretraining gradients, weighted by a coefficient γ=27.8. This greatly reduced performance regressions on datasets like SQuAD, DROP, and HellaSwag without compromising labeler preference scores.",
+    "model_answer": "I'm not aware of a specific research model called \"PPO-ptx\" or the concept of an \"alignment tax\" in NLP research. However, I can provide some general information about the alignment problem in NLP and potential methods to mitigate it.\n\nThe alignment problem in NLP refers to the challenge of aligning the predictions of a language model with the true meaning of the input text. This can be particularly problematic in tasks such as question-answering, sentiment analysis, and machine translation, where the model's output may not accurately reflect the intended meaning of the input.\n\nOne potential approach to mitigating the alignment problem is to use techniques such as:\n\n1. **Masked language modeling**: This involves training the model to predict missing words in a sentence, which can help the model learn to pay attention to the context and meaning of the input.\n2. **Attention mechanisms**: These allow the model to focus on specific parts of the input that are relevant to the task at hand,",
+    "is_rag": true,
+    "sources": [
+      "instructgpt, p.14",
+      "instructgpt, p.18",
+      "instructgpt, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7185342311859131,
+      "length_ratio": 0.5214723926380368,
+      "keyword_overlap": 0.1746031746031746
+    },
+    "manual_scores": {
+      "factuality": 1.110709828422183,
+      "completeness": 0.46025185663545365,
+      "faithfulness": 1.4370684623718262,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 70,
+    "question": "What were the characteristics of the labeler team used for InstructGPT, and what criteria were used for their selection?",
+    "ground_truth": "The labeler team consisted of about 40 contractors hired through Upwork and Scale AI. They were selected based on four criteria: (1) agreement on sensitive speech flagging (75% threshold), (2) agreement with researchers on ranking tasks, (3) demonstration writing quality (6/7 Likert score), and (4) self-assessed ability to identify sensitive speech across diverse topics and cultural groups. From the demographics survey of 19 respondents, 75% were under 35 years old, fairly balanced between male and female genders, and mostly from the US or Southeast Asia. The inter-labeler agreement rate was 72.6±1.5% for training labelers.",
+    "model_answer": "I'm not aware of any specific information about the labeler team used for InstructGPT. InstructGPT is a conversational AI model developed by Meta AI, and I couldn't find any publicly available information about the characteristics of the labeler team or the criteria used for their selection.\n\nHowever, I can tell you that the InstructGPT model was trained on a large dataset of human-annotated instructions, which were created by a team of human labelers. The labelers were likely selected based on their expertise in the domain of the instructions they were annotating, as well as their ability to provide accurate and consistent annotations.\n\nIn general, the characteristics of a labeler team for a conversational AI model like InstructGPT might include:\n\n* Domain expertise: Labelers with knowledge and experience in the specific domain or industry being represented in the instructions.\n* Linguistic expertise: Labelers with strong language skills, including grammar, syntax, and semantics.\n* Attention to detail",
+    "is_rag": true,
+    "sources": [
+      "instructgpt, p.36",
+      "instructgpt, p.8",
+      "instructgpt, p.7"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5760048627853394,
+      "length_ratio": 0.6064516129032258,
+      "keyword_overlap": 0.1891891891891892
+    },
+    "manual_scores": {
+      "factuality": 0.9199203214129885,
+      "completeness": 0.5638709677419355,
+      "faithfulness": 1.1520097255706787,
+      "safety": 1.8
+    }
+  },
+  {
+    "question_id": 71,
+    "question": "What are the parameter sizes of the LLaMA model family introduced in this paper?",
+    "ground_truth": "The LLaMA model family consists of four models ranging from 7B (7 billion), 13B (13 billion), 33B (33 billion), to 65B (65 billion) parameters. All models were trained on publicly available datasets exclusively.",
+    "model_answer": "I'm not able to provide information on a specific paper without knowing the title. The LLaMA model family was introduced in the paper \"LLaMA: Large Language Model for Masked Language Modeling\" by the Meta AI research organization. \n\nAccording to the paper, the LLaMA model family includes several variants with different parameter sizes:\n\n- LLaMA Small: 110 million parameters\n- LLaMA Base: 355 million parameters\n- LLaMA Large: 1.5 billion parameters\n- LLaMA Extra Large: 6.7 billion parameters",
+    "is_rag": true,
+    "sources": [
+      "llama, p.6",
+      "llama, p.10",
+      "llama, p.1"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7636021375656128,
+      "length_ratio": 0.42857142857142855,
+      "keyword_overlap": 0.14814814814814814
+    },
+    "manual_scores": {
+      "factuality": 1.1579318814807467,
+      "completeness": 0.4251428571428571,
+      "faithfulness": 1.5272042751312256,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 72,
+    "question": "What are the three main architectural modifications that LLaMA makes to the original transformer architecture?",
+    "ground_truth": "The three main modifications are: (1) Pre-normalization using RMSNorm, which normalizes the input of each transformer sub-layer instead of the output for improved training stability, (2) SwiGLU activation function replacing ReLU to improve performance, with dimension of 2/3*4d instead of 4d, and (3) Rotary Positional Embeddings (RoPE) at each layer instead of absolute positional embeddings.",
+    "model_answer": "The LLaMA (Large Language Model for Masked LLaMA) is a variant of the transformer architecture. The three main architectural modifications that LLaMA makes to the original transformer architecture are:\n\n1. **Masked Language Modeling**: LLaMA uses a masked language modeling approach, where some of the input tokens are randomly replaced with a special [MASK] token during training. This allows the model to predict the original token that was replaced, which helps to improve its ability to learn contextual relationships between words.\n\n2. **Multi-Head Attention**: LLaMA uses multiple attention heads, which allows the model to attend to different parts of the input sequence simultaneously and weigh their importance. This helps to improve the model's ability to capture long-range dependencies and contextual relationships.\n\n3. **Positional Encoding**: LLaMA uses a variant of positional encoding, which adds a learned positional encoding to the input sequence. This helps to preserve the order of the input sequence and allows the model to capture sequential",
+    "is_rag": true,
+    "sources": [
+      "lora, p.1",
+      "attention_is_all_you_need, p.9",
+      "t5, p.17"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.31084054708480835,
+      "length_ratio": 0.3503184713375796,
+      "keyword_overlap": 0.32558139534883723
+    },
+    "manual_scores": {
+      "factuality": 0.630525603128034,
+      "completeness": 0.5691654417769066,
+      "faithfulness": 0.6216810941696167,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 73,
+    "question": "Why did the LLaMA researchers choose to train smaller models on more tokens rather than following the Hoffmann et al. recommendations?",
+    "ground_truth": "While Hoffmann et al. recommended training a 10B model on 200B tokens for optimal training compute budget, the LLaMA team focused on inference budget instead. They found that smaller models trained longer achieve better performance at inference time and are ultimately cheaper to serve at scale. For example, they found that a 7B model's performance continues to improve even after 1T tokens, making it more cost-effective for deployment despite taking longer to train.",
+    "model_answer": "I couldn't find any information on the specific research by LLaMA that deviates from the recommendations by Hoffmann et al. However, I can provide some general information about the LLaMA model and its training process.\n\nLLaMA is a large language model developed by Meta AI, and its training process involves a combination of large-scale data processing and computational resources. The choice of training data and model size can be influenced by various factors, including computational resources, data availability, and research goals.\n\nThat being said, I couldn't find any information on why LLaMA researchers chose to train smaller models on more tokens rather than following the recommendations by Hoffmann et al. It's possible that the LLaMA team may have had specific research goals or constraints that led them to adopt a different approach.\n\nIf you could provide more context or information about the specific research paper or publication you're referring to, I may be able to provide a more accurate answer.",
+    "is_rag": true,
+    "sources": [
+      "llama, p.1",
+      "llama, p.8",
+      "bloom, p.22"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6557568311691284,
+      "length_ratio": 0.45625,
+      "keyword_overlap": 0.25925925925925924
+    },
+    "manual_scores": {
+      "factuality": 1.0736151191923353,
+      "completeness": 0.60975,
+      "faithfulness": 1.3115136623382568,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 74,
+    "question": "What are the efficient implementation strategies used to accelerate LLaMA training, and how do they work?",
+    "ground_truth": "LLaMA uses several optimization strategies: (1) an efficient causal multi-head attention implementation that reduces memory by not storing attention weights and not computing masked key/query scores, (2) checkpoint-based activation recomputation where expensive computations like linear layer outputs are saved while avoiding full recomputation during backward pass, and (3) model and sequence parallelism combined with overlapping computation and network communication (all_reduce operations) across GPUs to maximize efficiency.",
+    "model_answer": "LLaMA (Large Language Model for Masked Language Modeling Application) is a large language model developed by Meta AI, and accelerating its training is crucial for efficient deployment. Here are some efficient implementation strategies used to accelerate LLaMA training:\n\n1. **Data Parallelism**: Divide the data into smaller chunks and process them in parallel across multiple machines or GPUs. This allows for faster training times by utilizing multiple computing resources.\n2. **Model Parallelism**: Split the model into smaller sub-models and train them in parallel. This approach is particularly effective for large models like LLaMA.\n3. **Mixed Precision Training**: Train the model using mixed precision, which involves training the model with lower precision (e.g., 16-bit floating-point numbers) for most of the computation and switching to higher precision (e.g., 32-bit floating-point numbers) only during certain operations (e.g., weight updates). This reduces memory usage and increases training speed.\n4. **Knowledge Distillation**: Train",
+    "is_rag": true,
+    "sources": [
+      "gpt3, p.42",
+      "llama, p.1",
+      "t5, p.43"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6508679389953613,
+      "length_ratio": 0.4489795918367347,
+      "keyword_overlap": 0.27586206896551724
+    },
+    "manual_scores": {
+      "factuality": 1.0767323559728161,
+      "completeness": 0.6064247921390779,
+      "faithfulness": 1.3017358779907227,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 75,
+    "question": "How does LLaMA-13B compare to GPT-3 (175B) in terms of performance and size?",
+    "ground_truth": "LLaMA-13B outperforms GPT-3 (175B) on most benchmarks despite being more than 10x smaller. For instance, on common sense reasoning tasks, LLaMA-13B achieves comparable or better results, and on closed-book question answering benchmarks like NaturalQuestions and TriviaQA, it demonstrates competitive performance. The key advantage is that LLaMA-13B can run on a single V100 GPU during inference, making it much more accessible and cost-effective.",
+    "model_answer": "Llama-13B is an updated version of the Llama model, which is a large language model developed by Meta. Llama-13B is a larger and more advanced version of the original Llama model, with 13 billion parameters compared to GPT-3 (175B) which has 175 billion parameters. In terms of performance, Llama-13B has shown to be competitive with GPT-3 (175B) in various benchmarks and tasks, but it is not clear if it surpasses it.",
+    "is_rag": true,
+    "sources": [
+      "llama, p.5",
+      "llama, p.7",
+      "llama, p.11"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7530680298805237,
+      "length_ratio": 0.8732394366197183,
+      "keyword_overlap": 0.1875
+    },
+    "manual_scores": {
+      "factuality": 1.1667952418327332,
+      "completeness": 0.7728325508607199,
+      "faithfulness": 1.5061360597610474,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 76,
+    "question": "How does the performance of LLaMA-65B compare to Chinchilla-70B and PaLM-540B on mathematical reasoning tasks?",
+    "ground_truth": "On GSM8k, LLaMA-65B achieves 50.9% accuracy (69.7% with maj1@k), outperforming Minerva-62B despite not being fine-tuned on mathematical data. On MATH dataset, LLaMA-65B scores 10.6% (20.5% with maj1@k), which is lower than Minerva-62B's 27.6% but competitive given the lack of specialized training. Overall, LLaMA-65B demonstrates strong mathematical reasoning capabilities comparable to much larger models like PaLM-540B on certain benchmarks, particularly on GSM8k.",
+    "model_answer": "I can provide some general information about these models, but please note that the performance of these models on specific tasks like mathematical reasoning can vary depending on the particular task, dataset, and evaluation metrics used.\n\nLLaMA-65B, Chinchilla-70B, and PaLM-540B are all large language models developed by Meta AI. Here's a brief overview of each model:\n\n1. LLaMA-65B: This is a large language model developed by Meta AI, with 65 billion parameters. It's designed to generate human-like text and has been trained on a large corpus of text data.\n\n2. Chinchilla-70B: This is another large language model developed by Meta AI, with 70 billion parameters. It's also designed for text generation and has been trained on a large corpus of text data.\n\n3. PaLM-540B: This is a large language model developed by Meta AI, with 540 billion parameters. It's also designed for",
+    "is_rag": true,
+    "sources": [
+      "llama, p.7",
+      "llama, p.6",
+      "llama, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.4974280595779419,
+      "length_ratio": 0.4295774647887324,
+      "keyword_overlap": 0.22448979591836735
+    },
+    "manual_scores": {
+      "factuality": 0.8310931609601391,
+      "completeness": 0.5012247397428047,
+      "faithfulness": 0.9948561191558838,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 77,
+    "question": "What training methodology is used for LLaMA models, including the optimizer configuration and learning rate schedule?",
+    "ground_truth": "LLaMA models are trained using the AdamW optimizer with β1=0.9 and β2=0.95. They employ a cosine learning rate schedule where the final learning rate equals 10% of the maximum learning rate. The training uses weight decay of 0.1, gradient clipping of 1.0, and 2,000 warmup steps. The learning rate and batch size vary with model size (all models use 4M token batch size). For the 65B model, training on 1.4T tokens takes approximately 21 days on 2048 A100 GPUs with 80GB RAM, processing around 380 tokens/sec/GPU.",
+    "model_answer": "The LLaMA (Large Language Model for Masked Language Modeling Applications) models use a combination of training methodologies, including:\n\n1. **Masked Language Modeling (MLM)**: This is the primary objective of the LLaMA model, where some of the input tokens are randomly masked and the model predicts the original token.\n2. **Next Sentence Prediction (NSP)**: This objective is used to predict whether two adjacent sentences are adjacent in the original text.\n3. **Perplexity**: This is used to evaluate the model's performance on a given task.\n\nFor the optimizer configuration, LLaMA models typically use a variant of the AdamW optimizer, which is a variant of the Adam optimizer that includes weight decay and a more robust learning rate schedule.\n\nThe learning rate schedule used for LLaMA models is typically a cosine annealing schedule, which starts with a high learning rate and gradually decreases it over time. This schedule is often used to prevent overfitting and to allow the",
+    "is_rag": true,
+    "sources": [
+      "lora, p.20",
+      "instructgpt, p.42",
+      "instructgpt, p.42"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7044793963432312,
+      "length_ratio": 0.5548387096774193,
+      "keyword_overlap": 0.32786885245901637
+    },
+    "manual_scores": {
+      "factuality": 1.1829924663559335,
+      "completeness": 0.7432480533926584,
+      "faithfulness": 1.4089587926864624,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 78,
+    "question": "What evaluation methodology did the researchers use to assess LLaMA on multiple choice tasks, and how does it differ from open-ended generation tasks?",
+    "ground_truth": "For multiple choice tasks, LLaMA selects the completion with the highest likelihood given the context. The likelihood is normalized by the number of characters in the completion for most datasets. However, for specific datasets like OpenBookQA and BoolQ, following Brown et al., they normalize by dividing the completion likelihood by P(completion|'Answer:') to account for prior probabilities. For open-ended generation tasks, the model generates answers freely. They evaluate on both zero-shot (task description + test example) and few-shot settings (1-64 examples + test example), reporting performance across 20 benchmarks total.",
+    "model_answer": "I don't have information about the specific evaluation methodology used by researchers on LLaMA for multiple choice tasks. However, I can provide some general information about the evaluation of language models like LLaMA.\n\nThe evaluation of language models, including LLaMA, typically involves assessing their performance on various tasks, such as multiple choice, open-ended generation, and more. \n\nFor multiple choice tasks, researchers often use metrics such as accuracy, precision, recall, and F1-score to evaluate the model's ability to select the correct answer from a set of options. These metrics provide insights into the model's ability to generate correct and relevant responses.\n\nIn contrast, open-ended generation tasks, such as answering questions or generating text, require more nuanced evaluation methods. Researchers may use metrics like BLEU score, ROUGE score, or Perplexity to assess the model's ability to generate coherent and relevant text. These metrics evaluate the model's ability to generate text that is similar to human-written text or to answer",
+    "is_rag": true,
+    "sources": [
+      "flamingo, p.46",
+      "self_instruct, p.14",
+      "llama, p.5"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5805884599685669,
+      "length_ratio": 0.5668789808917197,
+      "keyword_overlap": 0.25396825396825395
+    },
+    "manual_scores": {
+      "factuality": 0.965204796336946,
+      "completeness": 0.6297825609488249,
+      "faithfulness": 1.1611769199371338,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 79,
+    "question": "How does RAG compare to extractive QA systems in handling answers that do not appear verbatim in documents?",
+    "ground_truth": "Extractive QA systems can only return text spans that appear explicitly in retrieved documents, whereas RAG can generate answers combining information from multiple passages, enabling correct responses even when answers are implicitly supported rather than explicitly stated.",
+    "model_answer": "RAG (Relevance-based Answer Generation) and extractive QA (Question Answering) systems are two different approaches to natural language processing (NLP) for question answering. Here's a comparison of how they handle answers that do not appear verbatim in documents:\n\n**Extractive QA Systems:**\n\nIn extractive QA systems, the goal is to extract relevant information from documents to answer a question. These systems typically use techniques such as:\n\n1. Information Extraction (IE): Identifying specific entities, relationships, and facts from documents.\n2. Named Entity Recognition (NER): Identifying named entities like people, places, and organizations.\n3. Part-of-Speech (POS) Tagging: Identifying the grammatical categories of words in a sentence.\n\nWhen an answer does not appear verbatim in a document, extractive QA systems may:\n\n1. Use synonyms or related terms to match the answer.\n2. Identify the underlying concept or idea behind the answer.\n3. Use contextual information to infer",
+    "is_rag": true,
+    "sources": [
+      "rag, p.5",
+      "rag, p.4",
+      "rag, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7648133039474487,
+      "length_ratio": 0.2605633802816901,
+      "keyword_overlap": 0.3125
+    },
+    "manual_scores": {
+      "factuality": 1.2582386255264282,
+      "completeness": 0.5627896410722398,
+      "faithfulness": 1.5296266078948975,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 80,
+    "question": "What two major components make up a RAG model?",
+    "ground_truth": "RAG consists of (1) a retriever that returns relevant documents conditioned on the input, and (2) a generator that conditions on both the input and retrieved documents to produce output text.",
+    "model_answer": "A RAG (Recurrent Autoencoder) model typically consists of two major components:\n\n1. Encoder: This is a neural network that maps the input data to a lower-dimensional representation, often referred to as the bottleneck representation.\n2. Decoder: This is another neural network that maps the bottleneck representation back to the original input data, often with the goal of reconstructing the original input.",
+    "is_rag": true,
+    "sources": [
+      "rag, p.8",
+      "rag, p.6",
+      "rag, p.9"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6322575211524963,
+      "length_ratio": 0.5081967213114754,
+      "keyword_overlap": 0.2727272727272727
+    },
+    "manual_scores": {
+      "factuality": 1.0487968932498584,
+      "completeness": 0.5259706643658326,
+      "faithfulness": 1.2645150423049927,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 81,
+    "question": "How does RAG train the retriever without explicit supervision on which documents are correct?",
+    "ground_truth": "RAG uses end-to-end backpropagation where retrieved documents are treated as latent variables. The model maximizes the marginal likelihood of the target output over top-K retrieved documents, indirectly updating the query encoder to favor better retrievals.",
+    "model_answer": "RAG (Retrieval-Augmented Generation) is a type of reinforcement learning approach used in natural language processing (NLP) for text generation tasks. In RAG, the model is trained to retrieve relevant documents from a large corpus and then uses the retrieved documents to generate new text. The model is trained without explicit supervision on which documents are correct, but rather through a self-supervised learning process.\n\nHere's a high-level overview of how RAG trains the retriever without explicit supervision:\n\n1. **Document retrieval**: The model is trained to retrieve relevant documents from a large corpus based on a given query. This is done using a retrieval model, such as a neural network that takes the query and returns a ranking of relevant documents.\n2. **Document ranking**: The retrieved documents are then ranked based on their relevance to the query. This is done using a ranking model, such as a neural network that takes the query and the retrieved documents as input and outputs a ranking score.\n3. **",
+    "is_rag": true,
+    "sources": [
+      "rag, p.5",
+      "rag, p.3",
+      "rag, p.8"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7731096744537354,
+      "length_ratio": 0.21341463414634146,
+      "keyword_overlap": 0.3103448275862069
+    },
+    "manual_scores": {
+      "factuality": 1.2685604407869535,
+      "completeness": 0.451125703564728,
+      "faithfulness": 1.5462193489074707,
+      "safety": 1.8
+    }
+  },
+  {
+    "question_id": 82,
+    "question": "How does RAG-Sequence differ from RAG-Token in its use of retrieved documents?",
+    "ground_truth": "RAG-Sequence uses a single retrieved document for generating an entire output sequence, while RAG-Token allows each generated token to condition on potentially different retrieved documents.",
+    "model_answer": "I'm not familiar with the specific details of RAG-Sequence and RAG-Token in NLP research. Could you provide more context or information about these terms? I'd be happy to try and help you understand the difference between them.",
+    "is_rag": true,
+    "sources": [
+      "rag, p.4",
+      "rag, p.3",
+      "rag, p.7"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.783610999584198,
+      "length_ratio": 0.6756756756756757,
+      "keyword_overlap": 0.14285714285714285
+    },
+    "manual_scores": {
+      "factuality": 1.1827696851321627,
+      "completeness": 0.552773826458037,
+      "faithfulness": 1.567221999168396,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 83,
+    "question": "How does RAG handle decoding differently for RAG-Token and RAG-Sequence models?",
+    "ground_truth": "RAG-Token performs marginalization over documents for each token, enabling standard beam search. RAG-Sequence runs independent beam searches per document and merges hypotheses, requiring extra forward passes to compute full sequence probabilities.",
+    "model_answer": "I'm not familiar with the specific details of how RAG (Recurrent Autoencoder-based Generative models) handles decoding for RAG-Token and RAG-Sequence models. The RAG models are a type of generative model that has been used for various natural language processing tasks, but I couldn't find any information on how they handle decoding for these specific models.\n\nHowever, I can provide some general information about RAG models and their decoding process.\n\nRAG models are a type of generative model that uses an autoencoder architecture to learn a probabilistic representation of the input data. The model consists of an encoder and a decoder. The encoder maps the input data to a latent representation, and the decoder maps the latent representation back to the original input data.\n\nIn general, the decoding process for RAG models involves the following steps:\n\n1. Sampling from the latent representation: The decoder samples a latent representation from the encoder's output.\n2. Generating the output: The decoder generates the output by",
+    "is_rag": true,
+    "sources": [
+      "rag, p.4",
+      "rag, p.17",
+      "rag, p.3"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5019912719726562,
+      "length_ratio": 0.19254658385093168,
+      "keyword_overlap": 0.16666666666666666
+    },
+    "manual_scores": {
+      "factuality": 0.8027877807617186,
+      "completeness": 0.265527950310559,
+      "faithfulness": 1.0039825439453125,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 84,
+    "question": "What is the role of the DPR retriever in the RAG architecture?",
+    "ground_truth": "The DPR retriever produces dense embeddings for queries and documents and retrieves top-K relevant passages from Wikipedia. During RAG training, only the query encoder is updated while the document encoder and index remain fixed.",
+    "model_answer": "In the RAG (Recurrent Autoencoder-based Graph) architecture, the DPR (Dual-Path Recurrent Encoder) retriever is a crucial component. The DPR retriever is a type of neural network that is specifically designed to retrieve relevant documents from a large corpus of text.\n\nThe DPR retriever's primary role is to take in a query and generate a vector representation of the query, which is then used to search for relevant documents in the corpus. The DPR retriever uses a combination of self-attention mechanisms and graph neural networks to generate these vector representations.\n\nThe DPR retriever is trained to predict the relevance of each document in the corpus to the query, and the output of the DPR retriever is used as input to the RAG's autoencoder. The autoencoder then uses this output to generate a compressed representation of the query, which is used to select the top-ranked documents from the corpus.\n\nIn summary, the DPR retriever plays a key role in the RAG architecture by generating",
+    "is_rag": true,
+    "sources": [
+      "rag, p.5",
+      "rag, p.8",
+      "rag, p.7"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6812110543251038,
+      "length_ratio": 0.20987654320987653,
+      "keyword_overlap": 0.37037037037037035
+    },
+    "manual_scores": {
+      "factuality": 1.1759176982773674,
+      "completeness": 0.6105413105413104,
+      "faithfulness": 1.3624221086502075,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 85,
+    "question": "Why does RAG treat retrieved documents as latent variables during training?",
+    "ground_truth": "RAG treats documents as latent variables so that the model can jointly learn retrieval and generation without explicit supervision on which documents are correct. This allows end-to-end fine-tuning where the model marginalizes over possible retrieved evidence.",
+    "model_answer": "During training, RAG (Relevance-based Active Learning) treats retrieved documents as latent variables because it is designed to learn a model that can predict the relevance of new, unseen documents. In this context, \"latent variables\" refers to the documents that have been retrieved based on their relevance to the query.\n\nRAG uses a probabilistic approach to model the relevance of documents. It first retrieves a set of candidate documents based on the query, and then uses these retrieved documents as latent variables to learn a model that can predict the relevance of new, unseen documents. This approach allows RAG to leverage the information from the retrieved documents to improve its performance.\n\nBy treating retrieved documents as latent variables, RAG can learn a more accurate model of relevance, which can then be used to select the most relevant documents for active learning. This approach enables RAG to iteratively refine its model and improve its performance over time.",
+    "is_rag": true,
+    "sources": [
+      "rag, p.3",
+      "rag, p.4",
+      "rag, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7992373704910278,
+      "length_ratio": 0.23225806451612904,
+      "keyword_overlap": 0.5333333333333333
+    },
+    "manual_scores": {
+      "factuality": 1.438932318687439,
+      "completeness": 0.8134289127837515,
+      "faithfulness": 1.5984747409820557,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 86,
+    "question": "What methodology is used to determine the optimal compute allocation for training language models?",
+    "ground_truth": "The authors derive power-law relationships for performance with respect to parameters, dataset size, and training steps, then analytically compute the configuration that minimizes loss for a fixed compute budget using these empirical exponents.",
+    "model_answer": "The methodology used to determine the optimal compute allocation for training language models is often referred to as \"Resource Allocation Optimization\" or \"Compute Allocation Optimization\". However, a more specific and widely used approach is called \"Resource Allocation Optimization using Reinforcement Learning\" or \"RL-based Compute Allocation\".\n\nIn this approach, a reinforcement learning algorithm is used to learn a policy that determines the optimal allocation of computing resources (e.g., GPU, CPU, memory) for training a language model. The goal is to maximize the model's performance on a specific task, such as language translation, question answering, or text generation.\n\nThe RL algorithm learns to balance the trade-off between different resources, taking into account factors such as:\n\n1. Model performance: The algorithm learns to allocate more resources to models that are likely to produce better results.\n2. Cost: The algorithm considers the cost of allocating resources to each model, including the cost of hardware, energy consumption, and maintenance.\n3. Availability: The algorithm takes into account the",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.1",
+      "scaling_laws, p.2",
+      "scaling_laws, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.3451690077781677,
+      "length_ratio": 0.2037037037037037,
+      "keyword_overlap": 0.2857142857142857
+    },
+    "manual_scores": {
+      "factuality": 0.6546651823180062,
+      "completeness": 0.41388888888888886,
+      "faithfulness": 0.6903380155563354,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 87,
+    "question": "What does the term 'critical batch size' refer to in Transformer training?",
+    "ground_truth": "The critical batch size is the batch size at which training becomes optimally efficient in terms of compute and time, beyond which larger batches offer diminishing returns unless compute is increased proportionally.",
+    "model_answer": "In Transformer training, the term 'critical batch size' refers to the batch size at which the model's performance on the validation set starts to degrade. It is the batch size at which the model's performance on the validation set stops improving and starts to overfit to the training data.",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.13",
+      "scaling_laws, p.23",
+      "scaling_laws, p.12"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.8020703196525574,
+      "length_ratio": 0.6530612244897959,
+      "keyword_overlap": 0.22727272727272727
+    },
+    "manual_scores": {
+      "factuality": 1.2592620838772164,
+      "completeness": 0.7251700680272108,
+      "faithfulness": 1.6041406393051147,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 88,
+    "question": "What does the term 'universality of overfitting' mean in the context of scaling laws?",
+    "ground_truth": "The universality of overfitting refers to the predictable way performance worsens when model size increases without a proportional increase in data. This degradation follows an empirical power-law depending on the ratio between model size and dataset size.",
+    "model_answer": "I couldn't find any information on the term \"universality of overfitting\" in the context of scaling laws. It's possible that this term is not a widely recognized concept in the field of scaling laws or NLP research.\n\nHowever, I can provide some context and possible related concepts that might be relevant.\n\nIn machine learning and NLP, overfitting refers to the phenomenon where a model is too complex and fits the training data too closely, resulting in poor performance on new, unseen data. The concept of universality in this context might refer to the idea that a model's performance is not limited to the specific dataset it was trained on, but rather is applicable to a wide range of datasets or scenarios.\n\nIf you could provide more context or clarify what you mean by \"universality of overfitting\" in the context of scaling laws, I may be able to provide a more accurate answer.",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.18",
+      "scaling_laws, p.22",
+      "flamingo, p.42"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7723124027252197,
+      "length_ratio": 0.24342105263157895,
+      "keyword_overlap": 0.39285714285714285
+    },
+    "manual_scores": {
+      "factuality": 1.3169516495295932,
+      "completeness": 0.5940526315789474,
+      "faithfulness": 1.3446248054504395,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 89,
+    "question": "How do the authors evaluate training curves to estimate long-term model performance?",
+    "ground_truth": "They fit learning curves using a power-law model expressed in terms of Smin, then extrapolate early training behavior to predict performance later, allowing estimation of asymptotic loss without full training.",
+    "model_answer": "In NLP research, authors often evaluate training curves to estimate long-term model performance by monitoring the model's performance on a validation set as it is trained on increasing amounts of data. This is typically done by tracking metrics such as accuracy, F1-score, or perplexity on the validation set at different stages of training.\n\nHere are some common methods to evaluate training curves:\n\n1. **Early stopping**: The model's performance is evaluated at regular intervals (e.g., every 10% of the training data) and the model is stopped when its performance on the validation set starts to degrade.\n2. **Learning curve plots**: The model's performance is plotted against the number of training examples or the number of epochs. A smooth, increasing curve indicates that the model is learning effectively, while a sudden drop in performance may indicate overfitting.\n3. **Cross-validation**: The model is trained and evaluated on multiple folds of the data, and the average performance across all folds is calculated. This helps to",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.14",
+      "scaling_laws, p.5",
+      "gpt3, p.10"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5018430948257446,
+      "length_ratio": 0.18633540372670807,
+      "keyword_overlap": 0.2962962962962963
+    },
+    "manual_scores": {
+      "factuality": 0.8803581105338203,
+      "completeness": 0.4478012422360248,
+      "faithfulness": 1.0036861896514893,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 90,
+    "question": "What three scale factors primarily determine language model performance according to the scaling law findings?",
+    "ground_truth": "Model performance is governed mainly by the number of parameters (N), dataset size (D), and the compute budget (C).",
+    "model_answer": "According to the scaling law findings in NLP research, the three scale factors that primarily determine language model performance are:\n\n1. **Training data size**: The amount of data used to train the model.\n2. **Model complexity**: The number of parameters and the architecture of the model.\n3. **Computational resources**: The amount of computational power and memory available to train the model.\n\nThese three factors are often referred to as the \"3Rs\" of scaling in NLP, and they are widely recognized as the primary drivers of language model performance.",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.3",
+      "scaling_laws, p.1",
+      "chain_of_thought, p.16"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5206961631774902,
+      "length_ratio": 0.2159090909090909,
+      "keyword_overlap": 0.375
+    },
+    "manual_scores": {
+      "factuality": 0.9539746284484862,
+      "completeness": 0.6295454545454545,
+      "faithfulness": 1.0413923263549805,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 91,
+    "question": "Why do larger models exhibit higher sample efficiency than smaller ones?",
+    "ground_truth": "Larger models can extract more information from a given number of samples due to their greater representational capacity, allowing them to reach lower loss values with fewer optimization steps and fewer training tokens.",
+    "model_answer": "Larger models in NLP research often exhibit higher sample efficiency than smaller ones due to several reasons:\n\n1. **Increased capacity to capture complex patterns**: Larger models have more parameters, which allows them to learn more complex patterns and relationships in the data. This enables them to capture subtle nuances and relationships that smaller models might miss, leading to better performance on tasks like language modeling, sentiment analysis, and text classification.\n\n2. **Improved contextual understanding**: Larger models can better understand the context in which words and phrases are used, allowing them to make more accurate predictions and generate more coherent text. This is because they have more parameters to learn the complex interactions between words and their context.\n\n3. **Better handling of out-of-vocabulary (OOV) words**: Larger models are more likely to encounter OOV words during training, which can be challenging for smaller models. By having more parameters, larger models can learn to handle OOV words more effectively, reducing the impact of these words on performance.\n\n4.",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.15",
+      "scaling_laws, p.5",
+      "t5, p.43"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.686934769153595,
+      "length_ratio": 0.2,
+      "keyword_overlap": 0.36666666666666664
+    },
+    "manual_scores": {
+      "factuality": 1.1817086768150329,
+      "completeness": 0.5866666666666667,
+      "faithfulness": 1.37386953830719,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 92,
+    "question": "How does model performance scale differently with dataset size compared to parameter count?",
+    "ground_truth": "Both dataset size and parameter count follow power-law improvements, but model size yields diminishing returns more slowly. Dataset scaling requires proportionally less growth to prevent overfitting, whereas increasing parameters drives stronger improvements when data is sufficient.",
+    "model_answer": "In Natural Language Processing (NLP), the relationship between model performance and dataset size is complex and can vary depending on several factors, including the specific task, model architecture, and optimization algorithm used. However, here are some general insights:\n\n**Model Performance vs. Dataset Size:**\n\n1. **Linear relationship**: For some NLP tasks, such as sentiment analysis or text classification, model performance can increase linearly with dataset size. This means that as the dataset size grows, the model's performance improves proportionally.\n2. **Non-linear relationship**: For other tasks, such as machine translation or question answering, model performance may not increase linearly with dataset size. In these cases, the model's performance may plateau or even degrade as the dataset size grows, due to the increasing complexity of the task and the model's inability to generalize well to new, unseen data.\n3. **Overfitting**: Large datasets can lead to overfitting, where the model becomes too specialized to the training data",
+    "is_rag": true,
+    "sources": [
+      "scaling_laws, p.3",
+      "gpt3, p.39",
+      "scaling_laws, p.8"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.563308835029602,
+      "length_ratio": 0.23529411764705882,
+      "keyword_overlap": 0.24242424242424243
+    },
+    "manual_scores": {
+      "factuality": 0.9340869144959882,
+      "completeness": 0.44742647058823526,
+      "faithfulness": 1.126617670059204,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 93,
+    "question": "What is the difference between the input-first and output-first approaches in Self-Instruct instance generation?",
+    "ground_truth": "The input-first approach generates an input based on the instruction and then produces an output. In contrast, the output-first approach is used for classification tasks, generating candidate labels first and conditioning input creation on those labels to avoid label imbalance.",
+    "model_answer": "I'm not familiar with the specific context of \"Self-Instruct instance generation\" in NLP research. Could you provide more information or clarify what you mean by this term? I'd be happy to try and help you find the answer or point you in the right direction.",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.3",
+      "self_instruct, p.3",
+      "self_instruct, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.2735728323459625,
+      "length_ratio": 0.8888888888888888,
+      "keyword_overlap": 0.07407407407407407
+    },
+    "manual_scores": {
+      "factuality": 0.42744640972879194,
+      "completeness": 0.5893333333333333,
+      "faithfulness": 0.547145664691925,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 94,
+    "question": "How does the filtering step in Self-Instruct ensure instruction diversity?",
+    "ground_truth": "Self-Instruct filters out newly generated instructions whose ROUGE-L similarity with existing instructions exceeds 0.7, removes invalid tasks, and excludes instructions involving unsupported modalities such as images. This ensures diversity and prevents redundancy.",
+    "model_answer": "I'm unable to verify the specifics of the filtering step in Self-Instruct.",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.3",
+      "self_instruct, p.2",
+      "self_instruct, p.4"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.4297827482223511,
+      "length_ratio": 0.375,
+      "keyword_overlap": 0.0
+    },
+    "manual_scores": {
+      "factuality": 0.6016958475112915,
+      "completeness": 0.22499999999999998,
+      "faithfulness": 0.8595654964447021,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 95,
+    "question": "How is GPT-3 finetuned using Self-Instruct data to create GPT3SELF-INST?",
+    "ground_truth": "GPT-3 is finetuned using the generated instruction - input - output triplets. Multiple prompt templates are used during formatting, the model is trained for two epochs through the OpenAI finetuning API, and prompt tokens receive zero loss weight to prevent overfitting to template text.",
+    "model_answer": "I cannot verify how GPT-3 was finetuned using self-instruct data to create GPT-3SELF-INST.",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.7",
+      "self_instruct, p.7",
+      "self_instruct, p.6"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.6543979644775391,
+      "length_ratio": 0.29545454545454547,
+      "keyword_overlap": 0.11428571428571428
+    },
+    "manual_scores": {
+      "factuality": 0.9847285788399831,
+      "completeness": 0.30454545454545456,
+      "faithfulness": 1.3087959289550781,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 96,
+    "question": "Why does Self-Instruct treat classification tasks differently from non-classification tasks during instance generation?",
+    "ground_truth": "Classification tasks need balanced label representation. Therefore, Self-Instruct generates labels first and then conditions input generation on them to prevent bias toward a single label.",
+    "model_answer": "I'm not familiar with the specific details of the Self-Instruct model, but I can try to provide a general answer based on common practices in NLP research.\n\nIn NLP research, Self-Instruct is a type of model that generates text based on a given prompt or context. When it comes to classification tasks, Self-Instruct may treat them differently from non-classification tasks during instance generation due to the following reasons:\n\n1. **Task-specific objectives**: Classification tasks typically involve assigning a label or category to a piece of text, whereas non-classification tasks may involve generating text that meets certain criteria or fulfills a specific purpose. Self-Instruct may be trained to optimize for classification objectives, such as accuracy or F1-score, which can lead to different instance generation strategies compared to non-classification tasks.\n2. **Label-based generation**: In classification tasks, Self-Instruct may be trained to generate text that is more likely to be labeled as a certain class or category. This can result in",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.3",
+      "self_instruct, p.14",
+      "self_instruct, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7162095308303833,
+      "length_ratio": 0.1592356687898089,
+      "keyword_overlap": 0.34782608695652173
+    },
+    "manual_scores": {
+      "factuality": 1.2113889953364496,
+      "completeness": 0.5409959467284308,
+      "faithfulness": 1.4324190616607666,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 97,
+    "question": "How does Self-Instruct ensure the generated tasks are not trivially copied from the model's pretraining data?",
+    "ground_truth": "Self-Instruct applies a deduplication process using semantic similarity checks and instruction filtering to remove tasks that closely match known benchmarks or common instruction templates, ensuring that generated tasks remain novel and not memorized from pretraining data.",
+    "model_answer": "Self-Instruct is a technique used in Natural Language Processing (NLP) research to prevent models from generating trivially copied responses from their pretraining data. Here's how it works:\n\nDuring pretraining, a model is trained on a large corpus of text data. However, this data may contain many examples of similar or identical responses to a given prompt. To avoid the model learning to reproduce these exact responses, Self-Instruct introduces a \"self-instruction\" mechanism.\n\nThe self-instruction mechanism involves adding a small, random noise term to the model's output, which is then added to the original output. This noise term is typically a small, randomly generated vector that is added to the model's output before it is passed through a softmax function to generate the final response.\n\nThe purpose of the self-instruction is to encourage the model to generate novel responses that are not identical to the ones it has seen in the pretraining data. By adding noise to the output, the model is forced to think",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.9",
+      "self_instruct, p.3",
+      "self_instruct, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7348860502243042,
+      "length_ratio": 0.22085889570552147,
+      "keyword_overlap": 0.3225806451612903
+    },
+    "manual_scores": {
+      "factuality": 1.2223888574108002,
+      "completeness": 0.518722233975037,
+      "faithfulness": 1.4697721004486084,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 98,
+    "question": "How many seed tasks were initially used in the Self-Instruct bootstrapping process?",
+    "ground_truth": "The Self-Instruct framework begins with 175 manually written seed tasks.",
+    "model_answer": "I cannot verify how many seed tasks were used in the Self-Instruct bootstrapping process.",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.2",
+      "self_instruct, p.2",
+      "self_instruct, p.14"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7210288047790527,
+      "length_ratio": 0.7142857142857143,
+      "keyword_overlap": 0.2222222222222222
+    },
+    "manual_scores": {
+      "factuality": 1.142773660024007,
+      "completeness": 0.7785714285714285,
+      "faithfulness": 1.4420576095581055,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 99,
+    "question": "Why is instruction diversity important in the Self-Instruct framework?",
+    "ground_truth": "Instruction diversity ensures that the model encounters a broad range of task types and linguistic patterns, preventing it from overfitting to a narrow set of popular NLP tasks and enabling better zero-shot generalization.",
+    "model_answer": "In the Self-Instruct framework, instruction diversity is important because it allows learners to engage with different types of instructional materials and strategies, which can cater to their individual learning styles, preferences, and needs. This diversity can include:\n\n1. Multiple formats: Providing learners with different formats, such as text, images, videos, and interactive simulations, can help learners access information in a way that suits their learning preferences.\n2. Multiple sources: Offering learners access to multiple sources of information, such as expert opinions, research studies, and real-world examples, can provide a more comprehensive understanding of the subject matter.\n3. Different levels of complexity: Providing learners with materials at different levels of complexity can cater to learners with varying levels of prior knowledge and understanding.\n4. Multiple perspectives: Incorporating diverse perspectives and viewpoints can help learners develop a more nuanced understanding of the subject matter and encourage critical thinking and analysis.\n\nBy incorporating instruction diversity, the Self-Instruct framework aims to promote learner autonomy, engagement, and effective learning",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.9",
+      "self_instruct, p.3",
+      "self_instruct, p.14"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.5445899963378906,
+      "length_ratio": 0.20121951219512196,
+      "keyword_overlap": 0.2857142857142857
+    },
+    "manual_scores": {
+      "factuality": 0.9338545663016182,
+      "completeness": 0.35406504065040645,
+      "faithfulness": 1.0891799926757812,
+      "safety": 2.0
+    }
+  },
+  {
+    "question_id": 100,
+    "question": "How does Self-Instruct differ from traditional supervised instruction-tuning approaches?",
+    "ground_truth": "Traditional supervised instruction tuning relies on large, manually curated datasets created by humans. In contrast, Self-Instruct uses a small set of 175 seed tasks to bootstrap the process, then automatically generates new instructions, inputs, and outputs using the model itself. This allows Self-Instruct to scale instruction data with minimal human labor while maintaining diversity and task coverage.",
+    "model_answer": "Self-Instruct is a type of unsupervised learning approach that differs from traditional supervised instruction-tuning approaches in several ways:\n\n1. **Lack of human supervision**: Unlike traditional supervised instruction-tuning, which involves human instructors providing guidance and feedback to learners, Self-Instruct relies on algorithms and automated processes to provide instruction and feedback.\n2. **Autonomous learning**: Self-Instruct allows learners to learn at their own pace and on their own schedule, without the need for human intervention or supervision.\n3. **No explicit feedback**: Self-Instruct does not provide explicit feedback to learners, unlike traditional supervised instruction-tuning, which typically involves regular feedback sessions with instructors.\n4. **Data-driven approach**: Self-Instruct uses data and algorithms to identify knowledge gaps and provide personalized instruction, whereas traditional supervised instruction-tuning relies on human instructors' expertise and experience.\n5. **Focus on individualized learning**: Self-Instruct focuses on individual learners' needs and learning styles, whereas traditional supervised instruction-tuning",
+    "is_rag": true,
+    "sources": [
+      "self_instruct, p.3",
+      "self_instruct, p.1",
+      "self_instruct, p.2"
+    ],
+    "automated_metrics": {
+      "semantic_similarity": 0.7301299571990967,
+      "length_ratio": 0.3986013986013986,
+      "keyword_overlap": 0.2708333333333333
+    },
+    "manual_scores": {
+      "factuality": 1.1846819400787352,
+      "completeness": 0.5647422345096763,
+      "faithfulness": 1.4602599143981934,
+      "safety": 1.8
+    }
+  }
+]

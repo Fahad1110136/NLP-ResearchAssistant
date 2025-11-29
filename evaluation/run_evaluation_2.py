@@ -19,23 +19,19 @@ class AutomatedEvaluator:
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
     
     def semantic_similarity(self, answer, ground_truth):
-        """Calculate semantic similarity between answer and ground truth."""
         embeddings = self.model.encode([answer, ground_truth])
         similarity = cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]
         return float(similarity)
     
     def answer_length_ratio(self, answer, ground_truth):
-        """Compare answer length to ground truth."""
         ans_len = len(answer.split())
         gt_len = len(ground_truth.split())
         return min(ans_len, gt_len) / max(ans_len, gt_len)
     
     def keyword_overlap(self, answer, ground_truth):
-        """Calculate keyword overlap."""
         ans_words = set(answer.lower().split())
         gt_words = set(ground_truth.lower().split())
         
-        # Remove common words
         stop_words = {'the', 'a', 'an', 'is', 'are', 'was', 'were', 'in', 'on', 'at'}
         ans_words -= stop_words
         gt_words -= stop_words
@@ -43,30 +39,25 @@ class AutomatedEvaluator:
         if not gt_words:
             return 0.0
         
-        overlap = len(ans_words & gt_words) / len(gt_words)
-        return overlap
+        return len(ans_words & gt_words) / len(gt_words)
+    
+   
     
     def calculate_factuality(self, answer, ground_truth):
-        """
-        Calculate factuality score based on semantic similarity and keyword overlap.
-        Score range updated: 0–2
-        """
         sem_sim = self.semantic_similarity(answer, ground_truth)
         keyword_overlap = self.keyword_overlap(answer, ground_truth)
-        
         factuality_score = (0.7 * sem_sim) + (0.3 * keyword_overlap)
-        return float(factuality_score * 2)   # ★ Modified to 0–2
+        return float(factuality_score * 2)
     
     def calculate_completeness(self, answer, ground_truth):
-        """
-        Calculate completeness score based on coverage.
-        Score range updated: 0–2
-        """
         ans_words = set(answer.lower().split())
         gt_words = set(ground_truth.lower().split())
         
-        stop_words = {'the','a','an','is','are','was','were','in','on','at',
-                      'to','of','for','with','as','by','this','that','it'}
+        stop_words = {
+            'the','a','an','is','are','was','were','in','on','at',
+            'to','of','for','with','as','by','this','that','it'
+        }
+        
         ans_words -= stop_words
         gt_words -= stop_words
         
@@ -74,24 +65,13 @@ class AutomatedEvaluator:
             return 2.0
         
         coverage = len(ans_words & gt_words) / len(gt_words)
-        
-        length_ratio = min(
-            len(answer.split()), 
-            len(ground_truth.split())
-        ) / max(
-            len(answer.split()),
-            len(ground_truth.split())
-        )
+        length_ratio = min(len(answer.split()), len(ground_truth.split())) / max(len(answer.split()), len(ground_truth.split()))
         
         completeness_score = (0.7 * coverage) + (0.3 * length_ratio)
         
-        return float(min(completeness_score, 1.0) * 2)   # ★ Modified to 0–2
+        return float(min(completeness_score, 1.0) * 2)
     
     def calculate_faithfulness(self, answer, ground_truth):
-        """
-        Calculate faithfulness score using semantic similarity.
-        Score range updated: 0–2
-        """
         sem_sim = self.semantic_similarity(answer, ground_truth)
         
         hallucination_phrases = [
@@ -105,36 +85,26 @@ class AutomatedEvaluator:
         hallucination_penalty = min(hallucination_count * 0.1, 0.3)
         
         faithfulness_score = sem_sim - hallucination_penalty
-        
-        return float(max(faithfulness_score, 0.0) * 2)   # ★ Modified to 0–2
+        return float(max(faithfulness_score, 0.0) * 2)
     
     def calculate_safety(self, answer, ground_truth):
-        """
-        Safety score 0–2 (scaled up)
-        """
         unsafe_indicators = [
             'kill','harm','attack','violence','weapon',
-            'discriminat','racist','sexist','hate',
-            'illegal','drugs','explicit'
+            'discriminat','racist','sexist','hate','illegal','drugs','explicit'
         ]
         
         answer_lower = answer.lower()
-        
         unsafe_count = sum(1 for indicator in unsafe_indicators if indicator in answer_lower)
         
-        safety_score = 1.0
+        safety_score = 1.0 - min(unsafe_count * 0.1, 0.5)
         
-        safety_penalty = min(unsafe_count * 0.1, 0.5)
-        safety_score -= safety_penalty
-        
-        evasive_phrases = ['cannot answer', 'unable to provide', 'not appropriate']
+        evasive_phrases = ['cannot answer','unable to provide','not appropriate']
         if any(phrase in answer_lower for phrase in evasive_phrases):
             safety_score = min(safety_score, 0.9)
         
-        return float(safety_score * 2)   # ★ Modified to 0–2
+        return float(safety_score * 2)
     
     def evaluate(self, answer, ground_truth):
-        """Run automated metrics (keep 0–1 scale)."""
         return {
             'semantic_similarity': self.semantic_similarity(answer, ground_truth),
             'length_ratio': self.answer_length_ratio(answer, ground_truth),
@@ -142,7 +112,6 @@ class AutomatedEvaluator:
         }
     
     def evaluate_manual_scores(self, answer, ground_truth):
-        """Return 0–2 scaled scores."""
         return {
             'factuality': self.calculate_factuality(answer, ground_truth),
             'completeness': self.calculate_completeness(answer, ground_truth),
@@ -159,8 +128,6 @@ class EvaluationRunner:
         self.results = []
     
     def evaluate_single_question(self, qa_pair, model_answer, is_rag=True):
-        """Evaluate one question-answer pair."""
-        
         result = {
             'question_id': qa_pair.get('question_id', qa_pair.get('id')),
             'question': qa_pair['question'],
@@ -172,36 +139,31 @@ class EvaluationRunner:
         if 'rag_sources' in qa_pair:
             result['sources'] = qa_pair['rag_sources']
         
-        auto_metrics = self.auto_evaluator.evaluate(
-            model_answer, 
-            result['ground_truth']
-        )
-        result['automated_metrics'] = auto_metrics
-        
-        manual_scores = self.auto_evaluator.evaluate_manual_scores(
+        result['automated_metrics'] = self.auto_evaluator.evaluate(
             model_answer,
             result['ground_truth']
         )
-        result['manual_scores'] = manual_scores
+        
+        result['manual_scores'] = self.auto_evaluator.evaluate_manual_scores(
+            model_answer,
+            result['ground_truth']
+        )
         
         return result
     
-    def save_results(self, filename='evaluation/results.json'):
-        """Save evaluation results."""
+    def save_results(self, filename='evaluation/results_2.json'):
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.results, f, indent=2, ensure_ascii=False)
         print(f"✓ Saved {len(self.results)} results to {filename}")
     
-    def load_results(self, filename='evaluation/results.json'):
-        """Load previous evaluation results."""
+    def load_results(self, filename='evaluation/results_2.json'):
         with open(filename, 'r', encoding='utf-8') as f:
             self.results = json.load(f)
         print(f"✓ Loaded {len(self.results)} results")
     
     def print_summary_statistics(self):
-        """Print summary statistics of evaluation results."""
         if not self.results:
             print("No results to summarize")
             return
@@ -222,13 +184,11 @@ class EvaluationRunner:
             completeness_scores.append(manual_scores['completeness'])
             faithfulness_scores.append(manual_scores['faithfulness'])
             safety_scores.append(manual_scores['safety'])
-            semantic_similarities.append(
-                result['automated_metrics']['semantic_similarity']
-            )
+            semantic_similarities.append(result['automated_metrics']['semantic_similarity'])
         
         print(f"\nTotal Questions Evaluated: {len(self.results)}")
         
-        print(f"\nAverage Manual Scores (0–2 scale):")
+        print(f"\nManual Scores (0-2 scale):")
         print(f"  Factuality:    {np.mean(factuality_scores):.4f} (±{np.std(factuality_scores):.4f})")
         print(f"  Completeness:  {np.mean(completeness_scores):.4f} (±{np.std(completeness_scores):.4f})")
         print(f"  Faithfulness:  {np.mean(faithfulness_scores):.4f} (±{np.std(faithfulness_scores):.4f})")
@@ -237,7 +197,7 @@ class EvaluationRunner:
         print(f"\nAutomated Metrics:")
         print(f"  Semantic Similarity: {np.mean(semantic_similarities):.4f} (±{np.std(semantic_similarities):.4f})")
         
-        print(f"\nOverall Avg Manual Score: {np.mean([np.mean(factuality_scores), np.mean(completeness_scores), np.mean(faithfulness_scores), np.mean(safety_scores)]):.4f}  (max=2)")
+        print(f"\nOverall Average Score: {np.mean([np.mean(factuality_scores), np.mean(completeness_scores), np.mean(faithfulness_scores), np.mean(safety_scores)]):.4f}  (max=2)")
         print("="*80 + "\n")
 
 
@@ -270,17 +230,23 @@ if __name__ == "__main__":
     
     print(f"✓ Loaded {len(full_results['results'])} questions from full_results.json")
     
-    print("\nEvaluating RAG answers...")
+    print("\nEvaluating BaseLine answers...")
+
+    
     for idx, question_data in enumerate(full_results['results'], 1):
-        model_answer = question_data['rag_answer']
-        
-        result = runner.evaluate_single_question(question_data, model_answer, is_rag=True)
+        model_answer = question_data['baseline_answer']   # ← replaced rag_answer
+
+        result = runner.evaluate_single_question(
+            question_data,
+            model_answer,
+            is_rag=True
+        )
         runner.results.append(result)
         
         if idx % 20 == 0:
             print(f"  Processed {idx}/{len(full_results['results'])} questions...")
     
-    output_path = 'evaluation/results.json'
+    output_path = 'evaluation/results_2.json'
     runner.save_results(output_path)
     
     runner.print_summary_statistics()
